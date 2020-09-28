@@ -62,11 +62,12 @@ int	main(int argc, char *argv[])
 	//printf("fd=%d", fd);
 	if (fd != -1)
 	{
+		initialization_map_struct(&map);
 		map.full_line = get_line_fd(fd);
+		printf("?=%s\n", map.full_line);
 		//parse_line_fd(&map);
-		//map.lines = ft_split(string_map, '|');
 		//if (map.lines)
-			initialization_map(&map);
+		initialization_map(&map);
 		//if (map.lines)
 	//	{
 	/*		while (map.lines[i] != 0)

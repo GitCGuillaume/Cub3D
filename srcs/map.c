@@ -2,6 +2,25 @@
 
 #include <stdio.h>
 
+void	initialization_map_struct(t_map *map)
+{
+	map->is_north = 0;
+	map->is_east = 0;
+	map->is_west = 0;
+	map->is_south = 0;
+	map->is_sprite = 0;
+	map->is_resolution = 0;
+	map->colour_counter = 0;
+	map->resolution[0] = 0;
+	map->north_path = NULL;
+	map->east_path = NULL;
+	map->west_path = NULL;
+	map->south_path = NULL;
+	map->sprite_path = NULL;
+	map->full_line = NULL;
+	map->lines = NULL;
+}
+
 void	put_pixel(char *addr, int x, int y, int line_bytes, int bpp, int colour)
 {
 	while (x != 500)
@@ -10,10 +29,8 @@ void	put_pixel(char *addr, int x, int y, int line_bytes, int bpp, int colour)
 		while (y != 500)
 		{
 			addr[(y * bpp) + x] = colour;
-			printf(" y=%d", y);
 			y++;
 		}
-		printf(" x=%d", x);
 		x++;
 	}
 	/*x = x + 100;
@@ -50,15 +67,16 @@ int	render_map(void *param)
 int	initialization_map(t_map *map)
 {
 	initialization_player(&map->player);
+	parse_line_fd(map);
 	//printf("player.pos_x1=%d", player.pos_x);
 	if (!(map->mlx_ptr = mlx_init()))
 		return (-1);
 	if (!(map->mlx_window = mlx_new_window(map->mlx_ptr, 1400, 1400, "Cub3D")))
 		return (-1);
 	//mlx_key_hook(map->mlx_window, close_pro, (void *)map);
-	mlx_hook(map->mlx_window, KEYPRESS, 1L << 0, control_player, (void *)map);
 	mlx_hook(map->mlx_window, 33, 1L << 17, close_program, (void *)map);
 	mlx_loop_hook(map->mlx_ptr, &render_map, (void *)map);
+	mlx_hook(map->mlx_window, KEYPRESS, 1L << 0, control_player, (void *)map);
 	mlx_loop(map->mlx_ptr);
 	return (0);
 }

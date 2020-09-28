@@ -44,6 +44,7 @@ int	close_program_key(int keycode, void *param)
 int	control_player(int keycode, void *param)
 {
 	t_map *command;
+
 	command = (t_map *)param;
 	if (keycode == 'w')
 		command->player.pos_y -= 1;
@@ -55,8 +56,9 @@ int	control_player(int keycode, void *param)
 		command->player.pos_x += 1;
 	else if (keycode == 65307)
 		close_program_key(keycode, param);
-	printf("key=%d", keycode);
+	/*printf("key=%d", keycode);
 	printf("\npos_x=%d", command->player.pos_x);
 	printf("\npos_y=%d", command->player.pos_y);
+	*/
 	return (0);
 }
