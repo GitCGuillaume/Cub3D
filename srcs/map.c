@@ -4,6 +4,12 @@
 
 void	initialization_map_struct(t_map *map)
 {
+	map->colour[0] = -1;
+	map->colour[1] = -1;
+	map->colour[2] = -1;
+	map->colour[3] = -1;
+	map->colour[4] = -1;
+	map->colour[5] = -1;
 	map->is_north = 0;
 	map->is_east = 0;
 	map->is_west = 0;
@@ -12,6 +18,7 @@ void	initialization_map_struct(t_map *map)
 	map->is_resolution = 0;
 	map->colour_counter = 0;
 	map->resolution[0] = 0;
+	map->resolution[1] = 0;
 	map->north_path = NULL;
 	map->east_path = NULL;
 	map->west_path = NULL;

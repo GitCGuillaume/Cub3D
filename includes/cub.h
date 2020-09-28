@@ -17,7 +17,7 @@ typedef struct		s_player
 
 typedef struct	s_map
 {
-	char		colour[1][2];
+	int		colour[6];
 	unsigned short	is_north;
 	unsigned short	is_east;
 	unsigned short	is_west;
