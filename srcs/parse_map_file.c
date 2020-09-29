@@ -60,6 +60,7 @@ int	get_number(t_map *map, unsigned int *i, char *line)
 		(*i)++;
 	end = *i;
 	value = ft_atoi(ft_substr(line, start, end - start));
+	ft_memset(line, 0, ft_strlen(line));
 	return (value);
 }
 int	get_number_two(t_map *map, unsigned int *i, char *line)
@@ -106,7 +107,9 @@ char	*get_texture(t_map *map, unsigned int i, char *line)
 	while (line[i] != '\0')
 		i++;
 	end = i;
-	return (ft_substr(line, start, end - start));
+	value = ft_substr(line, start, end - start);
+	ft_memset(line, 0, ft_strlen(line));
+	return (value);
 }
 
 int	find_which_indicator(t_map *map, char *line)
@@ -164,6 +167,7 @@ int	find_which_indicator(t_map *map, char *line)
 		map->colour[0] = get_number_two(map, &i, line);
 		map->colour[1] = get_number_two(map, &i, line);
 		map->colour[2] = get_number_two(map, &i, line);
+		ft_memset(line, 0, ft_strlen(line));
 		printf("map->col1 %d\n", map->colour[0]);
 		printf("map->col2 %d\n", map->colour[1]);
 		printf("map->col3 %d\n", map->colour[2]);
@@ -174,6 +178,7 @@ int	find_which_indicator(t_map *map, char *line)
 		map->colour[3] = get_number_two(map, &i, line);
 		map->colour[4] = get_number_two(map, &i, line);
 		map->colour[5] = get_number_two(map, &i, line);
+		ft_memset(line, 0, ft_strlen(line));
 		printf("map->col3 %d\n", map->colour[3]);
 		printf("map->col4 %d\n", map->colour[4]);
 		printf("map->col5 %d\n", map->colour[5]);
@@ -214,7 +219,21 @@ int	check_configuration(t_map *map)
 int	parse_line_fd(t_map *map)
 {
 	map->lines = ft_split(map->full_line, '|');
-
 	check_configuration(map);	
+	int i = 0;
+	while (map->lines[i])
+	{
+		printf("l=%s\n", map->lines[i]);
+		i++;
+	}
+	printf("-------\n");
+	printf("is_north =%d\n", map->is_north);
+	printf("is_east =%d\n", map->is_east);
+	printf("is_west =%d\n", map->is_west);
+	printf("is_south =%d\n", map->is_south);
+	printf("is_sprite =%d\n", map->is_sprite);
+	printf("is_resolution =%d\n", map->is_resolution);
+	printf("colour_counter = %d\n", map->colour_counter);
+	check_validity_map(map);
 	return (0);
 }

@@ -25,6 +25,7 @@ typedef struct	s_map
 	unsigned short	is_sprite;
 	unsigned short	is_resolution;
 	unsigned short	colour_counter;
+	unsigned short	player_exist;
 	int		resolution[2];
 	char		*north_path;
 	char		*east_path;
@@ -55,5 +56,7 @@ void	initialization_map_struct(t_map *map);
 /* PARSE MAP FILE */
 char	*get_line_fd(int fd);
 int	parse_line_fd(t_map *map);
+/* CHECK VALIDITY MAP */
+int	check_validity_map(t_map *map);
 
 #endif
