@@ -17,16 +17,16 @@ typedef struct		s_player
 
 typedef struct	s_map
 {
-	int		colour[6];
+	char		**colour;
 	unsigned short	is_north;
 	unsigned short	is_east;
 	unsigned short	is_west;
 	unsigned short	is_south;
 	unsigned short	is_sprite;
 	unsigned short	is_resolution;
-	unsigned short	colour_counter;
-	unsigned short	player_exist;
-	int		resolution[2];
+	int		colour_counter;
+	int		player_exist;
+	char		**resolution;
 	char		*north_path;
 	char		*east_path;
 	char		*west_path;
@@ -34,6 +34,7 @@ typedef struct	s_map
 	char		*sprite_path;
 	char		*full_line;
 	char		**lines;
+	char		**check_lines;
 	void		*mlx_ptr;
 	void		*mlx_window;
 	void		*mlx_image;
@@ -43,20 +44,24 @@ typedef struct	s_map
 }		t_map;
 
 /* MAIN */
-int	close_program(void *param);
+int	close_program(t_map *map);
 /* PLAYER */
 int	initialization_player(t_player *player);
 int	close_program_key(int keycode, void *param);
+int	search_player(t_map *map, int i);
 int	control_player(int keycode, void *param);
 /* MAP */
 int	initialization_map(t_map *map);
-void	initialization_map_struct(t_map *map);
+int	initialization_map_struct(t_map *map);
 /* COLOUR */
-
 /* PARSE MAP FILE */
 char	*get_line_fd(int fd);
 int	parse_line_fd(t_map *map);
 /* CHECK VALIDITY MAP */
-int	check_validity_map(t_map *map);
+int		check_validity_map(t_map *map);
+/* UTILS */
+int	is_other(char c);
+int	is_tab(char c);
+int		is_space(char c);
 
 #endif

@@ -2,14 +2,24 @@
 
 #include <stdio.h>
 
-void	initialization_map_struct(t_map *map)
+int	initialization_map_struct(t_map *map)
 {
-	map->colour[0] = -1;
-	map->colour[1] = -1;
-	map->colour[2] = -1;
-	map->colour[3] = -1;
-	map->colour[4] = -1;
-	map->colour[5] = -1;
+	if (!(map->colour = malloc(sizeof(char *) * 6)))
+		return (0);
+	if (!(map->resolution = malloc(sizeof(char *) * 2)))
+	{
+		free(map->colour);
+		return (0);
+	}
+	/*map->colour[0] = NULL;
+	map->colour[1] = NULL;
+	map->colour[2] = NULL;
+	map->colour[3] = NULL;
+	map->colour[4] = NULL;
+	map->colour[5] = NULL;
+	map->resolution[0] = NULL;
+	map->resolution[1] = NULL;
+	*/
 	map->is_north = 0;
 	map->is_east = 0;
 	map->is_west = 0;
@@ -17,8 +27,6 @@ void	initialization_map_struct(t_map *map)
 	map->is_sprite = 0;
 	map->is_resolution = 0;
 	map->colour_counter = 0;
-	map->resolution[0] = 0;
-	map->resolution[1] = 0;
 	map->north_path = NULL;
 	map->east_path = NULL;
 	map->west_path = NULL;
@@ -26,6 +34,8 @@ void	initialization_map_struct(t_map *map)
 	map->sprite_path = NULL;
 	map->full_line = NULL;
 	map->lines = NULL;
+	map->player_exist = 0;
+	return (1);
 }
 
 void	put_pixel(char *addr, int x, int y, int line_bytes, int bpp, int colour)
@@ -73,13 +83,13 @@ int	render_map(void *param)
 
 int	initialization_map(t_map *map)
 {
-	initialization_player(&map->player);
-	parse_line_fd(map);
-	//printf("player.pos_x1=%d", player.pos_x);
 	if (!(map->mlx_ptr = mlx_init()))
 		return (-1);
 	if (!(map->mlx_window = mlx_new_window(map->mlx_ptr, 1400, 1400, "Cub3D")))
 		return (-1);
+	initialization_player(&map->player);
+	parse_line_fd(map);
+	//printf("player.pos_x1=%d", player.pos_x);
 	//mlx_key_hook(map->mlx_window, close_pro, (void *)map);
 	mlx_hook(map->mlx_window, 33, 1L << 17, close_program, (void *)map);
 	mlx_loop_hook(map->mlx_ptr, &render_map, (void *)map);

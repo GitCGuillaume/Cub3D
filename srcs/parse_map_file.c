@@ -1,5 +1,6 @@
 #include "../includes/cub.h"
 
+#include <stdio.h>
 char	*get_line_fd(int fd)
 {
 	char	*line;
@@ -26,29 +27,12 @@ char	*get_line_fd(int fd)
 	free(tmp_line);
 	return (line);
 }
-#include <stdio.h>
 
-static int		is_tab(char c)
-{
-	if (c == '\t' || c == '\v')
-		return (1);
-	else
-		return (0);
-}
-
-static int		is_other(char c)
-{
-	if (c == '\f' || c == ' ')
-		return (1);
-	else
-		return (0);
-}
-
-int	get_number(t_map *map, unsigned int *i, char *line)
+char	*get_number(t_map *map, unsigned int *i, char *line)
 {
 	unsigned int	start;
 	unsigned int	end;
-	int		value;
+	char		*value;
 
 	start = 0;
 	end = 0;
@@ -56,19 +40,20 @@ int	get_number(t_map *map, unsigned int *i, char *line)
 	while (line[*i] != '\0' && !ft_isdigit(line[*i]))
 		(*i)++;
 	start = *i;
-	while (!is_tab(line[*i]) && !is_other(line[*i]) && line[*i] != '\0' && ft_isdigit(line[*i]))
+	while (!is_tab(line[*i]) && !is_other(line[*i])
+		&& line[*i] != '\0' && ft_isdigit(line[*i]))
 		(*i)++;
 	end = *i;
-	value = ft_atoi(ft_substr(line, start, end - start));
-	ft_memset(line, 0, ft_strlen(line));
+	value = ft_substr(line, start, end - start);
 	return (value);
 }
-int	get_number_two(t_map *map, unsigned int *i, char *line)
+
+char	*get_number_two(t_map *map, unsigned int *i, char *line)
 {
 	unsigned int	start;
 	unsigned int	end;
-	int		value;
 	int		rgb_found;
+	char		*value;
 
 	start = 0;
 	end = 0;
@@ -78,13 +63,13 @@ int	get_number_two(t_map *map, unsigned int *i, char *line)
 		(*i)++;
 	start = *i;
 	while (!is_tab(line[*i]) && !is_other(line[*i])
-			&& line[*i] != '\0' && ft_isdigit(line[*i]))
+		&& line[*i] != '\0' && ft_isdigit(line[*i]))
 	{
 		rgb_found++;
 		(*i)++;
 	}
 	end = *i;
-	value = ft_atoi(ft_substr(line, start, end - start));
+	value = ft_substr(line, start, end - start);
 	if (rgb_found > 0)
 		map->colour_counter = map->colour_counter + 1;
 	return (value);
@@ -99,9 +84,11 @@ char	*get_texture(t_map *map, unsigned int i, char *line)
 	start = 0;
 	end = 0;
 	value = 0;
-	while (!is_tab(line[i]) && !is_other(line[i]) && line[i] != '\0')
+	while (!is_tab(line[i]) && !is_other(line[i])
+		&& line[i] != '\0')
 		i++;
-	while ((is_tab(line[i]) || is_other(line[i]))==1 && line[i] != '\0')
+	while ((is_tab(line[i]) || is_other(line[i]))== 1
+		&& line[i] != '\0')
 		i++;
 	start = i;
 	while (line[i] != '\0')
@@ -116,20 +103,19 @@ int	find_which_indicator(t_map *map, char *line)
 {
 	unsigned int	i;
 	unsigned int	old_i;
-	char		*string;
 
 	i = 0;
-	string = NULL;
 	while (is_tab(line[i]) || is_other(line[i]))
 		i++;
 	old_i = i;
 	if (line[i] == 'R' && line[i + 1] == ' ')
 	{
 		map->resolution[0] = get_number(map, &i, line);
-		if (map->is_resolution == 0 && map->resolution > 0)
-			map->is_resolution = 1;
 		map->resolution[1] = get_number(map, &i, line);
-		if (map->is_resolution == 1 && map->resolution > 0)
+		ft_memset(line, 0, ft_strlen(line));
+		if (map->is_resolution == 0 && map->resolution[0][0] != '\0')
+			map->is_resolution = 1;
+		if (map->is_resolution == 1 && map->resolution[1][0] != '\0')
 			map->is_resolution = 2;
 		if (map->is_resolution != 2)
 		{
@@ -168,9 +154,9 @@ int	find_which_indicator(t_map *map, char *line)
 		map->colour[1] = get_number_two(map, &i, line);
 		map->colour[2] = get_number_two(map, &i, line);
 		ft_memset(line, 0, ft_strlen(line));
-		printf("map->col1 %d\n", map->colour[0]);
-		printf("map->col2 %d\n", map->colour[1]);
-		printf("map->col3 %d\n", map->colour[2]);
+		printf("map->col1 %s\n", map->colour[0]);
+		printf("map->col2 %s\n", map->colour[1]);
+		printf("map->col3 %s\n", map->colour[2]);
 		printf("colour_counter=%d\n", map->colour_counter);
 	}
 	if (line[old_i] == 'C' && (is_tab(line[old_i + 1]) || is_other(line[old_i + 1])))
@@ -179,9 +165,9 @@ int	find_which_indicator(t_map *map, char *line)
 		map->colour[4] = get_number_two(map, &i, line);
 		map->colour[5] = get_number_two(map, &i, line);
 		ft_memset(line, 0, ft_strlen(line));
-		printf("map->col3 %d\n", map->colour[3]);
-		printf("map->col4 %d\n", map->colour[4]);
-		printf("map->col5 %d\n", map->colour[5]);
+		printf("map->col3 %s\n", map->colour[3]);
+		printf("map->col4 %s\n", map->colour[4]);
+		printf("map->col5 %s\n", map->colour[5]);
 		printf("colour_counter=%d\n", map->colour_counter);
 	}
 	printf("no=%s\n", map->north_path);
@@ -189,7 +175,6 @@ int	find_which_indicator(t_map *map, char *line)
 	printf("ea=%s\n", map->east_path);
 	printf("we=%s\n", map->west_path);
 	printf("sprite=%s\n", map->sprite_path);
-	free(string);
 	return (0);
 }
 
@@ -197,17 +182,14 @@ int	check_configuration(t_map *map)
 {
 	int	i;
 	int	j;
-	//char	*indicators;
 
 	i = 0;
 	j = 0;
-	//indicators = ft_strdup("R;NO;SO;WE;EA;S;F;C");
 	while (map->lines[i])
 	{
 		find_which_indicator(map, map->lines[i]);
 		i++;
 	}
-	printf("colour number is =%d", map->colour_counter);
 	if (map->colour_counter < 6)
 	{
 		ft_putstr_fd("You must enter 6 colours number (and add strerror too pls)", 2);
@@ -219,6 +201,7 @@ int	check_configuration(t_map *map)
 int	parse_line_fd(t_map *map)
 {
 	map->lines = ft_split(map->full_line, '|');
+	map->check_lines = ft_split(map->full_line, '|');
 	check_configuration(map);	
 	int i = 0;
 	while (map->lines[i])
@@ -234,6 +217,8 @@ int	parse_line_fd(t_map *map)
 	printf("is_sprite =%d\n", map->is_sprite);
 	printf("is_resolution =%d\n", map->is_resolution);
 	printf("colour_counter = %d\n", map->colour_counter);
+	printf("r1=%s", map->resolution[0]);
+	printf("r2=%s\n", map->resolution[1]);
 	check_validity_map(map);
 	return (0);
 }

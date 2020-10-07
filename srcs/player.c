@@ -15,17 +15,13 @@ int	close_program_key(int keycode, void *param)
 
 	i = 0;
 	map = (t_map *)param;
-	printf("keyc=%d", keycode);
 	if (keycode == 65307)
 	{
-		printf("keyc=%d", keycode);
 		free(map->full_line);	
 		if (map->mlx_window)
 			mlx_destroy_window(map->mlx_ptr, map->mlx_window);
 		free(map->mlx_ptr);
-		//if (map->mlx_image)
-		//	mlx_destroy_image(map->mlx_ptr, map->mlx_image);
-		/*if (map->lines)
+		if (map->lines)
 		{
 			while (map->lines[i] != 0)
 			{
@@ -34,11 +30,74 @@ int	close_program_key(int keycode, void *param)
 			}
 			free(map->lines);
 		}
-		*/
+		i = 0;
+		if (map->check_lines)
+		{
+			while (map->check_lines[i] != 0)
+			{
+				free(map->check_lines[i]);
+				i++;
+			}
+			free(map->check_lines);
+		}
+		i = 0;
+		if (map->colour != NULL)
+		{
+			while (i < 6)
+			{
+				free(map->colour[i]);
+				i++;
+			}
+			free(map->colour);
+		}
+		i = 0;
+		if (map->resolution)
+		{
+			while (i < 2)
+			{
+				free(map->resolution[i]);
+				i++;
+			}
+			free(map->resolution);
+		}
+		free(map->north_path);
+		free(map->east_path);
+		free(map->west_path);
+		free(map->south_path);
+		free(map->sprite_path);
 		exit(0);
 		return (0);
 	}
 	return (0);
+}
+
+int	search_player(t_map *map, int i)
+{
+	int j;
+
+	j = 0;
+	if (map->lines)
+	{
+		while (map->lines[i])
+		{
+			j = 0;
+			while (map->lines[i][j] != '\0')
+			{
+				if (map->lines[i][j] == 'N' || map->lines[i][j] == 'S'
+					|| map->lines[i][j] == 'E' || map->lines[i][j] == 'W')
+				{
+					map->player_exist++;
+					map->player.pos_y = i;
+					map->player.pos_x = j;
+				}
+				j++;
+			}
+			i++;
+		}
+	}
+	if (map->player_exist != 1)
+		return (0);
+	return (1);
 }
 
 int	control_player(int keycode, void *param)
@@ -56,9 +115,5 @@ int	control_player(int keycode, void *param)
 		command->player.pos_x += 1;
 	else if (keycode == 65307)
 		close_program_key(keycode, param);
-	/*printf("key=%d", keycode);
-	printf("\npos_x=%d", command->player.pos_x);
-	printf("\npos_y=%d", command->player.pos_y);
-	*/
 	return (0);
 }
