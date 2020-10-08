@@ -1,5 +1,4 @@
-#include "../includes/cub.h"
-#include <stdio.h>
+#include "../../includes/cub.h"
 
 static void	init_flood_fill(int is_valid_case[8][2])
 {
@@ -33,34 +32,39 @@ static void	check_case_around(t_map *map, int x, int y)
 		if (!map->check_lines[y + 1] || !map->check_lines[y - 1]
 			|| !map->check_lines[y + array[i][0]][x + array[i][1]]
 			|| is_space(map->check_lines[y + array[i][0]][x + array[i][1]]))
-			close_program(map);
+			close_program(map, "Map case invalid.\n", 2);
 		i++;
 	}
 }
 
 static void	flood_fill(t_map *map, int x, int y, char old_value)
 {
-	old_value = map->check_lines[y][x];
-	check_case_around(map, x, y);
-	if (map->lines[y][x] == old_value)
+	if (map->lines)
 	{
-		map->check_lines[y][x] = '1';
-		if (map->check_lines[y + 1][x] != '1')
-			flood_fill(map, x, y + 1, old_value);
-		if (map->check_lines[y - 1][x] != '1')
-			flood_fill(map, x, y - 1, old_value);
-		if (map->check_lines[y][x + 1] != '1')
-			flood_fill(map, x + 1, y, old_value);
-		if (map->check_lines[y][x - 1] != '1')
-			flood_fill(map, x - 1, y, old_value);
+		old_value = map->check_lines[y][x];
+		check_case_around(map, x, y);
+		if (map->lines[y][x] == old_value)
+		{
+			map->check_lines[y][x] = '1';
+			if (map->check_lines[y + 1][x] != '1')
+				flood_fill(map, x, y + 1, old_value);
+			if (map->check_lines[y - 1][x] != '1')
+				flood_fill(map, x, y - 1, old_value);
+			if (map->check_lines[y][x + 1] != '1')
+				flood_fill(map, x + 1, y, old_value);
+			if (map->check_lines[y][x - 1] != '1')
+				flood_fill(map, x - 1, y, old_value);
+		}
 	}
 }
 
 static void	assignate_array(short *is_valid_array, t_map *map)
 {
 	int		i;
+	int		j;
 
 	i = 0;
+	j = 0;
 	if (map->colour_counter == 6)
 		is_valid_array[0] = 1;
 	if (map->is_north == 1)
@@ -75,37 +79,39 @@ static void	assignate_array(short *is_valid_array, t_map *map)
 		is_valid_array[5] = 1;
 	if (map->is_resolution == 2)
 		is_valid_array[6] = 1;
-	is_valid_array[7] = search_player(map, i);
-	flood_fill(map, map->player.pos_x,
-		map->player.pos_y,
-		map->check_lines[map->player.pos_y][map->player.pos_x]);
-	is_valid_array[8] = 1;
+	while (j != 7)
+	{
+		if (is_valid_array[j] == 0)
+			close_program(map, "Some setting(s) from the map are wrongs.\n", 2);
+		j++;
+	}
 }
 
 int		check_validity_map(t_map *map)
 {
 	short	is_valid_array[9];
 	int		i;
+	int		j;
 
 	i = 0;
+	j = 0;
 	while (i != 9)
 	{
 		is_valid_array[i] = 0;
 		i++;
 	}
 	assignate_array(&is_valid_array[0], map);
-	i = 0;
-	while (map->check_lines[i])
-		i++;
-	i = 0;
-	while (i < 9)
+	if (check_valid_character(map) == 0)
 	{
-		if (is_valid_array[i] != 1)
-		{
-			ft_putstr_fd("error", 2);
-			close_program(map);
-		}
-		i++;
+		is_valid_array[7] = search_player(map, j);
+		flood_fill(map, map->player.pos_x,
+			map->player.pos_y,
+			map->check_lines[map->player.pos_y][map->player.pos_x]);
+		is_valid_array[8] = 1;
 	}
+	if (is_valid_array[7] != 1)
+		close_program(map, "No player found or too much player.\n", 2);
+	if (is_valid_array[8] != 1)
+		close_program(map, "Something went wrong with map cases.\n", 2);
 	return (0);
 }

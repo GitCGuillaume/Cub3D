@@ -2,6 +2,8 @@
 # define CUB_H
 
 # include <fcntl.h>
+# include <string.h>
+# include <errno.h>
 # include "get_next_line.h"
 # include "libft.h"
 # include "../minilibx-linux/mlx.h"
@@ -44,10 +46,9 @@ typedef struct	s_map
 }		t_map;
 
 /* MAIN */
-int	close_program(t_map *map);
 /* PLAYER */
 int	initialization_player(t_player *player);
-int	close_program_key(int keycode, void *param);
+int	close_program_key(int keycode, void *param, char *message, int msg_number);
 int	search_player(t_map *map, int i);
 int	control_player(int keycode, void *param);
 /* MAP */
@@ -57,11 +58,21 @@ int	initialization_map_struct(t_map *map);
 /* PARSE MAP FILE */
 char	*get_line_fd(int fd);
 int	parse_line_fd(t_map *map);
+char	*get_number(t_map *map, unsigned int *i, char *line);
+char	*get_number_two(t_map *map, unsigned int *i, char *line);
+char	*get_texture(t_map *map, unsigned int i, char *line);
+void	find_texture(char *line, unsigned int old_i, t_map *map);
+void	find_texture_two(char *line, unsigned int *i, unsigned int old_i, t_map *map);
 /* CHECK VALIDITY MAP */
 int		check_validity_map(t_map *map);
+int		check_valid_character(t_map *map);
 /* UTILS */
 int	is_other(char c);
 int	is_tab(char c);
 int		is_space(char c);
+/* CLOSE */
+int	close_program(t_map *map, char *message, int msg_number);
+void	clear_array(t_map *map);
+void	clear_array_two(t_map *map);
 
 #endif

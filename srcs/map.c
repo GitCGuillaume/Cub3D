@@ -11,15 +11,6 @@ int	initialization_map_struct(t_map *map)
 		free(map->colour);
 		return (0);
 	}
-	/*map->colour[0] = NULL;
-	map->colour[1] = NULL;
-	map->colour[2] = NULL;
-	map->colour[3] = NULL;
-	map->colour[4] = NULL;
-	map->colour[5] = NULL;
-	map->resolution[0] = NULL;
-	map->resolution[1] = NULL;
-	*/
 	map->is_north = 0;
 	map->is_east = 0;
 	map->is_west = 0;
@@ -64,7 +55,6 @@ void	put_pixel(char *addr, int x, int y, int line_bytes, int bpp, int colour)
 int	render_map(void *param)
 {
 	t_map *map;
-	t_player	player;
 
 	int line_bytes = 4;
 	int bpp = 32;
@@ -77,7 +67,6 @@ int	render_map(void *param)
 	put_pixel(map->mlx_get_data, map->player.pos_x, map->player.pos_y, line_bytes, bpp, 0xABCDEF);
 	mlx_put_image_to_window(map->mlx_ptr, map->mlx_window, map->mlx_image, 0, 0);
 	mlx_destroy_image(map->mlx_ptr, map->mlx_image);
-	//initialization_player(&player);
 	return (0);
 }
 
@@ -89,8 +78,6 @@ int	initialization_map(t_map *map)
 		return (-1);
 	initialization_player(&map->player);
 	parse_line_fd(map);
-	//printf("player.pos_x1=%d", player.pos_x);
-	//mlx_key_hook(map->mlx_window, close_pro, (void *)map);
 	mlx_hook(map->mlx_window, 33, 1L << 17, close_program, (void *)map);
 	mlx_loop_hook(map->mlx_ptr, &render_map, (void *)map);
 	mlx_hook(map->mlx_window, KEYPRESS, 1L << 0, control_player, (void *)map);

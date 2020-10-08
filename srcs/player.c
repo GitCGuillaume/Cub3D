@@ -6,9 +6,8 @@ int	initialization_player(t_player *player)
 	player->pos_y = 5;
 	return (0);
 }
-#include <stdio.h>
 
-int	close_program_key(int keycode, void *param)
+int	close_program_key(int keycode, void *param, char *message, int msg_number)
 {
 	int	i;
 	t_map *map;
@@ -21,50 +20,17 @@ int	close_program_key(int keycode, void *param)
 		if (map->mlx_window)
 			mlx_destroy_window(map->mlx_ptr, map->mlx_window);
 		free(map->mlx_ptr);
-		if (map->lines)
-		{
-			while (map->lines[i] != 0)
-			{
-				free(map->lines[i]);
-				i++;
-			}
-			free(map->lines);
-		}
-		i = 0;
-		if (map->check_lines)
-		{
-			while (map->check_lines[i] != 0)
-			{
-				free(map->check_lines[i]);
-				i++;
-			}
-			free(map->check_lines);
-		}
-		i = 0;
-		if (map->colour != NULL)
-		{
-			while (i < 6)
-			{
-				free(map->colour[i]);
-				i++;
-			}
-			free(map->colour);
-		}
-		i = 0;
-		if (map->resolution)
-		{
-			while (i < 2)
-			{
-				free(map->resolution[i]);
-				i++;
-			}
-			free(map->resolution);
-		}
+		clear_array(map);
+		clear_array_two(map);
 		free(map->north_path);
 		free(map->east_path);
 		free(map->west_path);
 		free(map->south_path);
 		free(map->sprite_path);
+		if (message != NULL)
+		{
+			ft_putstr_fd(message, msg_number);
+		}
 		exit(0);
 		return (0);
 	}
@@ -114,6 +80,6 @@ int	control_player(int keycode, void *param)
 	else if (keycode == 100)
 		command->player.pos_x += 1;
 	else if (keycode == 65307)
-		close_program_key(keycode, param);
+		close_program_key(keycode, param, "Closed OK.\n", 1);
 	return (0);
 }

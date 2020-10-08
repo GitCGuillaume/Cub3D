@@ -18,7 +18,7 @@ int	is_other(char c)
 
 int	is_space(char c)
 {
-	if (is_other(c) || is_tab(c))
+	if (c == ' ' || c == '\t')
 		return (1);
 	return (0);
 }

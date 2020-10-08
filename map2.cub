@@ -1,13 +1,11 @@
-	R 304 205	
- NO 	./
+R 304 201
+NO 	./
 SO ah
 WE ./
 EA ./
-
-S	sprite_path
 F 255,0 10
+S	sprite_path
 C 100, 0, 0
-
 11111111
 10000001
 101N2001
