@@ -48,7 +48,7 @@ int	main(int argc, char *argv[])
 			{
 				if (!(initialization_map_struct(&map)))
 					return (0);
-				map.full_line = get_line_fd(fd);
+				map.full_line = get_line_fd(&map, fd);
 				initialization_map(&map);
 			}
 			if (fd != -1)

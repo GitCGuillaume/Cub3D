@@ -19,7 +19,6 @@ typedef struct		s_player
 
 typedef struct	s_map
 {
-	char		**colour;
 	unsigned short	is_north;
 	unsigned short	is_east;
 	unsigned short	is_west;
@@ -28,6 +27,7 @@ typedef struct	s_map
 	unsigned short	is_resolution;
 	int		colour_counter;
 	int		player_exist;
+	char		**colour;
 	char		**resolution;
 	char		*north_path;
 	char		*east_path;
@@ -36,11 +36,12 @@ typedef struct	s_map
 	char		*sprite_path;
 	char		*full_line;
 	char		**lines;
+	char		**map_case;
 	char		**check_lines;
+	char		*mlx_get_data;
 	void		*mlx_ptr;
 	void		*mlx_window;
 	void		*mlx_image;
-	char		*mlx_get_data;
 	t_player	player;
 
 }		t_map;
@@ -49,14 +50,14 @@ typedef struct	s_map
 /* PLAYER */
 int	initialization_player(t_player *player);
 int	close_program_key(int keycode, void *param, char *message, int msg_number);
-int	search_player(t_map *map, int i);
+int	search_player(t_map *map, char **lines, int i);
 int	control_player(int keycode, void *param);
 /* MAP */
 int	initialization_map(t_map *map);
 int	initialization_map_struct(t_map *map);
 /* COLOUR */
 /* PARSE MAP FILE */
-char	*get_line_fd(int fd);
+char	*get_line_fd(t_map *map, int fd);
 int	parse_line_fd(t_map *map);
 char	*get_number(t_map *map, unsigned int *i, char *line);
 char	*get_number_two(t_map *map, unsigned int *i, char *line);
@@ -64,6 +65,7 @@ char	*get_texture(t_map *map, unsigned int i, char *line);
 void	find_texture(char *line, unsigned int old_i, t_map *map);
 void	find_texture_two(char *line, unsigned int *i, unsigned int old_i, t_map *map);
 /* CHECK VALIDITY MAP */
+int	check_first_character(t_map *map);
 int		check_validity_map(t_map *map);
 int		check_valid_character(t_map *map);
 /* UTILS */

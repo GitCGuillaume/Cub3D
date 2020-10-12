@@ -1,4 +1,15 @@
 #include "../../includes/cub.h"
+#include <stdio.h>
+
+void	is_printable(t_map *map, char *line, unsigned int *i)
+{
+	while (line[*i] != ' ' && line[*i] != '\0')
+		(*i)++;
+	while (line[*i] == ' ' && line[*i] != '\0')
+		(*i)++;
+	if (!ft_isprint(line[*i]))
+		close_program(map, "An error occured.", 2);
+}
 
 char	*get_number(t_map *map, unsigned int *i, char *line)
 {
@@ -9,8 +20,9 @@ char	*get_number(t_map *map, unsigned int *i, char *line)
 	start = 0;
 	end = 0;
 	value = 0;
-	while (line[*i] != '\0' && !ft_isdigit(line[*i]))
-		(*i)++;
+	is_printable(map, line, i);
+	//while (line[*i] != '\0' && !ft_isdigit(line[*i]))
+	//	(*i)++;
 	start = *i;
 	while (!is_tab(line[*i]) && !is_other(line[*i])
 		&& line[*i] != '\0' && ft_isdigit(line[*i]))
@@ -24,14 +36,16 @@ char	*get_number_two(t_map *map, unsigned int *i, char *line)
 {
 	unsigned int	start;
 	unsigned int	end;
-	int		rgb_found;
 	char		*value;
+	int		rgb_found;
 
 	start = 0;
 	end = 0;
 	value = 0;
 	rgb_found = 0;
-	while (line[*i] != '\0' && !ft_isdigit(line[*i]))
+	if (line[*i] != ',')
+		is_printable(map, line, i);
+	else
 		(*i)++;
 	start = *i;
 	while (!is_tab(line[*i]) && !is_other(line[*i])
@@ -56,12 +70,7 @@ char	*get_texture(t_map *map, unsigned int i, char *line)
 	start = 0;
 	end = 0;
 	value = 0;
-	while (!is_tab(line[i]) && !is_other(line[i])
-		&& line[i] != '\0')
-		i++;
-	while ((is_tab(line[i]) || is_other(line[i]))== 1
-		&& line[i] != '\0')
-		i++;
+	is_printable(map, line, &i);
 	start = i;
 	while (line[i] != '\0')
 		i++;
@@ -71,7 +80,8 @@ char	*get_texture(t_map *map, unsigned int i, char *line)
 	return (value);
 }
 
-void	find_texture_two(char *line, unsigned int *i, unsigned int old_i, t_map *map)
+void	find_texture_two(char *line, unsigned int *i,
+	unsigned int old_i, t_map *map)
 {
 	if (line[*i] == 'R' && line[*i + 1] == ' ')
 	{
@@ -83,44 +93,45 @@ void	find_texture_two(char *line, unsigned int *i, unsigned int old_i, t_map *ma
 		if (map->is_resolution == 1 && map->resolution[1][0] != '\0')
 			map->is_resolution = 2;
 		if (map->is_resolution != 2)
-		{
 			close_program(map, "Resolution is invalid.\n", 2);
-		}
 	}
-	if (line[old_i] == 'F' && (is_tab(line[old_i + 1]) || is_other(line[old_i + 1])))
+	if (line[old_i] == 'F' && line[old_i + 1] == ' ')
 	{
 		map->colour[0] = get_number_two(map, i, line);
-		map->colour[1] = get_number_two(map, i, line);
-		map->colour[2] = get_number_two(map, i, line);
+		if (line[*i] == ',')
+			map->colour[1] = get_number_two(map, i, line);
+		if (line[*i] == ',')
+			map->colour[2] = get_number_two(map, i, line);
 		ft_memset(line, 0, ft_strlen(line));
 	}
 }
 
-void	find_texture(char *line, unsigned int old_i, t_map *map)
+void	find_texture(char *line, unsigned int i, t_map *map)
 {
-	if (line[old_i] == 'N' && line[old_i + 1] == 'O')
+	if (line[i] == 'N' && line[i + 1] == 'O' && line[i + 2] == ' ')
 	{
-		map->north_path = get_texture(map, old_i, line);
+		map->north_path = get_texture(map, i, line);
+		printf("\nnorth=%s\n", map->north_path);
 		map->is_north = 1;
 	}
-	else if (line[old_i] == 'S' && line[old_i + 1] == 'O')
+	else if (line[i] == 'S' && line[i + 1] == 'O' && line[i + 2] == ' ')
 	{
-		map->south_path = get_texture(map, old_i, line);
+		map->south_path = get_texture(map, i, line);
 		map->is_south = 1;
 	}
-	else if (line[old_i] == 'W' && line[old_i + 1] == 'E')
+	else if (line[i] == 'W' && line[i + 1] == 'E' && line[i + 2] == ' ')
 	{
-		map->west_path = get_texture(map, old_i, line);
+		map->west_path = get_texture(map, i, line);
 		map->is_west = 1;
 	}
-	else if (line[old_i] == 'E' && line[old_i + 1] == 'A')
+	else if (line[i] == 'E' && line[i + 1] == 'A' && line[i + 2] == ' ')
 	{
-		map->east_path = get_texture(map, old_i, line);
+		map->east_path = get_texture(map, i, line);
 		map->is_east = 1;
 	}
-	if (line[old_i] == 'S' && (is_tab(line[old_i + 1]) || is_other(line[old_i + 1])))
+	if (line[i] == 'S' && line[i + 1] == ' ')
 	{
-		map->sprite_path = get_texture(map, old_i, line);
+		map->sprite_path = get_texture(map, i, line);
 		map->is_sprite = 1;
 	}
 }

@@ -36,25 +36,27 @@ int	close_program_key(int keycode, void *param, char *message, int msg_number)
 	}
 	return (0);
 }
-
-int	search_player(t_map *map, int i)
+#include <stdio.h>
+int	search_player(t_map *map, char **lines, int i)
 {
 	int j;
 
 	j = 0;
-	if (map->lines)
+	if (lines)
 	{
-		while (map->lines[i])
+		while (lines[i])
 		{
 			j = 0;
-			while (map->lines[i][j] != '\0')
+			while (lines[i][j] != '\0')
 			{
-				if (map->lines[i][j] == 'N' || map->lines[i][j] == 'S'
-					|| map->lines[i][j] == 'E' || map->lines[i][j] == 'W')
+				if (lines[i][j] == 'N' || lines[i][j] == 'S'
+					|| lines[i][j] == 'E' || lines[i][j] == 'W')
 				{
 					map->player_exist++;
 					map->player.pos_y = i;
 					map->player.pos_x = j;
+					printf("x=%d", map->player.pos_x);
+					printf(" y=%d", map->player.pos_y);
 				}
 				j++;
 			}
@@ -62,7 +64,7 @@ int	search_player(t_map *map, int i)
 		}
 	}
 	if (map->player_exist != 1)
-		return (0);
+		close_program(map, "No player in the map.\n", 2);
 	return (1);
 }
 
