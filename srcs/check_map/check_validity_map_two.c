@@ -1,5 +1,27 @@
 #include "../../includes/cub.h"
 
+int	check_indicator_full(t_map *map)
+{
+	int	i;
+
+	i = 0;
+	if (map->north_path != 0)
+		i++;
+	if (map->south_path != 0)
+		i++;
+	if (map->east_path != 0)
+		i++;
+	if (map->west_path != 0)
+		i++;
+	if (map->sprite_path != 0)
+		i++;
+	if (map->colour_counter == 6)
+		i++;
+	if (map->is_resolution == 2)
+		i++;
+	return (i);
+}
+
 int	check_first_character(t_map *map)
 {
 	unsigned int	i;

@@ -111,7 +111,6 @@ void	find_texture(char *line, unsigned int i, t_map *map)
 	if (line[i] == 'N' && line[i + 1] == 'O' && line[i + 2] == ' ')
 	{
 		map->north_path = get_texture(map, i, line);
-		printf("\nnorth=%s\n", map->north_path);
 		map->is_north = 1;
 	}
 	else if (line[i] == 'S' && line[i + 1] == 'O' && line[i + 2] == ' ')
