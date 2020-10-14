@@ -57,5 +57,7 @@ int	main(int argc, char *argv[])
 		else
 			ft_putstr_fd("Error\nWrong name format.\n", 2);
 	}
+	else
+		ft_putstr_fd("Error\nPlease enter a file.\n", 2);
 	return (0);
 }

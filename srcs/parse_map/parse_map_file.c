@@ -98,28 +98,11 @@ char	*get_line_fd(t_map *map, int fd)
 			free(line);
 			line = tmp_line;
 		}
+		else
+			free(tmp_line);
 	}
 	free(tmp_line);
 	return (line);
-}
-
-int	check_configuration(t_map *map)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	j = 0;
-	while (map->lines[i])
-	{
-		find_which_indicator(map, map->lines[i]);
-		i++;
-	}
-	if (map->colour_counter != 6)
-	{
-		close_program(map, "Configurations map colour is wrong, check RGB inputs number.\n", 2);
-	}
-	return (0);
 }
 #include <stdio.h>
 
@@ -170,20 +153,6 @@ int	parse_line_fd(t_map *map)
 	printf("east_path=%s", map->east_path);
 	printf("west_path=%s", map->west_path);
 	printf("sprite_path=%s", map->sprite_path);
-	int k = 0;
-	printf("\n");
-	while (map->colour[k])
-	{
-		printf("map->colour[k]=%s\n", map->colour[k]);
-		k++;
-	}
-	k = 0;
-	while (map->resolution[k])
-	{
-		printf("map->resolution=%s\n", map->resolution[k]);
-		k++;
-	}
-	printf("\n");
 	if (map->colour_counter != 6)
 	{
 		close_program(map, "Configurations map colour is wrong, check RGB inputs number.\n", 2);

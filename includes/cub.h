@@ -36,8 +36,6 @@ typedef struct	s_map
 	char		*sprite_path;
 	char		*full_line;
 	char		**lines;
-	char		**map_case;
-	char		**check_lines;
 	char		*mlx_get_data;
 	void		*mlx_ptr;
 	void		*mlx_window;

@@ -14,18 +14,8 @@ void	clear_array(t_map *map)
 		}
 		free(map->lines);
 	}
-	i = 0;
-	if (map->check_lines)
-	{
-		while (map->check_lines[i] != 0)
-		{
-			free(map->check_lines[i]);
-			i++;
-		}
-		free(map->check_lines);
-	}
 }
-
+#include <stdio.h>
 void	clear_array_two(t_map *map)
 {
 	int	i;
@@ -50,7 +40,6 @@ void	clear_array_two(t_map *map)
 		}
 		free(map->colour);
 	}
-
 }
 
 int	close_program(t_map *map, char *message, int msg_number)

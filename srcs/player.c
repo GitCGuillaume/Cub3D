@@ -16,21 +16,7 @@ int	close_program_key(int keycode, void *param, char *message, int msg_number)
 	map = (t_map *)param;
 	if (keycode == 65307)
 	{
-		free(map->full_line);	
-		if (map->mlx_window)
-			mlx_destroy_window(map->mlx_ptr, map->mlx_window);
-		free(map->mlx_ptr);
-		clear_array(map);
-		clear_array_two(map);
-		free(map->north_path);
-		free(map->east_path);
-		free(map->west_path);
-		free(map->south_path);
-		free(map->sprite_path);
-		if (message != NULL)
-		{
-			ft_putstr_fd(message, msg_number);
-		}
+		close_program(map, message, msg_number);
 		exit(0);
 		return (0);
 	}

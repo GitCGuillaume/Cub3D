@@ -134,4 +134,3 @@ void	find_texture(char *line, unsigned int i, t_map *map)
 		map->is_sprite = 1;
 	}
 }
-
