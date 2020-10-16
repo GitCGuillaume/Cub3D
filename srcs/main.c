@@ -51,7 +51,6 @@ int	main(int argc, char *argv[])
 				else
 				{
 					map.full_line = get_line_fd(&map, fd);
-					printf("full_line=%s", map.full_line);
 					if (map.full_line)
 					{
 						parse_line_fd(&map);

@@ -27,6 +27,8 @@ typedef struct	s_map
 	unsigned short	is_resolution;
 	int		colour_counter;
 	int		player_exist;
+	int		ceiling_colour;
+	int		floor_colour;
 	char		**colour;
 	char		**resolution;
 	char		*north_path;
@@ -41,6 +43,10 @@ typedef struct	s_map
 	void		*mlx_window;
 	void		*mlx_image;
 	t_player	player;
+	int	x_tmp;
+	int	y_tmp;
+	int	x;
+	int	y;
 
 }		t_map;
 
@@ -54,6 +60,8 @@ int	control_player(int keycode, void *param);
 int	initialization_map(t_map *map);
 int	initialization_map_struct(t_map *map);
 /* COLOUR */
+unsigned int	manage_bit_colour_floor(t_map *map);
+unsigned int	manage_bit_colour_ceiling(t_map *map);
 /* PARSE MAP FILE */
 char	*get_line_fd(t_map *map, int fd);
 int	parse_line_fd(t_map *map);

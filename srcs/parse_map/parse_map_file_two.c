@@ -47,7 +47,7 @@ char	*get_number(t_map *map, unsigned int *i, char *line)
 char	*get_number_two(t_map *map, unsigned int *i, char *line)
 {
 	unsigned int	start;
-	char		*value;
+	char	*value;
 
 	start = 0;
 	value = 0;
