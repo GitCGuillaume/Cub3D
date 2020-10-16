@@ -5,15 +5,15 @@ int	check_indicator_full(t_map *map)
 	int	i;
 
 	i = 0;
-	if (map->north_path != 0)
+	if (map->is_north == 1)
 		i++;
-	if (map->south_path != 0)
+	if (map->is_south == 1)
 		i++;
-	if (map->east_path != 0)
+	if (map->is_east == 1)
 		i++;
-	if (map->west_path != 0)
+	if (map->is_west == 1)
 		i++;
-	if (map->sprite_path != 0)
+	if (map->is_sprite == 1)
 		i++;
 	if (map->colour_counter == 6)
 		i++;
@@ -80,7 +80,7 @@ int	check_valid_character(t_map *map)
 				|| map->lines[i][j] == ' '))
 				j++;
 			if (case_is_false(map->lines[i], j) == 1)
-				close_program(map, "Bad character in map game.\n", 2);
+				close_program_gnl(map, "Bad character in map game.\n", 2);
 			i++;
 		}
 	}

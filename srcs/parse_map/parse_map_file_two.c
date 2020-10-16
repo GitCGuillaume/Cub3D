@@ -3,12 +3,24 @@
 
 void	is_printable(t_map *map, char *line, unsigned int *i)
 {
-	while (line[*i] != ' ' && line[*i] != '\0')
-		(*i)++;
-	while (line[*i] == ' ' && line[*i] != '\0')
-		(*i)++;
-	if (!ft_isprint(line[*i]))
-		close_program(map, "An error occured.", 2);
+	int	is_correct;
+
+	is_correct = is_line_correct(*i, line, map);
+	if (is_correct == 1)
+	{
+		while (line[*i] == ' ' && line[*i] != '\0')
+			(*i)++;
+		if (!ft_isprint(line[*i]))
+		{
+			free(line);
+			close_program_gnl(map, "An error occured.", 2);
+		}
+	}
+	else
+	{
+		free(line);
+		close_program_gnl(map, "An error occured.", 2);
+	}
 }
 
 char	*get_number(t_map *map, unsigned int *i, char *line)
@@ -20,9 +32,9 @@ char	*get_number(t_map *map, unsigned int *i, char *line)
 	start = 0;
 	end = 0;
 	value = 0;
-	is_printable(map, line, i);
-	//while (line[*i] != '\0' && !ft_isdigit(line[*i]))
-	//	(*i)++;
+	(*i)++;
+	while (line[*i] && line[*i] == ' ')
+		(*i)++;
 	start = *i;
 	while (!is_tab(line[*i]) && !is_other(line[*i])
 		&& line[*i] != '\0' && ft_isdigit(line[*i]))
@@ -35,29 +47,22 @@ char	*get_number(t_map *map, unsigned int *i, char *line)
 char	*get_number_two(t_map *map, unsigned int *i, char *line)
 {
 	unsigned int	start;
-	unsigned int	end;
 	char		*value;
-	int		rgb_found;
 
 	start = 0;
-	end = 0;
 	value = 0;
-	rgb_found = 0;
-	if (line[*i] != ',')
-		is_printable(map, line, i);
-	else
+	(*i)++;
+	if (line[*i] == ',')
+		(*i)++;
+	while (line[*i] && line[*i] == ' ')
 		(*i)++;
 	start = *i;
+	if (ft_isdigit(line[*i]))
+		map->colour_counter = map->colour_counter + 1;
 	while (!is_tab(line[*i]) && !is_other(line[*i])
 		&& line[*i] != '\0' && ft_isdigit(line[*i]))
-	{
-		rgb_found++;
 		(*i)++;
-	}
-	end = *i;
-	value = ft_substr(line, start, end - start);
-	if (rgb_found > 0)
-		map->colour_counter = map->colour_counter + 1;
+	value = ft_substr(line, start, *i - start);
 	return (value);
 }
 
@@ -70,6 +75,7 @@ char	*get_texture(t_map *map, unsigned int i, char *line)
 	start = 0;
 	end = 0;
 	value = 0;
+	printf("line[i]=%c\n", line[i]);
 	is_printable(map, line, &i);
 	start = i;
 	while (line[i] != '\0')
@@ -92,11 +98,10 @@ void	find_texture_two(char *line, unsigned int *i,
 			map->is_resolution = 1;
 		if (map->is_resolution == 1 && map->resolution[1][0] != '\0')
 			map->is_resolution = 2;
-		if (map->is_resolution != 2)
-			close_program(map, "Resolution is invalid.\n", 2);
 	}
 	if (line[old_i] == 'F' && line[old_i + 1] == ' ')
 	{
+		*i = *i + 2;
 		map->colour[0] = get_number_two(map, i, line);
 		if (line[*i] == ',')
 			map->colour[1] = get_number_two(map, i, line);
@@ -108,29 +113,34 @@ void	find_texture_two(char *line, unsigned int *i,
 
 void	find_texture(char *line, unsigned int i, t_map *map)
 {
-	if (line[i] == 'N' && line[i + 1] == 'O' && line[i + 2] == ' ')
+	if (line[i] == 'N' && line[i + 1] == 'O'
+			&& line[i + 2] == ' ' && map->is_north == 0)
 	{
 		map->north_path = get_texture(map, i, line);
-		map->is_north = 1;
+		map->is_north++;
 	}
-	else if (line[i] == 'S' && line[i + 1] == 'O' && line[i + 2] == ' ')
+	else if (line[i] == 'S' && line[i + 1] == 'O'
+			&& line[i + 2] == ' ' && map->is_south == 0)
 	{
 		map->south_path = get_texture(map, i, line);
-		map->is_south = 1;
+		map->is_south++;
 	}
-	else if (line[i] == 'W' && line[i + 1] == 'E' && line[i + 2] == ' ')
+	else if (line[i] == 'W' && line[i + 1] == 'E'
+			&& line[i + 2] == ' ' && map->is_west == 0)
 	{
 		map->west_path = get_texture(map, i, line);
-		map->is_west = 1;
+		map->is_west++;
 	}
-	else if (line[i] == 'E' && line[i + 1] == 'A' && line[i + 2] == ' ')
+	else if (line[i] == 'E' && line[i + 1] == 'A'
+			&& line[i + 2] == ' ' && map->is_east == 0)
 	{
 		map->east_path = get_texture(map, i, line);
-		map->is_east = 1;
+		map->is_east++;
 	}
-	if (line[i] == 'S' && line[i + 1] == ' ')
+	if (line[i] == 'S' && line[i + 1] == ' '
+			&& map->is_sprite == 0)
 	{
 		map->sprite_path = get_texture(map, i, line);
-		map->is_sprite = 1;
+		map->is_sprite++;
 	}
 }

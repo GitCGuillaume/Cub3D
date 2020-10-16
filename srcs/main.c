@@ -47,9 +47,17 @@ int	main(int argc, char *argv[])
 			if (fd != -1)
 			{
 				if (!(initialization_map_struct(&map)))
-					return (0);
-				map.full_line = get_line_fd(&map, fd);
-				initialization_map(&map);
+					ft_putstr_fd("Error\n, Map struct allocation failed.\n", 2);
+				else
+				{
+					map.full_line = get_line_fd(&map, fd);
+					printf("full_line=%s", map.full_line);
+					if (map.full_line)
+					{
+						parse_line_fd(&map);
+						initialization_map(&map);
+					}
+				}
 			}
 			if (fd != -1)
 				ft_close_fd(fd);

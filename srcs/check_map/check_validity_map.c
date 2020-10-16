@@ -35,10 +35,10 @@ static void	check_case_around(t_map *map, int x, int y)
 			if (!map->lines[y][x] || !map->lines[y + 1]
 					|| !map->lines[y - 1]
 					|| !map->lines[y + array[i][0]][x + array[i][1]])
-				close_program(map, "Map case invalid.\n", 2);
+				close_program_gnl(map, "Map case invalid.\n", 2);
 		}
 		else
-			close_program(map, "Map case invalid.\n", 2);
+			close_program_gnl(map, "Map case invalid.\n", 2);
 		i++;
 	}
 }
@@ -90,7 +90,7 @@ static void	assignate_array(short *is_valid_array, t_map *map)
 	while (j != 7)
 	{
 		if (is_valid_array[j] == 0)
-			close_program(map, "Some setting(s) from the map are wrongs.\n", 2);
+			close_program_gnl(map, "Some setting(s) from the map are wrongs.\n", 2);
 		j++;
 	}
 }
@@ -119,8 +119,8 @@ int		check_validity_map(t_map *map)
 		printf("\n");
 	}
 	if (is_valid_array[7] != 1)
-		close_program(map, "No player found or too much player.\n", 2);
+		close_program_gnl(map, "No player found or too much player.\n", 2);
 	if (is_valid_array[8] != 1)
-		close_program(map, "Something went wrong with map cases.\n", 2);
+		close_program_gnl(map, "Something went wrong with map cases.\n", 2);
 	return (0);
 }

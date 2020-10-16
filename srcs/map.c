@@ -4,12 +4,26 @@
 
 int	initialization_map_struct(t_map *map)
 {
+	int	i;
+
+	i = 0;
 	if (!(map->colour = malloc(sizeof(char *) * 6)))
 		return (0);
+	while (6 > i)
+	{
+		map->colour[i] = NULL;
+		i++;
+	}
 	if (!(map->resolution = malloc(sizeof(char *) * 2)))
 	{
 		free(map->colour);
 		return (0);
+	}
+	i = 0;
+	while (2 > i)
+	{
+		map->resolution[i] = NULL;
+		i++;
 	}
 	map->is_north = 0;
 	map->is_east = 0;
@@ -77,7 +91,6 @@ int	initialization_map(t_map *map)
 	if (!(map->mlx_window = mlx_new_window(map->mlx_ptr, 1400, 1400, "Cub3D")))
 		return (-1);
 	initialization_player(&map->player);
-	parse_line_fd(map);
 	mlx_hook(map->mlx_window, 33, 1L << 17, close_program, (void *)map);
 	mlx_loop_hook(map->mlx_ptr, &render_map, (void *)map);
 	mlx_hook(map->mlx_window, KEYPRESS, 1L << 0, control_player, (void *)map);

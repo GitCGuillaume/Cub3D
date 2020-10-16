@@ -1,6 +1,6 @@
-S	sprite_path
+Sd sprite_path
 F 255,0 10
- NO 	./
+ NO ./
 	R 304 205	
 SO ah
 

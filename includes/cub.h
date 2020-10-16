@@ -57,6 +57,7 @@ int	initialization_map_struct(t_map *map);
 /* PARSE MAP FILE */
 char	*get_line_fd(t_map *map, int fd);
 int	parse_line_fd(t_map *map);
+int	is_line_correct(int i, char *line, t_map *map);
 char	*get_number(t_map *map, unsigned int *i, char *line);
 char	*get_number_two(t_map *map, unsigned int *i, char *line);
 char	*get_texture(t_map *map, unsigned int i, char *line);
@@ -73,6 +74,8 @@ int	is_tab(char c);
 int		is_space(char c);
 /* CLOSE */
 int	close_program(t_map *map, char *message, int msg_number);
+int	close_program_ok(t_map *map, char *message, int msg_number);
+int	close_program_gnl(t_map *map, char *message, int msg_number);
 void	clear_array(t_map *map);
 void	clear_array_two(t_map *map);
 

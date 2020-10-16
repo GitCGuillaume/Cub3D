@@ -16,7 +16,7 @@ int	close_program_key(int keycode, void *param, char *message, int msg_number)
 	map = (t_map *)param;
 	if (keycode == 65307)
 	{
-		close_program(map, message, msg_number);
+		close_program_ok(map, message, msg_number);
 		exit(0);
 		return (0);
 	}
