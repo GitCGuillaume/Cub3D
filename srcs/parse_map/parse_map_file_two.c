@@ -101,7 +101,7 @@ void	find_texture_two(char *line, unsigned int *i,
 	}
 	if (line[old_i] == 'F' && line[old_i + 1] == ' ')
 	{
-		*i = *i + 2;
+		*i = *i + 1;
 		map->colour[0] = get_number_two(map, i, line);
 		if (line[*i] == ',')
 			map->colour[1] = get_number_two(map, i, line);

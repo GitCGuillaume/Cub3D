@@ -52,7 +52,7 @@ int	find_which_indicator(t_map *map, char *line)
 	find_texture_two(line, &i, old_i, map);
 	if (line[old_i] == 'C' && line[old_i + 1] == ' ')
 	{
-		i = i + 2;
+		i = i + 1;
 		map->colour[3] = get_number_two(map, &i, line);
 		if (line[i] == ',')
 			map->colour[4] = get_number_two(map, &i, line);
@@ -124,6 +124,14 @@ char	*get_line_fd(t_map *map, int fd)
 			close_program_gnl(map, "Wrong number of parameter in map.\n", 2);
 		}*/
 	}
+	printf("colour0=%s\n", map->colour[0]);
+	printf("colour1=%s\n", map->colour[1]);
+	printf("colour2=%s\n", map->colour[2]);
+	printf("colour3=%s\n", map->colour[3]);
+	printf("colour4=%s\n", map->colour[4]);
+	printf("colour5=%s\n", map->colour[5]);
+	printf("resolution0=%s\n", map->resolution[0]);
+	printf("resolution1=%s\n", map->resolution[1]);
 	free(tmp_line);
 	return (line);
 }
