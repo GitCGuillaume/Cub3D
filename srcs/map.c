@@ -1,8 +1,6 @@
 #include "../includes/cub.h"
 
-#include <stdio.h>
-
-int	initialization_map_struct(t_map *map)
+int	init_map_struct_two(t_map *map)
 {
 	int	i;
 
@@ -25,6 +23,16 @@ int	initialization_map_struct(t_map *map)
 		map->resolution[i] = NULL;
 		i++;
 	}
+	return (1);
+}
+
+int	initialization_map_struct(t_map *map)
+{
+	int	init;
+
+	init_map_struct_two(map);
+	if (init_map_struct_two(map) == 0)
+		return (0);
 	map->ceiling_colour = -1;
 	map->floor_colour = -1;
 	map->is_north = 0;
@@ -45,7 +53,8 @@ int	initialization_map_struct(t_map *map)
 	return (1);
 }
 
-void	put_pixel(char *addr, int x, int y, unsigned int line_bytes, int bpp, int colour)
+void	put_pixel(char *addr, int x, int y,
+		unsigned int line_bytes, int bpp, int colour)
 {
 	int	pixel;
 	int	x_pix;
@@ -71,18 +80,24 @@ void	put_pixel(char *addr, int x, int y, unsigned int line_bytes, int bpp, int c
 
 int	render_map(void *param)
 {
-	t_map *map;
+	t_map	*map;
 
-	int line_bytes = 60;
-	int bpp = 32;
-	int endian = 0;
+	int	line_bytes;
+	int	bpp;
+	int	endian;
 
+	line_bytes = 60;
+	bpp = 32;
+	endian = 0;
 	map = (t_map *)param;
 	if (!(map->mlx_image = mlx_new_image(map->mlx_ptr, map->x, map->y)))
 		return (-1);
-	map->mlx_get_data = mlx_get_data_addr(map->mlx_image, &bpp, &line_bytes, &endian);
-	put_pixel(map->mlx_get_data, map->player.pos_x, map->player.pos_y, line_bytes, bpp, manage_bit_colour_ceiling(map));
-	mlx_put_image_to_window(map->mlx_ptr, map->mlx_window, map->mlx_image, 0, 0);
+	map->mlx_get_data = mlx_get_data_addr(map->mlx_image,
+			&bpp, &line_bytes, &endian);
+	put_pixel(map->mlx_get_data, map->player.pos_x,
+			map->player.pos_y, line_bytes, bpp, manage_bit_colour_ceiling(map));
+	mlx_put_image_to_window(map->mlx_ptr,
+			map->mlx_window, map->mlx_image, 0, 0);
 	mlx_destroy_image(map->mlx_ptr, map->mlx_image);
 	return (0);
 }
@@ -108,14 +123,8 @@ int	initialization_map(t_map *map)
 		map->x = x;
 		map->y = y;
 	}
-	printf("x = %d y = %d", map->x, map->y);
 	if (!(map->mlx_window = mlx_new_window(map->mlx_ptr, map->x, map->y, "Cub3D")))
 		return (-1);
-	printf("\n");
-	printf("\n");
-	printf("\n");
-	printf("\n");
-
 	initialization_player(&map->player);
 	mlx_hook(map->mlx_window, 33, 1L << 17, close_program, (void *)map);
 	mlx_loop_hook(map->mlx_ptr, &render_map, (void *)map);

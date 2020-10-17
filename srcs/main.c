@@ -47,7 +47,7 @@ int	main(int argc, char *argv[])
 			if (fd != -1)
 			{
 				if (!(initialization_map_struct(&map)))
-					ft_putstr_fd("Error\n, Map struct allocation failed.\n", 2);
+					ft_putstr_fd("Error\nMap struct allocation failed.\n", 2);
 				else
 				{
 					map.full_line = get_line_fd(&map, fd);

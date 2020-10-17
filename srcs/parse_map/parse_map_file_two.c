@@ -1,27 +1,4 @@
 #include "../../includes/cub.h"
-#include <stdio.h>
-
-void	is_printable(t_map *map, char *line, unsigned int *i)
-{
-	int	is_correct;
-
-	is_correct = is_line_correct(*i, line, map);
-	if (is_correct == 1)
-	{
-		while (line[*i] == ' ' && line[*i] != '\0')
-			(*i)++;
-		if (!ft_isprint(line[*i]))
-		{
-			free(line);
-			close_program_gnl(map, "An error occured.", 2);
-		}
-	}
-	else
-	{
-		free(line);
-		close_program_gnl(map, "An error occured.", 2);
-	}
-}
 
 char	*get_number(t_map *map, unsigned int *i, char *line)
 {
@@ -75,7 +52,6 @@ char	*get_texture(t_map *map, unsigned int i, char *line)
 	start = 0;
 	end = 0;
 	value = 0;
-	printf("line[i]=%c\n", line[i]);
 	is_printable(map, line, &i);
 	start = i;
 	while (line[i] != '\0')
@@ -131,16 +107,5 @@ void	find_texture(char *line, unsigned int i, t_map *map)
 		map->west_path = get_texture(map, i, line);
 		map->is_west++;
 	}
-	else if (line[i] == 'E' && line[i + 1] == 'A'
-			&& line[i + 2] == ' ' && map->is_east == 0)
-	{
-		map->east_path = get_texture(map, i, line);
-		map->is_east++;
-	}
-	if (line[i] == 'S' && line[i + 1] == ' '
-			&& map->is_sprite == 0)
-	{
-		map->sprite_path = get_texture(map, i, line);
-		map->is_sprite++;
-	}
+	find_texture_three(line, i, map);
 }

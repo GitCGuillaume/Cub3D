@@ -1,5 +1,5 @@
 #include "../includes/cub.h"
-#include <stdio.h>
+
 unsigned int	manage_bit_colour_floor(t_map *map)
 {
 	int colour;

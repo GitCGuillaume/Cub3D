@@ -1,5 +1,5 @@
 #include "../../includes/cub.h"
-#include <stdio.h>
+
 static void	init_flood_fill(int is_valid_case[8][2])
 {
 	is_valid_case[0][0] = 1;
@@ -20,7 +20,6 @@ static void	init_flood_fill(int is_valid_case[8][2])
 	is_valid_case[7][1] = -1;
 }
 
-// || is_space(map->check_lines[y + array[i][0]][x + array[i][1]]))
 static void	check_case_around(t_map *map, int x, int y)
 {
 	int	i;
@@ -116,7 +115,6 @@ int		check_validity_map(t_map *map)
 				map->player.pos_y,
 				map->lines[map->player.pos_y][map->player.pos_x]);
 		is_valid_array[8] = 1;
-		printf("\n");
 	}
 	if (is_valid_array[7] != 1)
 		close_program_gnl(map, "No player found or too much player.\n", 2);
