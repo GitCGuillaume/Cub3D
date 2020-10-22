@@ -46,6 +46,7 @@ int	main(int argc, char *argv[])
 				ft_putstr_fd("Error\nWrong name format.\n", 2);
 			if (fd != -1)
 			{
+				init_player(&map);
 				if (!(initialization_map_struct(&map)))
 					ft_putstr_fd("Error\nMap struct allocation failed.\n", 2);
 				else

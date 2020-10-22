@@ -113,7 +113,7 @@ int		check_validity_map(t_map *map)
 		is_valid_array[7] = search_player(map, map->lines, j);
 		flood_fill(map, map->player.pos_x,
 				map->player.pos_y,
-				map->lines[map->player.pos_y][map->player.pos_x]);
+				map->lines[map->player.fill_y][map->player.fill_x]);
 		is_valid_array[8] = 1;
 	}
 	if (is_valid_array[7] != 1)

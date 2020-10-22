@@ -1,10 +1,23 @@
 #include "../includes/cub.h"
 
-int	initialization_player(t_player *player)
+void	init_player(t_map *map)
 {
-	player->pos_x = 5;
-	player->pos_y = 5;
-	return (0);
+	map->player.fill_x = 0;
+	map->player.fill_y = 0;
+	map->player.pos_x = 0;
+	map->player.pos_y = 0;
+	map->player.dir_x = 0;
+	map->player.dir_y = 0;
+	map->player.step_x = 0;
+	map->player.step_y = 0;
+	map->player.side_ray_x = 0;
+	map->player.side_ray_y = 0;
+	map->player.side_ray = 0;
+	map->player.length_x = 0;
+	map->player.length_y = 0;
+	map->player.perpendicular_distance = 0;
+	map->player.is_wall = 0;
+	map->player.middle_wall = 0;
 }
 
 int	close_program_key(int keycode, void *param, char *message, int msg_number)
@@ -39,10 +52,12 @@ int	search_player(t_map *map, char **lines, int i)
 					|| lines[i][j] == 'E' || lines[i][j] == 'W')
 				{
 					map->player_exist++;
-					map->player.pos_y = i;
-					map->player.pos_x = j;
-					printf("x=%d", map->player.pos_x);
-					printf(" y=%d", map->player.pos_y);
+					map->player.pos_y = (double)i;
+					map->player.pos_x = (double)j;
+					map->player.fill_y = i;
+					map->player.fill_x = j;
+					printf("x=%f", map->player.pos_x);
+					printf(" y=%f", map->player.pos_y);
 				}
 				j++;
 			}

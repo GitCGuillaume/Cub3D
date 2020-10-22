@@ -30,8 +30,8 @@ int	initialization_map_struct(t_map *map)
 {
 	int	init;
 
-	init_map_struct_two(map);
-	if (init_map_struct_two(map) == 0)
+	init = init_map_struct_two(map);
+	if (init == 0)
 		return (0);
 	map->ceiling_colour = -1;
 	map->floor_colour = -1;
@@ -77,7 +77,7 @@ void	put_pixel(char *addr, int x, int y,
 		y_pix++;
 	}
 }
-
+#include <stdio.h>
 int	render_map(void *param)
 {
 	t_map	*map;
@@ -86,19 +86,18 @@ int	render_map(void *param)
 	int	bpp;
 	int	endian;
 
-	line_bytes = 60;
+	line_bytes = 125;
 	bpp = 32;
 	endian = 0;
 	map = (t_map *)param;
-	if (!(map->mlx_image = mlx_new_image(map->mlx_ptr, map->x, map->y)))
-		return (-1);
-	map->mlx_get_data = mlx_get_data_addr(map->mlx_image,
-			&bpp, &line_bytes, &endian);
-	put_pixel(map->mlx_get_data, map->player.pos_x,
-			map->player.pos_y, line_bytes, bpp, manage_bit_colour_ceiling(map));
+	//put_pixel(map->mlx_get_data, map->player.pos_x,
+	//		map->player.pos_y, line_bytes, bpp, manage_bit_colour_ceiling(map));
+	
+	camera_wall(map);
 	mlx_put_image_to_window(map->mlx_ptr,
-			map->mlx_window, map->mlx_image, 0, 0);
-	mlx_destroy_image(map->mlx_ptr, map->mlx_image);
+			map->mlx_window, map->image[4].mlx_image, 0, 0);
+	//mlx_destroy_image(map->mlx_ptr, map->image[0].mlx_image);
+	//mlx_destroy_image(map->mlx_ptr, map->image[4].mlx_image);
 	return (0);
 }
 
@@ -106,6 +105,7 @@ int	initialization_map(t_map *map)
 {
 	int	x;
 	int	y;
+int	endian = 0;
 
 	x = ft_atoi(map->resolution[0]);
 	y = ft_atoi(map->resolution[1]);
@@ -115,17 +115,51 @@ int	initialization_map(t_map *map)
 		return (-1);
 	if ((x <= 50 || x > map->x_tmp) || (y <= 50 || y > map->y_tmp))
 	{
-		map->x = map->x_tmp;
-		map->y = map->y_tmp;
+		map->res_x = map->x_tmp;
+		map->res_y = map->y_tmp;
 	}
 	else
 	{
-		map->x = x;
-		map->y = y;
+		map->res_x = x;
+		map->res_y = y;
 	}
-	if (!(map->mlx_window = mlx_new_window(map->mlx_ptr, map->x, map->y, "Cub3D")))
+	printf("north_path=%s\n", map->north_path);
+	if (!(map->mlx_window = mlx_new_window(map->mlx_ptr, map->res_x, map->res_y, "Cub3D")))
 		return (-1);
-	initialization_player(&map->player);
+	
+	if (!(map->image[0].mlx_image = mlx_xpm_file_to_image(map->mlx_ptr, map->north_path, &map->image[0].height, &map->image[0].width)))
+		return (-1);
+	map->image[0].mlx_get_data = mlx_get_data_addr(map->image[0].mlx_image,
+			&map->image[0].bpp, &map->image[0].line_bytes, &endian);
+	if (!(map->image[4].mlx_image = mlx_new_image(map->mlx_ptr, map->res_x, map->res_y)))
+		return (-1);
+	map->image[4].mlx_get_data = mlx_get_data_addr(map->image[4].mlx_image,
+			&map->image[4].bpp, &map->image[4].line_bytes, &endian);
+	//int pixel = (y_pix * line_bytes) + (x_pix * 4);
+	printf("sixtyfour=%d\n", map->image[0].width);
+	printf("sixtyfour=%d\n", map->image[0].height);
+	int i, j;
+	i = 0;
+	j = 0;
+while (20 > j)
+{
+	i = 0;
+	while (20 > i)
+	{
+	map->image[4].mlx_get_data[((j) * map->image[4].line_bytes) + (i * 4) + 0]
+		= map->image[0].mlx_get_data[((1 * map->image[0].line_bytes) + (1 * 4)) + 0];
+	map->image[4].mlx_get_data[((j) * map->image[4].line_bytes) + (i * 4) + 1]
+		= map->image[0].mlx_get_data[((1 * map->image[0].line_bytes) + (1 * 4)) + 1];
+	map->image[4].mlx_get_data[((j) * map->image[4].line_bytes) + (i * 4) + 2]
+		= map->image[0].mlx_get_data[((1 * map->image[0].line_bytes) + (1 * 4)) + 2];
+	map->image[4].mlx_get_data[((j) * map->image[4].line_bytes) + (i * 4) + 3]
+		= map->image[0].mlx_get_data[((1 * map->image[0].line_bytes) + (1 * 4)) + 3];
+		i++;
+	}
+	j++;
+}
+	printf("line_bytes=%d\n", map->image[4].line_bytes);
+	printf("bpp=%d\n", map->image[4].bpp);
 	mlx_hook(map->mlx_window, 33, 1L << 17, close_program, (void *)map);
 	mlx_loop_hook(map->mlx_ptr, &render_map, (void *)map);
 	mlx_hook(map->mlx_window, KEYPRESS, 1L << 0, control_player, (void *)map);

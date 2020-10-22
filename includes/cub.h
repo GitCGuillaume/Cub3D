@@ -4,6 +4,7 @@
 # include <fcntl.h>
 # include <string.h>
 # include <errno.h>
+# include <math.h>
 # include "get_next_line.h"
 # include "libft.h"
 # include "../minilibx-linux/mlx.h"
@@ -13,9 +14,35 @@
 typedef struct		s_player
 {
 	char		start_position;
-	int		pos_x;
-	int		pos_y;
+	int		fill_x;
+	int		fill_y;
+	double		pos_x;
+	double		pos_y;
+	double		dir_x;
+	double		dir_y;
+	double		side_ray_x;
+	double		side_ray_y;
+	double		length_x;
+	double		length_y;
+	double		perpendicular_distance;
+	int		step_x;
+	int		step_y;
+	int		side_ray;
+	int		is_wall;
+	int		middle_wall;
+	int		bottom_pixel;
+	int		height_pixel;
 }		t_player;
+
+typedef struct		t_image
+{
+	void	*mlx_image;
+	char	*mlx_get_data;
+	int	width;
+	int	height;
+	int	line_bytes;
+	int	bpp;
+}		t_image;
 
 typedef struct	s_map
 {
@@ -41,18 +68,18 @@ typedef struct	s_map
 	char		*mlx_get_data;
 	void		*mlx_ptr;
 	void		*mlx_window;
-	void		*mlx_image;
+	t_image		image[5];
 	t_player	player;
 	int	x_tmp;
 	int	y_tmp;
-	int	x;
-	int	y;
+	int	res_x;
+	int	res_y;
 
 }		t_map;
 
 /* MAIN */
 /* PLAYER */
-int	initialization_player(t_player *player);
+void	init_player(t_map *map);
 int	close_program_key(int keycode, void *param, char *message, int msg_number);
 int	search_player(t_map *map, char **lines, int i);
 int	control_player(int keycode, void *param);
@@ -65,7 +92,6 @@ unsigned int	manage_bit_colour_ceiling(t_map *map);
 /* PARSE MAP FILE */
 char	*get_line_fd(t_map *map, int fd);
 int	parse_line_fd(t_map *map);
-int	is_line_correct(int i, char *line, t_map *map);
 int	is_full_line_ok(char *line);
 void	is_printable(t_map *map, char *line, unsigned int *i);
 char	*get_number(t_map *map, unsigned int *i, char *line);
@@ -89,5 +115,6 @@ int	close_program_ok(t_map *map, char *message, int msg_number);
 int	close_program_gnl(t_map *map, char *message, int msg_number);
 void	clear_array(t_map *map);
 void	clear_array_two(t_map *map);
-
+/** RAYCASTER **/
+void	camera_wall(t_map *map);
 #endif
