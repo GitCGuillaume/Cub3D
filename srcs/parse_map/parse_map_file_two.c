@@ -52,7 +52,6 @@ char	*get_texture(t_map *map, unsigned int i, char *line)
 	start = 0;
 	end = 0;
 	value = 0;
-	printf("c=%c\n", line[i]);
 	is_printable(map, line, &i);
 	start = i;
 	while (line[i] != '\0')

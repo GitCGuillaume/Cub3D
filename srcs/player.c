@@ -17,7 +17,8 @@ void	init_player(t_map *map)
 	map->player.length_y = 0;
 	map->player.perpendicular_distance = 0;
 	map->player.is_wall = 0;
-	map->player.middle_wall = 0;
+	map->player.bottom_wall = 0;
+	map->player.height_wall = 0;
 }
 
 int	close_program_key(int keycode, void *param, char *message, int msg_number)
@@ -65,7 +66,7 @@ int	search_player(t_map *map, char **lines, int i)
 		}
 	}
 	if (map->player_exist != 1)
-		close_program(map, "No player in the map.\n", 2);
+		close_program_gnl(map, "No player in the map, or too much.\n", 2);
 	return (1);
 }
 

@@ -29,9 +29,8 @@ typedef struct		s_player
 	int		step_y;
 	int		side_ray;
 	int		is_wall;
-	int		middle_wall;
-	int		bottom_pixel;
-	int		height_pixel;
+	int		height_wall;
+	int		bottom_wall;
 }		t_player;
 
 typedef struct		t_image
@@ -65,6 +64,7 @@ typedef struct	s_map
 	char		*sprite_path;
 	char		*full_line;
 	char		**lines;
+	char		**lines_copy;
 	char		*mlx_get_data;
 	void		*mlx_ptr;
 	void		*mlx_window;
@@ -84,6 +84,7 @@ int	close_program_key(int keycode, void *param, char *message, int msg_number);
 int	search_player(t_map *map, char **lines, int i);
 int	control_player(int keycode, void *param);
 /* MAP */
+void	put_pixel(t_map *map, int x, unsigned int line_bytes, int bpp, int colour);
 int	initialization_map(t_map *map);
 int	initialization_map_struct(t_map *map);
 /* COLOUR */

@@ -31,9 +31,9 @@ static void	check_case_around(t_map *map, int x, int y)
 	{
 		if (y - 1 >= 0)
 		{
-			if (!map->lines[y][x] || !map->lines[y + 1]
-					|| !map->lines[y - 1]
-					|| !map->lines[y + array[i][0]][x + array[i][1]])
+			if (!map->lines_copy[y][x] || !map->lines_copy[y + 1]
+					|| !map->lines_copy[y - 1]
+					|| !map->lines_copy[y + array[i][0]][x + array[i][1]])
 				close_program_gnl(map, "Map case invalid.\n", 2);
 		}
 		else
@@ -44,22 +44,22 @@ static void	check_case_around(t_map *map, int x, int y)
 
 static void	flood_fill(t_map *map, int x, int y, char old_value)
 {
-	if (map->lines)
+	if (map->lines_copy)
 	{
-		old_value = map->lines[y][x];
+		old_value = map->lines_copy[y][x];
 		check_case_around(map, x, y);
-		if (map->lines[y][x] == old_value)
+		if (map->lines_copy[y][x] == old_value)
 		{
-			map->lines[y][x] = '1';
-			if (map->lines[y + 1][x] != '1'
-					&& map->lines[y + 1][x] != ' ')
+			map->lines_copy[y][x] = '1';
+			if (map->lines_copy[y + 1][x] != '1'
+					&& map->lines_copy[y + 1][x] != ' ')
 				flood_fill(map, x, y + 1, old_value);
-			if (map->lines[y - 1][x] != '1'
-					&& map->lines[y - 1][x] != ' ')
+			if (map->lines_copy[y - 1][x] != '1'
+					&& map->lines_copy[y - 1][x] != ' ')
 				flood_fill(map, x, y - 1, old_value);
-			if (map->lines[y][x + 1] != '1' && map->lines[y][x + 1] != ' ')
+			if (map->lines_copy[y][x + 1] != '1' && map->lines_copy[y][x + 1] != ' ')
 				flood_fill(map, x + 1, y, old_value);
-			if (map->lines[y][x - 1] != '1' && map->lines[y][x - 1] != ' ')
+			if (map->lines_copy[y][x - 1] != '1' && map->lines_copy[y][x - 1] != ' ')
 				flood_fill(map, x - 1, y, old_value);
 		}
 	}
@@ -110,10 +110,10 @@ int		check_validity_map(t_map *map)
 	assignate_array(&is_valid_array[0], map);
 	if (check_valid_character(map) == 0)
 	{
-		is_valid_array[7] = search_player(map, map->lines, j);
+		is_valid_array[7] = search_player(map, map->lines_copy, j);
 		flood_fill(map, map->player.pos_x,
 				map->player.pos_y,
-				map->lines[map->player.fill_y][map->player.fill_x]);
+				map->lines_copy[map->player.fill_y][map->player.fill_x]);
 		is_valid_array[8] = 1;
 	}
 	if (is_valid_array[7] != 1)

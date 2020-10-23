@@ -14,6 +14,17 @@ void	clear_array(t_map *map)
 		}
 		free(map->lines);
 	}
+	i = 0;
+	if (map->lines_copy)
+	{
+		while (map->lines_copy[i] != 0)
+		{
+			free(map->lines_copy[i]);
+			i++;
+		}
+		free(map->lines_copy);
+	}
+
 }
 #include <stdio.h>
 void	clear_array_two(t_map *map)
