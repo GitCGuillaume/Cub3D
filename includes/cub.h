@@ -20,6 +20,7 @@ typedef struct		s_player
 	double		pos_y;
 	double		dir_x;
 	double		dir_y;
+	double		rotation_lr;
 	double		side_ray_x;
 	double		side_ray_y;
 	double		length_x;
@@ -118,4 +119,7 @@ void	clear_array(t_map *map);
 void	clear_array_two(t_map *map);
 /** RAYCASTER **/
 void	camera_wall(t_map *map);
+/** RAYCASTER MOVEMENT **/
+int	move_camera_lr(int keycode, void *param);
+
 #endif

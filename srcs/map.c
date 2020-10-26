@@ -57,8 +57,8 @@ void	put_pixel(t_map *map, int x, unsigned int line_bytes, int bpp, int colour)
 {
 	int	pixel;
 	int	y_pix;
-printf("height_walll=%d\n", map->player.height_wall);
-printf("bottom_walll=%d\n", map->player.bottom_wall);
+//printf("height_walll=%d\n", map->player.height_wall);
+//printf("bottom_walll=%d\n", map->player.bottom_wall);
 	y_pix = map->player.bottom_wall;
 	while (map->player.height_wall > y_pix)
 	{
@@ -88,9 +88,11 @@ int	render_map(void *param)
 	map = (t_map *)param;
 	//put_pixel(map->mlx_get_data, map->player.pos_x,
 	//		map->player.pos_y, line_bytes, bpp, manage_bit_colour_ceiling(map));
-	
+
+	camera_wall(map);
 	mlx_put_image_to_window(map->mlx_ptr,
 			map->mlx_window, map->image[0].mlx_image, 0, 0);
+	mlx_hook(map->mlx_window, KEYPRESS, 1L << 0, move_camera_lr, (void *)map);
 	//mlx_destroy_image(map->mlx_ptr, map->image[0].mlx_image);
 	//mlx_destroy_image(map->mlx_ptr, map->image[4].mlx_image);
 	return (0);
@@ -126,7 +128,6 @@ int	endian = 0;
 		return (-1);
 	map->image[0].mlx_get_data = mlx_get_data_addr(map->image[0].mlx_image,
 			&map->image[0].bpp, &map->image[0].line_bytes, &endian);
-	camera_wall(map);
 	//put_pixel(map->image[0].mlx_get_data, 500, map->player.height_wall, map->image[0].line_bytes, map->image[0].bpp, manage_bit_colour_ceiling(map));
 
 	/*if (!(map->image[0].mlx_image = mlx_xpm_file_to_image(map->mlx_ptr, map->north_path, &map->image[0].height, &map->image[0].width)))

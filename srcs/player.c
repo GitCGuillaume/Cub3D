@@ -19,6 +19,7 @@ void	init_player(t_map *map)
 	map->player.is_wall = 0;
 	map->player.bottom_wall = 0;
 	map->player.height_wall = 0;
+	map->player.rotation_lr = 0;
 }
 
 int	close_program_key(int keycode, void *param, char *message, int msg_number)
@@ -69,12 +70,13 @@ int	search_player(t_map *map, char **lines, int i)
 		close_program_gnl(map, "No player in the map, or too much.\n", 2);
 	return (1);
 }
-
+#include <stdio.h>
 int	control_player(int keycode, void *param)
 {
 	t_map *command;
 
 	command = (t_map *)param;
+	printf("key=%d ", keycode);
 	if (keycode == 'w')
 		command->player.pos_y -= 1;
 	else if (keycode == 115)
