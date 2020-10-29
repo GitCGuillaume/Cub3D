@@ -11,6 +11,20 @@
 
 # define KEYPRESS 2
 
+typedef struct		s_ray
+{
+	double		inter_x;
+	double		inter_y;
+	double		length_case_x;
+	double		length_case_y;
+	double		distance_x;
+	double		distance_y;
+	double		distance_wall;
+	int		pos_x;
+	int		pos_y;
+	int		is_wall;
+}			t_ray;
+
 typedef struct		s_player
 {
 	char		start_position;
@@ -18,20 +32,30 @@ typedef struct		s_player
 	int		fill_y;
 	double		pos_x;
 	double		pos_y;
-	double		dir_x;
-	double		dir_y;
+	double		ray_dir_x;
+	double		ray_dir_y;
+	double		ray_dir;
+	double		inter_x;
+	double		inter_y;
+	double		pi_x;
+	double		pi_y;
+	double		cross_x;
+	double		cross_y;
 	double		rotation_lr;
 	double		side_ray_x;
 	double		side_ray_y;
-	double		length_x;
-	double		length_y;
+	double		length_case_x;
+	double		length_case_y;
 	double		perpendicular_distance;
+	int		degree;
 	int		step_x;
 	int		step_y;
 	int		side_ray;
 	int		is_wall;
 	int		height_wall;
 	int		bottom_wall;
+	t_ray		ray_horizontal;
+	t_ray		ray_vertical;
 }		t_player;
 
 typedef struct		t_image
@@ -118,7 +142,8 @@ int	close_program_gnl(t_map *map, char *message, int msg_number);
 void	clear_array(t_map *map);
 void	clear_array_two(t_map *map);
 /** RAYCASTER **/
-void	camera_wall(t_map *map);
+void	raycast(t_map *map);
+//void	camera_wall(t_map *map);
 /** RAYCASTER MOVEMENT **/
 int	move_camera_lr(int keycode, void *param);
 

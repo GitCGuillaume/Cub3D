@@ -1,126 +1,149 @@
 #include "../../includes/cub.h"
+
 #include <stdio.h>
 
-void	shortest_ray_from_pos(t_map *map)
+int	start_ray_direction(t_map *map)
 {
-	if (map->player.dir_x < 0)
+	if (map->player.start_position == 'N')
 	{
-		map->player.step_x = -1;
-		map->player.side_ray_x = (map->player.pos_x - map->player.fill_x) * map->player.length_x;
+		map->player.degree = 90;
+		return (1);
 	}
-	else
+	else if (map->player.start_position == 'S')
 	{
-		map->player.step_x = 1;
-		map->player.side_ray_x = (map->player.fill_x + 1.0 - map->player.pos_x) * map->player.length_x;
+		map->player.degree = 270;
+		return (1);
 	}
-	if (map->player.dir_y < 0)
+	else if (map->player.start_position == 'E')
 	{
-		map->player.step_y = -1;
-		map->player.side_ray_y = (map->player.pos_y - map->player.fill_y) * map->player.length_y;
+		map->player.degree = 0;
+		return (1);
 	}
-	else
+	else if (map->player.start_position == 'W')
 	{
-		map->player.step_y = 1;
-		map->player.side_ray_y = (map->player.fill_y + 1.0 - map->player.pos_y) * map->player.length_y;
+		map->player.degree = 180;
+		return (1);
 	}
+	return (0);
 }
 
-void	loop_until_wall(t_map *map)
+double	degree_to_radian(double pi)
 {
-	map->player.is_wall = 0;
-	while (!map->player.is_wall)
-	{
-		if (map->player.side_ray_y > map->player.side_ray_x)
-		{
-			map->player.side_ray_x += map->player.length_x;
-			//printf("sideray_x=%f\n", map->player.side_ray_x);
-			map->player.fill_x += map->player.step_x;
-			map->player.side_ray = 0;
-		}
-		else
-		{
-			map->player.side_ray_y += map->player.length_y;
-			//printf("sideray_y=%f\n", map->player.side_ray_y);
-			map->player.fill_y += map->player.step_y;
-			map->player.side_ray = 1;	
-		}
-		//printf("s=%s\n", map->lines[map->player.fill_y]);
-		//printf("x=%d y=%d map[y][x]=%c\n", map->player.fill_x, map->player.fill_y, map->lines[map->player.fill_y][map->player.fill_x]);
-		if (map->lines[map->player.fill_y][map->player.fill_x] != '0')
-			map->player.is_wall = 1;
-		//printf("side_ray=%d\n", map->player.side_ray);
-		//map->player.step_x = 0;
-		/** -1 for not going behind map case **/	
-	}
-	if (map->player.side_ray == 0)
-		map->player.perpendicular_distance = (map->player.fill_x - map->player.pos_x + (1 - map->player.step_x) / 2) / map->player.dir_x;
-	else
-		map->player.perpendicular_distance = (map->player.fill_y - map->player.pos_y + (1 - map->player.step_y) / 2) / map->player.dir_y;
-	if (map->player.perpendicular_distance == 0)
-		map->player.perpendicular_distance = 0.000001;
-	//map->player.perpendicular_distance = (map->player.fill_x - map->player.pos_x + (1 - map->player.step_x) / 2) / map->player.dir_x;
-	//map->player.perpendicular_distance = (map->player.fill_y - map->player.pos_y + (1 - map->player.step_y) / 2) / map->player.dir_y;
-	//printf("\n");
+	return (pi * M_PI/180);
 }
 
-void	camera_wall(t_map *map)
+void	vertical_detection(t_map *map)
+{
+	int	square_size;
+
+	square_size = map->res_x / 5;
+	map->player.ray_vertical.is_wall = 0;
+	map->player.ray_vertical.distance_y = -square_size * tan(M_PI/3);
+	map->player.ray_vertical.distance_x = square_size;
+	map->player.ray_vertical.pos_y = square_size * (map->player.pos_y + 1);
+	map->player.ray_vertical.pos_x = (map->player.pos_x + 1) * square_size;
+	map->player.ray_vertical.pos_y -=32;
+	map->player.ray_vertical.pos_x -=32;
+	printf("distance_y=%f player_pos_x=%f pos_x=%d\n", map->player.ray_vertical.distance_y, map->player.pos_x, map->player.ray_vertical.pos_x);
+	printf("(PX=%d / %d) * %d + %d", map->player.ray_vertical.pos_x, square_size, square_size, square_size);
+	map->player.ray_vertical.inter_x = floor(floor(map->player.ray_vertical.pos_x) / square_size) * square_size + square_size;
+	map->player.ray_vertical.inter_y = map->player.ray_vertical.pos_y + (map->player.ray_vertical.pos_x - map->player.ray_vertical.inter_x) * tan(M_PI/3);
+	printf("inter_y=%f\ninter_x=%f\nxa=%f\n", map->player.ray_vertical.inter_y, map->player.ray_vertical.inter_x, map->player.ray_vertical.distance_x);
+
+	map->player.ray_vertical.length_case_x = map->player.ray_vertical.inter_x + map->player.ray_vertical.distance_x;
+	map->player.ray_vertical.length_case_y = map->player.ray_vertical.inter_y + map->player.ray_vertical.distance_y;
+	printf("ya=%f\nxa=%f\nlength_x=%f\nlength_y=%f\nis_wall=%d\n", map->player.ray_vertical.distance_y, map->player.ray_vertical.distance_x, map->player.ray_vertical.length_case_x, map->player.ray_vertical.length_case_y, map->player.ray_vertical.is_wall);
+	if (map->lines[(int)map->player.ray_vertical.length_case_y / square_size][(int)map->player.ray_vertical.length_case_x / square_size] == '0')
+	{
+		while (map->player.ray_vertical.is_wall == 0)
+		{
+			map->player.ray_vertical.length_case_x += floor(map->player.ray_vertical.distance_x);
+			map->player.ray_vertical.length_case_y += map->player.ray_vertical.distance_y;
+			if (map->lines[(int)map->player.ray_vertical.length_case_y / square_size] && map->lines[(int)map->player.ray_vertical.length_case_y / square_size][(int)map->player.ray_vertical.length_case_x / square_size] != '0')
+				map->player.ray_vertical.is_wall = 1;
+		}
+	}
+	printf("xa=%f\nlength_x=%f\nlength_y=%f\nis_wall=%d\n", map->player.ray_vertical.distance_x, map->player.ray_vertical.length_case_x, map->player.ray_vertical.length_case_y, map->player.ray_vertical.is_wall);
+
+
+}
+void	horizontal_detection(t_map *map)
+{
+	/** height grill and x intersection between 2 cases**/
+	int	square_size;
+
+	square_size = map->res_x / 5;
+	map->player.ray_horizontal.distance_y = -square_size;
+	map->player.ray_horizontal.distance_x = square_size / tan(degree_to_radian(60));
+	map->player.ray_horizontal.pos_y = square_size * (map->player.pos_y + 1);
+	map->player.ray_horizontal.pos_x = (map->player.pos_x + 1) * square_size;
+	map->player.ray_horizontal.pos_y -=32;
+	map->player.ray_horizontal.pos_x -=32;
+	//float aTan=-1/tan(map->player.pi_y);
+	//printf("aTan=%f\n", aTan);
+	//printf("sin(degtorad())=%f\n", degree_to_radian(map->player.pi_y));
+//	if (map->player.pi_y > )
+
+	/** GET HIGHEST Y side of the case from current position **/
+	//map->player.inter_y = ceil(pos_y / square_size) * square_size;
+	map->player.ray_horizontal.inter_y = floor(map->player.ray_horizontal.pos_y / square_size) * square_size - 1;
+	printf("%d + (%d - %f)/tan(60)", map->player.ray_horizontal.pos_x, map->player.ray_horizontal.pos_y, map->player.ray_horizontal.inter_y);
+	map->player.ray_horizontal.inter_x = map->player.ray_horizontal.pos_x + (map->player.ray_horizontal.pos_y - map->player.ray_horizontal.inter_y) / tan(degree_to_radian(60));
+	printf("square_size=%d\npos_y=%dpos_x=%d\n", square_size, map->player.ray_horizontal.pos_y, map->player.ray_horizontal.pos_x);
+	printf("inter_y=%f\ninter_x=%f\nxa=%f\n", map->player.ray_horizontal.inter_y, map->player.ray_horizontal.inter_x, floor(map->player.ray_horizontal.distance_x));
+	map->player.ray_horizontal.is_wall = 0;
+	map->player.ray_horizontal.length_case_x = map->player.ray_horizontal.inter_x + map->player.ray_horizontal.distance_x;
+	map->player.ray_horizontal.length_case_y = map->player.ray_horizontal.inter_y + map->player.ray_horizontal.distance_y;
+	
+	printf("[][]=%c\n", map->lines[(int)map->player.ray_horizontal.length_case_y / square_size][(int)map->player.ray_horizontal.length_case_x / square_size]);
+	printf("ya=%f\nxa=%f\nlength_x=%f\nlength_y=%f\nis_wall=%d\n", map->player.ray_horizontal.distance_y, map->player.ray_horizontal.distance_x, map->player.ray_horizontal.length_case_x, map->player.ray_horizontal.length_case_y, map->player.ray_horizontal.is_wall);
+	if (map->lines[(int)map->player.ray_horizontal.length_case_y / square_size][(int)map->player.ray_horizontal.length_case_x / square_size] == '0')
+	{
+		while (map->player.ray_horizontal.is_wall == 0)
+		{
+			map->player.ray_horizontal.length_case_x += floor(map->player.ray_horizontal.distance_x);
+			map->player.ray_horizontal.length_case_y += map->player.ray_horizontal.distance_y;
+			if (map->lines[(int)map->player.ray_horizontal.length_case_y / square_size] && map->lines[(int)map->player.ray_horizontal.length_case_y / square_size][(int)map->player.ray_horizontal.length_case_x / square_size] != '0')
+				map->player.ray_horizontal.is_wall = 1;
+		}
+	}
+	printf("xa=%f\nlength_x=%f\nlength_y=%f\nis_wall=%d\n", map->player.ray_horizontal.distance_x, map->player.ray_horizontal.length_case_x, map->player.ray_horizontal.length_case_y, map->player.ray_horizontal.is_wall);
+	//printf("a=%f\n", map->player.inter_y);
+}
+
+void	raycast(t_map *map)
 {
 	int	x;
-	double	ratio;
-/*double dir_x, dir_y;
-double plane_x, plane_y;
-dir_x = -1;dir_y=0;
-plane_x = 0;plane_y = 0.66;
-*/
+
 	x = 0;
-	while (map->res_x > x)
-	{
-		/** camera angle start ray, must give vector ray**/
-		ratio = 2 * x / (double)map->res_x - 1;
-		//map->player.dir_x = dir_x + plane_x * ratio;
-		//map->player.dir_y = dir_y + plane_y * ratio;
-		map->player.dir_x = (cos(M_PI)) + (cos(M_PI/2) /*- map->player.rotation_lr*/) * ratio;
-		//printf("cos(m_pi)=%f\n", cos(M_PI/2-0.183));
-		/** sin side **/
-		map->player.dir_y = (sin(M_PI) + map->player.rotation_lr) + (sin(M_PI/2) /*+ map->player.rotation_lr*/) * ratio;
-		//printf("dir_y=%f\n", map->player.dir_y);
-		/** round for the least number **/
-		map->player.fill_x = (int)map->player.pos_x;
-		map->player.fill_y = (int)map->player.pos_y;
-		//printf("sqrt=%f\n", sqrt(1 + (map->player.dir_y * map->player.dir_y) / (map->player.dir_x * map->player.dir_x)));
-		map->player.length_x = sqrt(1 + (map->player.dir_y * map->player.dir_y) / (map->player.dir_x * map->player.dir_x));
-		if (map->player.dir_x == 0)
-			map->player.length_x = 0;
-		if (map->player.dir_y == 0)
-			map->player.length_y = 0;
-		map->player.length_y = sqrt(1 + (map->player.dir_x * map->player.dir_x) / (map->player.dir_y * map->player.dir_y));
-		shortest_ray_from_pos(map);
-		loop_until_wall(map);
-		map->player.height_wall = (int)(map->res_y / map->player.perpendicular_distance);
-		map->player.bottom_wall = -map->player.height_wall / 2 + map->res_y / 2;
-		if (map->player.bottom_wall < 0)
-			map->player.bottom_wall = 0;
-		map->player.height_wall = map->player.height_wall / 2 + map->res_y / 2;
-		if (map->player.height_wall >= map->res_y)
-			map->player.height_wall = map->res_y-1;
-		put_pixel(map, x, map->image[0].line_bytes, map->image[0].bpp, manage_bit_colour_ceiling(map));
-		x++;
-	}
-	/*printf("\nfill_x=%d\n", map->player.fill_x);
-	printf("fill_y=%d\n", map->player.fill_y);
-	printf("pos_x=%f\n", map->player.pos_x);
-	printf("pos_y=%f\n", map->player.pos_y);
-	printf("dir_x=%f\n", map->player.dir_x);
-	printf("dir_y=%f\n", map->player.dir_y);
-	printf("step_x=%d\n", map->player.step_x);
-	printf("step_y=%d\n", map->player.step_y);
-	printf("length_x=%f\n", map->player.length_x);
-	printf("length_y=%f\n", map->player.length_y);
-	printf("side_ray_x=%f\n", map->player.side_ray_x);
-	printf("side_ray_y=%f\n", map->player.side_ray_y);
-	printf("perpendicular_ray=%f\n", map->player.perpendicular_distance);
-	printf("is_wall=%d\n", map->player.is_wall);
-	printf("wall height=%d\n", map->player.height_wall);
-	printf("bottom_line=%d\n", map->player.bottom_wall);
-	*/
+	if (!(start_ray_direction(map)))
+		exit(0);
+	map->player.ray_dir = map->player.pi_x + map->player.pi_y;
+	printf("ray_dir_y=%f\nray_dir_x=%f\nraydir=%f\n", map->player.pi_y, map->player.pi_x, map->player.ray_dir);
+	
+	//map->player.pi_x = cos((2*M_PI)/3);
+//	map->player.pi_y = sin((2*M_PI)/3);
+//	map->player.ray_dir -= map->player.pi_x + map->player.pi_y;
+	//while (map->res_x x)
+	//{
+	//	map->player.ray_dir += 0.0122;
+	//	printf("ray_dir_y=%f\nray_dir_x=%f\nraydir=%f\n", map->player.pi_y, map->player.pi_x, map->player.ray_dir);
+		
+	horizontal_detection(map);
+	vertical_detection(map);
+	map->player.ray_horizontal.distance_wall = sqrt((map->player.ray_horizontal.pos_x - map->player.ray_horizontal.length_case_x)
+			* (map->player.ray_horizontal.pos_x - map->player.ray_horizontal.length_case_x)
+			+ (map->player.ray_horizontal.pos_y - map->player.ray_horizontal.length_case_y)
+			* (map->player.ray_horizontal.pos_y - map->player.ray_horizontal.length_case_y));
+	map->player.ray_vertical.distance_wall = sqrt((map->player.ray_vertical.pos_x - map->player.ray_vertical.length_case_x)
+			* (map->player.ray_vertical.pos_x - map->player.ray_vertical.length_case_x)
+			+ (map->player.ray_vertical.pos_y - map->player.ray_vertical.length_case_y)
+			* (map->player.ray_vertical.pos_y - map->player.ray_vertical.length_case_y));
+
+	printf("px=%d py=%d\n", map->player.ray_horizontal.pos_x, map->player.ray_horizontal.pos_y);
+	printf("px=%d py=%d\n", map->player.ray_vertical.pos_x, map->player.ray_vertical.pos_y);
+	printf("horizontal distance_wall=%f\n", map->player.ray_horizontal.distance_wall);
+	printf("vertical distance_wall=%f\n", map->player.ray_vertical.distance_wall);
+	//	x++;
+	//}
 }

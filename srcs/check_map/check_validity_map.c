@@ -111,6 +111,7 @@ int		check_validity_map(t_map *map)
 	if (check_valid_character(map) == 0)
 	{
 		is_valid_array[7] = search_player(map, map->lines_copy, j);
+		map->player.start_position = map->lines[map->player.fill_y][map->player.fill_x];
 		flood_fill(map, map->player.pos_x,
 				map->player.pos_y,
 				map->lines_copy[map->player.fill_y][map->player.fill_x]);

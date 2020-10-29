@@ -6,17 +6,18 @@ void	init_player(t_map *map)
 	map->player.fill_y = 0;
 	map->player.pos_x = 0;
 	map->player.pos_y = 0;
-	map->player.dir_x = 0;
-	map->player.dir_y = 0;
+	map->player.ray_dir_x = 0;
+	map->player.ray_dir_y = 0;
 	map->player.step_x = 0;
 	map->player.step_y = 0;
 	map->player.side_ray_x = 0;
 	map->player.side_ray_y = 0;
 	map->player.side_ray = 0;
-	map->player.length_x = 0;
-	map->player.length_y = 0;
+	map->player.degree = 0;
+	map->player.ray_horizontal.length_case_x = 0;
+	map->player.ray_horizontal.length_case_y = 0;
 	map->player.perpendicular_distance = 0;
-	map->player.is_wall = 0;
+	map->player.ray_horizontal.is_wall = 0;
 	map->player.bottom_wall = 0;
 	map->player.height_wall = 0;
 	map->player.rotation_lr = 0;
@@ -58,8 +59,6 @@ int	search_player(t_map *map, char **lines, int i)
 					map->player.pos_x = (double)j;
 					map->player.fill_y = i;
 					map->player.fill_x = j;
-					printf("x=%f", map->player.pos_x);
-					printf(" y=%f", map->player.pos_y);
 				}
 				j++;
 			}

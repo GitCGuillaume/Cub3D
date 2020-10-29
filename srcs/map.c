@@ -89,10 +89,11 @@ int	render_map(void *param)
 	//put_pixel(map->mlx_get_data, map->player.pos_x,
 	//		map->player.pos_y, line_bytes, bpp, manage_bit_colour_ceiling(map));
 
-	camera_wall(map);
+	//camera_wall(map);
+	raycast(map);
 	mlx_put_image_to_window(map->mlx_ptr,
 			map->mlx_window, map->image[0].mlx_image, 0, 0);
-	mlx_hook(map->mlx_window, KEYPRESS, 1L << 0, move_camera_lr, (void *)map);
+	//mlx_hook(map->mlx_window, KEYPRESS, 1L << 0, move_camera_lr, (void *)map);
 	//mlx_destroy_image(map->mlx_ptr, map->image[0].mlx_image);
 	//mlx_destroy_image(map->mlx_ptr, map->image[4].mlx_image);
 	return (0);
