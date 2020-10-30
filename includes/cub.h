@@ -47,6 +47,8 @@ typedef struct		s_player
 	double		length_case_x;
 	double		length_case_y;
 	double		perpendicular_distance;
+	double		distance_wall;
+	int		slice_height;
 	int		degree;
 	int		step_x;
 	int		step_y;
