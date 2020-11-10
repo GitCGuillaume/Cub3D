@@ -60,8 +60,8 @@ void	put_pixel(t_map *map, int x, unsigned int line_bytes, int bpp, int colour)
 
 	//printf("height_walll=%d\n", map->player.height_wall);
 //printf("bottom_walll=%d\n", map->player.bottom_wall);
-	y_pix = map->player.bottom_wall;
-	while (map->player.height_wall > y_pix)
+	y_pix = map->player.height_wall;
+	while (map->player.bottom_wall > y_pix)
 	{
 		//while (x > x_pix)
 		//{

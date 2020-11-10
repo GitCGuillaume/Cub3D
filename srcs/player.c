@@ -18,6 +18,7 @@ void	init_player(t_map *map)
 	map->player.ray_horizontal.length_case_y = 0;
 	map->player.perpendicular_distance = 0;
 	map->player.ray_horizontal.is_wall = 0;
+	map->player.ray_vertical.is_wall = 0;
 	map->player.bottom_wall = 0;
 	map->player.height_wall = 0;
 	map->player.rotation_lr = 0;
