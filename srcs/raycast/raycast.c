@@ -293,6 +293,7 @@ void	raycast(t_map *map)
 	int	slice_height;
 	int	square_size;
 	double	add_degree;
+	double	correct_degree;
 	size_t	number_lines;
 
 	square_size = map->res_x / 5;
@@ -300,8 +301,9 @@ void	raycast(t_map *map)
 	x = 0;
 	if (!(start_ray_direction(map)))
 		exit(0);
-	//map->player.degree += 30.0;
+	map->player.degree += 30.0;
 	add_degree = 60.0 / map->res_x;
+	correct_degree = -30.0;
 	printf("res_x=%d add_degree=%f\n", map->res_x, add_degree);
 	while (map->res_x > x)
 	{
@@ -334,7 +336,7 @@ void	raycast(t_map *map)
 			map->player.distance_wall = map->player.ray_horizontal.distance_wall /** cos(degree_to_radian(map->player.degree *//*- 30*//*))*/;
 		else
 			map->player.distance_wall = map->player.ray_vertical.distance_wall /** cos(degree_to_radian(map->player.degree *//*+ 30*//*))*/;
-		map->player.distance_wall = map->player.distance_wall * cos(degree_to_radian(map->player.degree - correct_distance(map->player.degree + 30)));
+		map->player.distance_wall = map->player.distance_wall * cos(degree_to_radian(correct_degree));
 		map->player.slice_height = square_size * 277 / map->player.distance_wall;
 		map->player.bottom_wall = (map->res_y / 2) + floor(map->player.slice_height /2);
 		if (map->player.bottom_wall > map->res_y)
@@ -350,6 +352,7 @@ void	raycast(t_map *map)
 	//	printf("vertical distance_wall=%f\n", map->player.ray_vertical.distance_wall);
 		printf("before=%f\n", map->player.degree);
 		map->player.degree -= add_degree;
+		correct_degree += add_degree;
 		printf("after=%f\n", map->player.degree);
 		x++;
 	}
