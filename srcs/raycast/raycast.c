@@ -103,12 +103,14 @@ double	max_case(char *line)
 	double	i;
 
 	i = 0.0;
-	while (line[(int)i] != '\0')
+	printf("crash?\n");
+	if (line != NULL)
 	{
-		i++;
+		while (line[(int)i] != '\0')
+		{
+			i++;
+		}
 	}
-	//if (i > 0)
-	//	i = i - 1;
 	return (i);
 }
 /*
@@ -182,53 +184,77 @@ void	vertical_detection(t_map *map, int number_lines)
 {
 	/** height grill and x intersection between 2 cases**/
 	double	radian;
+	double	old_value_x;
+	double	old_value_y;
 	int	square_size;
 	int square = map->res_x / 5;
 
+	old_value_x = 0.0;
+	old_value_y = 0.0;
 	square_size = map->res_x / 5;
 	radian = tan(degree_to_radian(map->player.degree));
 	if (fabs(radian - 0.000000) < 0.000001)
 	{
 		radian = 0.000001;
 	}
-	map->player.ray_vertical.distance_x = square_size;
 	map->player.ray_vertical.pos_y = square_size * (map->player.pos_y + 1);
 	map->player.ray_vertical.pos_x = (map->player.pos_x + 1) * square_size;
 	map->player.ray_vertical.pos_y -=32;
 	map->player.ray_vertical.pos_x -=32;
 	/** GET HIGHEST Y side of the case from current position **/
 	if (map->player.degree < 90.0 || map->player.degree > 270.0)
-		map->player.ray_vertical.length_case_x = floor(map->player.ray_vertical.pos_x / square_size) * square_size + square_size;
+		map->player.ray_vertical.length_case_x = floor(floor(map->player.ray_vertical.pos_x) / square_size) * square_size + square_size;
 	else
-		map->player.ray_vertical.length_case_x = floor(map->player.ray_vertical.pos_x / square_size) * square_size - 1;
+		map->player.ray_vertical.length_case_x = floor(floor(map->player.ray_vertical.pos_x) / square_size) * square_size - 1;
 	map->player.ray_vertical.length_case_y = map->player.ray_vertical.pos_y
 		+ (map->player.ray_vertical.pos_x - map->player.ray_vertical.length_case_x) * radian;
-	//FIND YA
+	//FIND XA
 	if (map->player.degree < 90.0 || map->player.degree > 270.0)
-		map->player.ray_vertical.distance_x = map->res_x / 5;
+		map->player.ray_vertical.distance_x = square_size;
 	else
 		map->player.ray_vertical.distance_x = -square_size;
-	//FIND XA
-	map->player.ray_vertical.distance_y = square_size * radian;
+	//FIND YA
+	map->player.ray_vertical.distance_y = map->player.ray_vertical.distance_x * radian;
 	map->player.ray_vertical.distance_y = -map->player.ray_vertical.distance_y;
 	map->player.ray_vertical.is_wall = 0;
 	int i = 0;
+	printf("vertical\n");
 	while (map->player.ray_vertical.is_wall == 0)
 	{
+		old_value_x = map->player.ray_vertical.length_case_x;
+		old_value_y = map->player.ray_vertical.length_case_y;
+
 		i++;
-		printf("i vertical = %d", i);
-		if ((int)floor(map->player.ray_vertical.length_case_y / square) >= number_lines)
+		printf("length_case_y=%d\n",(int)(floor(floor(map->player.ray_vertical.length_case_y) / square)));
+		printf("number_lines=%d\n", number_lines);
+		//if ((int)(floor(map->player.ray_vertical.length_case_y / square)) >= number_lines)
+		//	map->player.ray_vertical.length_case_y = (number_lines) * square;
+		//if (map->player.ray_vertical.length_case_y < 0.0)
+		//		map->player.ray_vertical.length_case_y = 0.0;
+		printf("length_case_y=%d\n",(int)(floor(floor(map->player.ray_vertical.length_case_y) / square)));
+		//printf("line=%s\n", map->lines[(int)(floor(map->player.ray_vertical.length_case_y / square))]);
+		//printf("max_case_vertical=%f\n", max_case(map->lines[(int)floor(map->player.ray_vertical.length_case_y / square)]));
+		//printf("y_case_vertical=%snumber_lines=%d\n", map->lines[(int)floor(map->player.ray_vertical.length_case_y / square)], number_lines);
+		//if ((int)floor(map->player.ray_vertical.length_case_y / square) >= number_lines /*|| compare_equal(floor(map->player.ray_vertical.length_case_y / square), number_lines)*/)
+		if (map->player.ray_vertical.length_case_y < 0.0
+				|| map->player.ray_vertical.length_case_x < 0.0
+				|| (int)floor(floor(map->player.ray_vertical.length_case_y) / square)
+				>= number_lines
+				|| (map->player.ray_vertical.length_case_x / square) 
+				>= max_case(map->lines[(int)floor(floor(map->player.ray_vertical.length_case_y) / square)]))
 		{
-			map->player.ray_vertical.length_case_y = number_lines * square;
+			map->player.ray_vertical.distance_wall = 9999999.0;
+			//map->player.ray_vertical.length_case_x += map->player.ray_vertical.distance_x;
+			//map->player.ray_vertical.length_case_y += map->player.ray_vertical.distance_y;
 			map->player.ray_vertical.is_wall = 1;
+			break;
 		}
-		else if (map->player.ray_vertical.length_case_y < 0.0)
+		else if (map->lines[(int)floor(map->player.ray_vertical.length_case_y) / square][(int)floor(map->player.ray_vertical.length_case_x) / square] == '1')
 		{
-			map->player.ray_vertical.is_wall = 1;
-			map->player.ray_vertical.length_case_y = number_lines * square;
-		}
-		else if (map->lines[(int)floor(map->player.ray_vertical.length_case_y / square)][(int)floor(map->player.ray_vertical.length_case_x / square)] != '0')
-		{
+			printf("gnééé");
+			printf("length_case_y=%d\n",(int)(floor(floor(map->player.ray_vertical.length_case_y) / square)));
+			map->player.ray_vertical.distance_wall = sqrt(pow(map->player.ray_vertical.pos_x - map->player.ray_vertical.length_case_x, 2)
+					+ pow(map->player.ray_vertical.pos_y - map->player.ray_vertical.length_case_y, 2));
 			map->player.ray_vertical.is_wall = 1;
 		}
 		else
@@ -237,17 +263,24 @@ void	vertical_detection(t_map *map, int number_lines)
 			map->player.ray_vertical.length_case_y += map->player.ray_vertical.distance_y;
 		}
 	}
+	printf("ver_x=%f y=%f\n", map->player.ray_vertical.length_case_x, map->player.ray_vertical.length_case_y);
+	printf("\n");
 }
 
 
-void	horizontal_detection(t_map *map)
+void	horizontal_detection(t_map *map, int number_lines)
 {
 	/** height grill and x intersection between 2 cases**/
 	double	radian;
+	double	old_value_x;
+	double	old_value_y;
 	int	square_size;
 	int square = map->res_x / 5;
+
 	square_size = map->res_x / 5;
 	radian = tan(degree_to_radian(map->player.degree));
+	old_value_x = 0.0;
+	old_value_y = 0.0;
 	if (fabs(radian - 0.000000) < 0.000001)
 	{
 		radian = 0.000001;
@@ -259,38 +292,53 @@ void	horizontal_detection(t_map *map)
 	map->player.ray_horizontal.pos_x -=32;
 	/** GET HIGHEST Y side of the case from current position **/
 	if (map->player.degree > 0.0 && map->player.degree < 180.0)
-		map->player.ray_horizontal.length_case_y = floor(map->player.ray_horizontal.pos_y / square_size) * square_size - 1;
+		map->player.ray_horizontal.length_case_y = floor(floor(map->player.ray_horizontal.pos_y) / square_size) * square_size - 1;
 	else
-		map->player.ray_horizontal.length_case_y = floor(map->player.ray_horizontal.pos_y / square_size) * square_size + square_size;
+		map->player.ray_horizontal.length_case_y = floor(floor(map->player.ray_horizontal.pos_y) / square_size) * square_size + square_size;
 	map->player.ray_horizontal.length_case_x = map->player.ray_horizontal.pos_x
 		+ (map->player.ray_horizontal.pos_y - map->player.ray_horizontal.length_case_y) / radian;
-	
 	//FIND YA
 	if (map->player.degree > 0.0 && map->player.degree < 180.0)
 		map->player.ray_horizontal.distance_y = -square_size;
 	else
-		map->player.ray_horizontal.distance_y = map->res_x / 5;
+		map->player.ray_horizontal.distance_y = square_size;
 	//FIND XA
-	map->player.ray_horizontal.distance_x = square_size / radian;
+	map->player.ray_horizontal.distance_x = -map->player.ray_horizontal.distance_y / radian;
 	map->player.ray_horizontal.is_wall = 0;
 	int i = 0;
+	printf("horizontal\n");
 	while (map->player.ray_horizontal.is_wall == 0)
 	{
+		old_value_x = map->player.ray_horizontal.length_case_x;
+		old_value_y = map->player.ray_horizontal.length_case_y;
+
 		i++;
-		printf(" i horizontal =%d", i);
-		if (/*map->player.ray_horizontal.length_case_x < 0 ||*/ map->player.ray_horizontal.length_case_x / square
-				>= max_case(map->lines[(int)floor(map->player.ray_horizontal.length_case_y / square)]))
+		//printf("i horizontal = %d", i);
+		
+		//if (floor(map->player.ray_horizontal.length_case_y / square) >= number_lines)
+		//	map->player.ray_horizontal.length_case_y = (number_lines) * square;
+		printf("y_case_horizontal=%d\n", (int)floor(map->player.ray_horizontal.length_case_y / square));
+		//if (map->player.ray_horizontal.length_case_y < 0.0)
+		//		map->player.ray_horizontal.length_case_y = 0.0;
+		if (map->player.ray_horizontal.length_case_y < 0.0
+				|| map->player.ray_horizontal.length_case_x < 0.0
+				|| (int)floor(floor(map->player.ray_horizontal.length_case_y) / square)
+				> number_lines
+				|| (map->player.ray_horizontal.length_case_x / square)
+				> max_case(map->lines[(int)floor(floor(map->player.ray_horizontal.length_case_y) / square)]))
 		{
-			map->player.ray_horizontal.length_case_x = max_case(map->lines[(int)floor(map->player.ray_horizontal.length_case_y / square)]) * square;
+			map->player.ray_horizontal.distance_wall = 9999999.0;
+			//map->player.ray_horizontal.length_case_x += map->player.ray_horizontal.distance_x;
+			//map->player.ray_horizontal.length_case_y += map->player.ray_horizontal.distance_y;
 			map->player.ray_horizontal.is_wall = 1;
+			break;
 		}
-		else if (map->player.ray_horizontal.length_case_x < 0.0)
+		printf("hor_x=%f y=%f\n", map->player.ray_horizontal.length_case_x, map->player.ray_horizontal.length_case_y);
+		printf("c=%c\n", map->lines[(int)floor(floor(map->player.ray_horizontal.length_case_y) / square)][(int)floor(floor(map->player.ray_horizontal.length_case_x) / square)]);
+		if (map->lines[(int)floor(floor(map->player.ray_horizontal.length_case_y) / square)][(int)floor(floor(map->player.ray_horizontal.length_case_x) / square)] == '1')
 		{
-			map->player.ray_horizontal.is_wall = 1;
-			map->player.ray_horizontal.length_case_x = max_case(map->lines[(int)floor(map->player.ray_horizontal.length_case_y / square)]) * square;
-		}
-		else if (map->lines[(int)floor(map->player.ray_horizontal.length_case_y / square)][(int)floor(map->player.ray_horizontal.length_case_x / square)] != '0')
-		{
+			map->player.ray_horizontal.distance_wall = sqrt(pow(map->player.ray_horizontal.pos_x - map->player.ray_horizontal.length_case_x, 2)
+					+ pow(map->player.ray_horizontal.pos_y - map->player.ray_horizontal.length_case_y, 2));
 			map->player.ray_horizontal.is_wall = 1;
 		}
 		else
@@ -306,9 +354,12 @@ size_t	max_lines(t_map *map)
 	size_t i;
 
 	i = 0;
-	while (map->lines[i])
+	if (map->lines)
 	{
-		i++;
+		while (map->lines[i])
+		{
+			i++;
+		}
 	}
 	return (i);
 }
@@ -340,21 +391,29 @@ void	raycast(t_map *map)
 	map->player.degree += 30.0;
 	add_degree = 60.0 / map->res_x;
 	correct_degree = -30.0;
-	//while (map->res_x > x)
-	while (150 > x)
+	//while (240 > x)
+	while (map->res_x > x)
 	{
 		if (compare_equal(map->player.degree, 0.0) || compare_equal(map->player.degree, 90.0)
 				|| compare_equal(map->player.degree, 180.0) || compare_equal(map->player.degree, 270.0))
 		{
 			map->player.degree = map->player.degree + 0.000001;
 		}
+		map->player.ray_horizontal.distance_wall = 0;
+		map->player.ray_vertical.distance_wall = 0;
 		map->player.degree = correct_distance(map->player.degree);
-		horizontal_detection(map);
+		horizontal_detection(map, number_lines);
 		vertical_detection(map, number_lines);
-		map->player.ray_horizontal.distance_wall = sqrt(pow(map->player.ray_horizontal.pos_x - map->player.ray_horizontal.length_case_x, 2)
-				+ pow(map->player.ray_horizontal.pos_y - map->player.ray_horizontal.length_case_y, 2));
-		map->player.ray_vertical.distance_wall = sqrt(pow(map->player.ray_vertical.pos_x - map->player.ray_vertical.length_case_x, 2)
-				+ pow(map->player.ray_vertical.pos_y - map->player.ray_vertical.length_case_y, 2));
+		//if (compare_equal(map->player.ray_horizontal.distance_wall, 0.0))
+		//{
+			//map->player.ray_horizontal.distance_wall = sqrt(pow(map->player.ray_horizontal.pos_x - map->player.ray_horizontal.length_case_x, 2)
+			//		+ pow(map->player.ray_horizontal.pos_y - map->player.ray_horizontal.length_case_y, 2));
+		//}
+		//if (compare_equal(map->player.ray_vertical.distance_wall, 0.0))
+		//{
+			//map->player.ray_vertical.distance_wall = sqrt(pow(map->player.ray_vertical.pos_x - map->player.ray_vertical.length_case_x, 2)
+			//		+ pow(map->player.ray_vertical.pos_y - map->player.ray_vertical.length_case_y, 2));
+		//}
 		/*map->player.ray_horizontal.distance_wall = sqrt(((map->player.ray_horizontal.pos_x - map->player.ray_horizontal.length_case_x)
 				* (map->player.ray_horizontal.pos_x - map->player.ray_horizontal.length_case_x))
 				+ ((map->player.ray_horizontal.pos_y - map->player.ray_horizontal.length_case_y)
@@ -368,6 +427,9 @@ void	raycast(t_map *map)
 			map->player.distance_wall = map->player.ray_horizontal.distance_wall;
 		else
 			map->player.distance_wall = map->player.ray_vertical.distance_wall;
+		printf("distance_horizontal_wall=%f\n", map->player.ray_horizontal.distance_wall);
+		printf("distance_vertical_wall=%f\n", map->player.ray_vertical.distance_wall);
+		printf("distance_wall=%f\n", map->player.distance_wall);
 		map->player.distance_wall = map->player.distance_wall * cos(degree_to_radian(correct_degree));
 		map->player.slice_height = square_size * 277 / map->player.distance_wall;
 		map->player.bottom_wall = (map->res_y / 2) + floor(map->player.slice_height /2);
@@ -380,5 +442,6 @@ void	raycast(t_map *map)
 		map->player.degree -= add_degree;
 		correct_degree += add_degree;
 		x++;
+		printf("degree=%f\n", map->player.degree);
 	}
 }
