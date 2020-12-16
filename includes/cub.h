@@ -49,6 +49,7 @@ typedef struct		s_player
 	double		perpendicular_distance;
 	double		distance_wall;
 	double		degree;
+	double		degree_raycast;
 	int		slice_height;
 	int		step_x;
 	int		step_y;
@@ -137,6 +138,7 @@ int		check_valid_character(t_map *map);
 int	is_other(char c);
 int	is_tab(char c);
 int		is_space(char c);
+void	ft_swap(void *a, void *b);
 /* CLOSE */
 int	close_program(t_map *map, char *message, int msg_number);
 int	close_program_ok(t_map *map, char *message, int msg_number);
@@ -145,8 +147,15 @@ void	clear_array(t_map *map);
 void	clear_array_two(t_map *map);
 /** RAYCASTER **/
 void	raycast(t_map *map);
+int	start_ray_direction(t_map *map);
 //void	camera_wall(t_map *map);
 /** RAYCASTER MOVEMENT **/
 int	move_camera_lr(int keycode, void *param);
+
+
+
+void	black_pixel(t_map *map, int x, unsigned int line_bytes, int bpp, int colour);
+unsigned int	black_colour(t_map *map);
+double	correct_distance(double value);
 
 #endif

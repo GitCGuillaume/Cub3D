@@ -14,6 +14,7 @@ void	init_player(t_map *map)
 	map->player.side_ray_y = 0;
 	map->player.side_ray = 0;
 	map->player.degree = 0;
+	map->player.degree_raycast = 0;
 	map->player.ray_horizontal.length_case_x = 0;
 	map->player.ray_horizontal.length_case_y = 0;
 	map->player.perpendicular_distance = 0;
@@ -21,7 +22,6 @@ void	init_player(t_map *map)
 	map->player.ray_vertical.is_wall = 0;
 	map->player.bottom_wall = 0;
 	map->player.height_wall = 0;
-	map->player.rotation_lr = 0;
 }
 
 int	close_program_key(int keycode, void *param, char *message, int msg_number)
@@ -73,18 +73,41 @@ int	search_player(t_map *map, char **lines, int i)
 #include <stdio.h>
 int	control_player(int keycode, void *param)
 {
-	t_map *command;
+	t_map *map;
 
-	command = (t_map *)param;
-	printf("key=%d ", keycode);
+	map = (t_map *)param;
+	//printf("key=%d ", keycode);
 	if (keycode == 'w')
-		command->player.pos_y -= 1;
+	{
+		black_pixel(map, map->res_x, map->image[0].line_bytes, map->image[0].bpp, black_colour(map));
+		map->player.pos_y -= 0.2;
+	}
 	else if (keycode == 115)
-		command->player.pos_y += 1;
+	{
+		black_pixel(map, map->res_x, map->image[0].line_bytes, map->image[0].bpp, black_colour(map));
+		map->player.pos_y += 0.2;
+	}
 	else if (keycode == 97)
-		command->player.pos_x -= 1;
+	{
+		black_pixel(map, map->res_x, map->image[0].line_bytes, map->image[0].bpp, black_colour(map));
+		map->player.pos_x -= 0.2;
+	}
 	else if (keycode == 100)
-		command->player.pos_x += 1;
+	{
+		black_pixel(map, map->res_x, map->image[0].line_bytes, map->image[0].bpp, black_colour(map));
+		map->player.pos_x += 0.2;
+	}
+	else if (keycode == 65361)
+	{
+		printf("degree=%f ", map->player.degree_raycast);
+		black_pixel(map, map->res_x, map->image[0].line_bytes, map->image[0].bpp, black_colour(map));
+		map->player.degree_raycast = correct_distance(map->player.degree_raycast + 2.0);
+	}
+	else if (keycode == 65363)
+	{
+		black_pixel(map, map->res_x, map->image[0].line_bytes, map->image[0].bpp, black_colour(map));
+		map->player.degree_raycast = correct_distance(map->player.degree_raycast) - 2.0;
+	}
 	else if (keycode == 65307)
 		close_program_key(keycode, param, "Closed OK.\n", 1);
 	return (0);
