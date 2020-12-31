@@ -15,12 +15,12 @@ int	start_ray_direction(t_map *map)
 {
 	if (map->player.start_position == 'N')
 	{
-		map->player.degree_raycast = 90 + 30;
+		map->player.degree_raycast = 90;
 		return (1);
 	}
 	else if (map->player.start_position == 'S')
 	{
-		map->player.degree_raycast = 270 - 30;
+		map->player.degree_raycast = 270;
 		return (1);
 	}
 	else if (map->player.start_position == 'E')
@@ -30,7 +30,7 @@ int	start_ray_direction(t_map *map)
 	}
 	else if (map->player.start_position == 'W')
 	{
-		map->player.degree_raycast = 180 - 30;
+		map->player.degree_raycast = 180;
 		return (1);
 	}
 	return (0);
@@ -71,8 +71,8 @@ void	vertical_detection(t_map *map, int number_lines)
 	}
 	map->player.ray_vertical.pos_y = square_size * (map->player.pos_y + 1);
 	map->player.ray_vertical.pos_x = (map->player.pos_x + 1) * square_size;
-	map->player.ray_vertical.pos_y -=32;
-	map->player.ray_vertical.pos_x -=32;
+	map->player.ray_vertical.pos_y -= square_size - 1;
+	map->player.ray_vertical.pos_x -= square_size - 1;
 	/** GET HIGHEST Y side of the case from current position **/
 	if (map->player.degree > 90.0 && map->player.degree < 270.0)
 		map->player.ray_vertical.length_case_x = floor(floor(map->player.ray_vertical.pos_x) / square_size) * square_size - 1;
@@ -89,20 +89,23 @@ void	vertical_detection(t_map *map, int number_lines)
 	map->player.ray_vertical.distance_y = map->player.ray_vertical.distance_x * radian;
 	map->player.ray_vertical.distance_y = -map->player.ray_vertical.distance_y;
 	map->player.ray_vertical.is_wall = 0;
+	//if (map->player.ray_vertical.length_case_x < 0.0
+	//			|| (map->player.ray_vertical.length_case_x / square) 
+	//			>= max_case(map->lines[(int)floor(floor(map->player.ray_vertical.length_case_y) / square)]))
+	//	{
 	while (map->player.ray_vertical.is_wall == 0)
 	{
 		if (map->player.ray_vertical.length_case_y < 0.0
+				|| map->player.ray_vertical.length_case_x < 0.0
 				|| (int)floor(floor(map->player.ray_vertical.length_case_y) / square)
-				>= number_lines)
-		{
-			map->player.ray_vertical.length_case_y += map->player.ray_vertical.distance_y;
-			map->player.ray_vertical.is_wall = 1;
-		}
-		else if (map->player.ray_vertical.length_case_x < 0.0
+				>= number_lines
 				|| (map->player.ray_vertical.length_case_x / square) 
 				>= max_case(map->lines[(int)floor(floor(map->player.ray_vertical.length_case_y) / square)]))
 		{
+			/*map->player.ray_vertical.length_case_y += map->player.ray_vertical.distance_y;
+			map->player.ray_vertical.is_wall = 1;
 			map->player.ray_vertical.length_case_x += map->player.ray_vertical.distance_x;
+			*/
 			map->player.ray_vertical.is_wall = 1;
 		}
 		if (map->player.ray_vertical.is_wall == 1 || map->lines[(int)floor(map->player.ray_vertical.length_case_y) / square][(int)floor(map->player.ray_vertical.length_case_x) / square] == '1')
@@ -136,8 +139,8 @@ void	horizontal_detection(t_map *map, int number_lines)
 	map->player.ray_horizontal.distance_y = square_size;
 	map->player.ray_horizontal.pos_y = square_size * (map->player.pos_y + 1);
 	map->player.ray_horizontal.pos_x = (map->player.pos_x + 1) * square_size;
-	map->player.ray_horizontal.pos_y -=32;
-	map->player.ray_horizontal.pos_x -=32;
+	map->player.ray_horizontal.pos_y -= square_size - 1;
+	map->player.ray_horizontal.pos_x -= square_size - 1;
 	/** GET HIGHEST Y side of the case from current position **/
 	if (map->player.degree > 0.0 && map->player.degree < 180.0)
 		map->player.ray_horizontal.length_case_y = floor(floor(map->player.ray_horizontal.pos_y) / square_size) * square_size - 1;
@@ -175,18 +178,19 @@ void	horizontal_detection(t_map *map, int number_lines)
 			map->player.ray_horizontal.is_wall = 1;
 			break;
 		}*/
+		//if (map->player.ray_horizontal.length_case_x < 0.0
+		//		|| (map->player.ray_horizontal.length_case_x / square)
+		//		> max_case(map->lines[(int)floor(floor(map->player.ray_horizontal.length_case_y) / square)]))
+		//{
 		if (map->player.ray_horizontal.length_case_y < 0.0
+				|| map->player.ray_horizontal.length_case_x < 0.0
 				|| (int)floor(floor(map->player.ray_horizontal.length_case_y) / square)
-				> number_lines)
-		{
-			map->player.ray_horizontal.length_case_y += map->player.ray_horizontal.distance_y;
-			map->player.ray_horizontal.is_wall = 1;
-		}
-		else if (map->player.ray_horizontal.length_case_x < 0.0
+				> number_lines
 				|| (map->player.ray_horizontal.length_case_x / square)
 				> max_case(map->lines[(int)floor(floor(map->player.ray_horizontal.length_case_y) / square)]))
 		{
-			map->player.ray_horizontal.length_case_x += map->player.ray_horizontal.distance_x;
+			//map->player.ray_horizontal.length_case_y += map->player.ray_horizontal.distance_y;
+			//map->player.ray_horizontal.length_case_x += map->player.ray_horizontal.distance_x;
 			map->player.ray_horizontal.is_wall = 1;
 		}
 		if (map->player.ray_horizontal.is_wall == 1 || map->lines[(int)floor(floor(map->player.ray_horizontal.length_case_y) / square)][(int)floor(floor(map->player.ray_horizontal.length_case_x) / square)] == '1')
@@ -237,7 +241,7 @@ void	raycast(t_map *map)
 	double	correct_degree;
 	size_t	number_lines;
 
-	map->player.degree = map->player.degree_raycast;
+	map->player.degree = correct_distance(map->player.degree_raycast + 30);
 	square_size = map->res_x / 5;
 	number_lines = max_lines(map);
 	x = 0;
@@ -278,8 +282,10 @@ void	raycast(t_map *map)
 			map->player.distance_wall = map->player.ray_horizontal.distance_wall;
 		else
 			map->player.distance_wall = map->player.ray_vertical.distance_wall;
+		if (map->player.distance_wall < 0.0 || compare_equal(map->player.distance_wall, 0.0))
+			map->player.distance_wall = 0.000001;
 		map->player.distance_wall = map->player.distance_wall * cos(degree_to_radian(correct_degree));
-		map->player.slice_height = square_size * 277 / map->player.distance_wall;
+		map->player.slice_height = square_size * ((map->res_x / 2) / tan(0.523599)) / map->player.distance_wall;
 		map->player.bottom_wall = (map->res_y / 2) + floor(map->player.slice_height /2);
 		if (map->player.bottom_wall > map->res_y)
 				map->player.bottom_wall = map->res_y-1;

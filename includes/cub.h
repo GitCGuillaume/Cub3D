@@ -157,5 +157,6 @@ int	move_camera_lr(int keycode, void *param);
 void	black_pixel(t_map *map, int x, unsigned int line_bytes, int bpp, int colour);
 unsigned int	black_colour(t_map *map);
 double	correct_distance(double value);
+double	degree_to_radian(double degree);
 
 #endif

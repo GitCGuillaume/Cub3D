@@ -73,42 +73,59 @@ int	search_player(t_map *map, char **lines, int i)
 #include <stdio.h>
 int	control_player(int keycode, void *param)
 {
-	t_map *map;
+	t_map	*map;
+	char	pos_character;
+	double	check_pos_y;
+	double	check_pos_x;
 
 	map = (t_map *)param;
-	//printf("key=%d ", keycode);
+	check_pos_y = map->player.pos_y;
+	check_pos_x = map->player.pos_x;
+	printf("keycode=%d ", keycode);
 	if (keycode == 'w')
 	{
 		black_pixel(map, map->res_x, map->image[0].line_bytes, map->image[0].bpp, black_colour(map));
-		map->player.pos_y -= 0.2;
+		if (map->lines[(int)(check_pos_y - sin(degree_to_radian(map->player.degree_raycast)) * 0.1)][(int)check_pos_x] != '1')
+			map->player.pos_y -= sin(degree_to_radian(map->player.degree_raycast)) * 0.1;
+		if (map->lines[(int)check_pos_y][(int)(check_pos_x + cos(degree_to_radian(map->player.degree_raycast)) * 0.1)] != '1')
+			map->player.pos_x += cos(degree_to_radian(map->player.degree_raycast)) * 0.1;
 	}
-	else if (keycode == 115)
+	if (keycode == 115)
 	{
 		black_pixel(map, map->res_x, map->image[0].line_bytes, map->image[0].bpp, black_colour(map));
-		map->player.pos_y += 0.2;
+		if (map->lines[(int)(check_pos_y + sin(degree_to_radian(map->player.degree_raycast)) * 0.1)][(int)check_pos_x] != '1')
+			map->player.pos_y += sin(degree_to_radian(map->player.degree_raycast)) * 0.1;
+		if (map->lines[(int)check_pos_y][(int)(check_pos_x - cos(degree_to_radian(map->player.degree_raycast)) * 0.1)] != '1')
+			map->player.pos_x -= cos(degree_to_radian(map->player.degree_raycast)) * 0.1;
 	}
 	else if (keycode == 97)
 	{
 		black_pixel(map, map->res_x, map->image[0].line_bytes, map->image[0].bpp, black_colour(map));
-		map->player.pos_x -= 0.2;
+		if (map->lines[(int)check_pos_y][(int)(check_pos_x - sin(degree_to_radian(map->player.degree_raycast)) * 0.1)] != '1')
+			map->player.pos_x -= sin(degree_to_radian(map->player.degree_raycast)) * 0.1;
+		if (map->lines[(int)(check_pos_y - cos(degree_to_radian(map->player.degree_raycast)) * 0.1)][(int)check_pos_x] != '1')
+			map->player.pos_y -= cos(degree_to_radian(map->player.degree_raycast)) * 0.1;
 	}
 	else if (keycode == 100)
 	{
 		black_pixel(map, map->res_x, map->image[0].line_bytes, map->image[0].bpp, black_colour(map));
-		map->player.pos_x += 0.2;
+		if (map->lines[(int)check_pos_y][(int)(check_pos_x + sin(degree_to_radian(map->player.degree_raycast)) * 0.1)] != '1')
+			map->player.pos_x += sin(degree_to_radian(map->player.degree_raycast)) * 0.1;
+		if (map->lines[(int)(check_pos_y + cos(degree_to_radian(map->player.degree_raycast)) * 0.1)][(int)check_pos_x] != '1')
+			map->player.pos_y += cos(degree_to_radian(map->player.degree_raycast)) * 0.1;
+
 	}
 	else if (keycode == 65361)
 	{
-		printf("degree=%f ", map->player.degree_raycast);
 		black_pixel(map, map->res_x, map->image[0].line_bytes, map->image[0].bpp, black_colour(map));
-		map->player.degree_raycast = correct_distance(map->player.degree_raycast + 2.0);
+		map->player.degree_raycast = correct_distance(map->player.degree_raycast) + 4.4;
 	}
 	else if (keycode == 65363)
 	{
 		black_pixel(map, map->res_x, map->image[0].line_bytes, map->image[0].bpp, black_colour(map));
-		map->player.degree_raycast = correct_distance(map->player.degree_raycast) - 2.0;
+		map->player.degree_raycast = correct_distance(map->player.degree_raycast) - 4.4;
 	}
-	else if (keycode == 65307)
+	if (keycode == 65307)
 		close_program_key(keycode, param, "Closed OK.\n", 1);
 	return (0);
 }
