@@ -102,10 +102,10 @@ void	vertical_detection(t_map *map, int number_lines)
 				|| (map->player.ray_vertical.length_case_x / square) 
 				>= max_case(map->lines[(int)floor(floor(map->player.ray_vertical.length_case_y) / square)]))
 		{
-			/*map->player.ray_vertical.length_case_y += map->player.ray_vertical.distance_y;
+			//map->player.ray_vertical.length_case_y += map->player.ray_vertical.distance_y;
 			map->player.ray_vertical.is_wall = 1;
-			map->player.ray_vertical.length_case_x += map->player.ray_vertical.distance_x;
-			*/
+			//map->player.ray_vertical.length_case_x += map->player.ray_vertical.distance_x;
+			
 			map->player.ray_vertical.is_wall = 1;
 		}
 		if (map->player.ray_vertical.is_wall == 1 || map->lines[(int)floor(map->player.ray_vertical.length_case_y) / square][(int)floor(map->player.ray_vertical.length_case_x) / square] == '1')
@@ -279,9 +279,17 @@ void	raycast(t_map *map)
 				* (map->player.ray_vertical.pos_y - map->player.ray_vertical.length_case_y)));
 		*/
 		if (map->player.ray_horizontal.distance_wall < map->player.ray_vertical.distance_wall)
+		{
+			free(map->colour[3]);
+			map->colour[3] = ft_strdup("220");
 			map->player.distance_wall = map->player.ray_horizontal.distance_wall;
+		}
 		else
+		{
+			free(map->colour[3]);
+			map->colour[3] = ft_strdup("20");
 			map->player.distance_wall = map->player.ray_vertical.distance_wall;
+		}
 		if (map->player.distance_wall < 0.0 || compare_equal(map->player.distance_wall, 0.0))
 			map->player.distance_wall = 0.000001;
 		map->player.distance_wall = map->player.distance_wall * cos(degree_to_radian(correct_degree));

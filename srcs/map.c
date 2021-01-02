@@ -49,6 +49,7 @@ int	initialization_map_struct(t_map *map)
 	map->sprite_path = NULL;
 	map->full_line = NULL;
 	map->lines = NULL;
+	map->lines_copy = NULL;
 	map->player_exist = 0;
 	map->image[0].mlx_image = 0;
 	map->image[1].mlx_image = 0;
@@ -137,9 +138,11 @@ int	initialization_map(t_map *map)
 	int	x;
 	int	y;
 int	endian = 0;
+	int	textures_exist;
 
 	x = ft_atoi(map->resolution[0]);
 	y = ft_atoi(map->resolution[1]);
+	textures_exist = 0;
 	if (!(map->mlx_ptr = mlx_init()))
 		return (-1);
 	if (!(mlx_get_screen_size(map->mlx_ptr, &map->x_tmp, &map->y_tmp)))
@@ -162,10 +165,16 @@ int	endian = 0;
 		return (-1);
 	map->image[0].mlx_get_data = mlx_get_data_addr(map->image[0].mlx_image,
 			&map->image[0].bpp, &map->image[0].line_bytes, &endian);
-	if (!(map->image[1].mlx_image = mlx_new_image(map->mlx_ptr, map->res_x, map->res_y)))
+	textures_exist = register_texture(map);
+	if (textures_exist == 0)
+	{
+		close_program(map, "Can't create textures image.\n", 2);
 		return (-1);
-	map->image[1].mlx_get_data = mlx_get_data_addr(map->image[1].mlx_image,
-			&map->image[1].bpp, &map->image[1].line_bytes, &endian);	
+	}
+	//if (!(map->image[1].mlx_image = mlx_new_image(map->mlx_ptr, map->res_x, map->res_y)))
+	//	return (-1);
+	//map->image[1].mlx_get_data = mlx_get_data_addr(map->image[1].mlx_image,
+	//		&map->image[1].bpp, &map->image[1].line_bytes, &endian);	
 	//put_pixel(map->image[0].mlx_get_data, 500, map->player.height_wall, map->image[0].line_bytes, map->image[0].bpp, manage_bit_colour_ceiling(map));
 
 	/*if (!(map->image[0].mlx_image = mlx_xpm_file_to_image(map->mlx_ptr, map->north_path, &map->image[0].height, &map->image[0].width)))

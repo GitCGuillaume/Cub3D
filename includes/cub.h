@@ -137,8 +137,9 @@ int		check_valid_character(t_map *map);
 /* UTILS */
 int	is_other(char c);
 int	is_tab(char c);
-int		is_space(char c);
+int	is_space(char c);
 void	ft_swap(void *a, void *b);
+int	register_texture(t_map *map);
 /* CLOSE */
 int	close_program(t_map *map, char *message, int msg_number);
 int	close_program_ok(t_map *map, char *message, int msg_number);
