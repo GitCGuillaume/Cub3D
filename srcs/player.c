@@ -81,7 +81,6 @@ int	control_player(int keycode, void *param)
 	map = (t_map *)param;
 	check_pos_y = map->player.pos_y;
 	check_pos_x = map->player.pos_x;
-	printf("keycode=%d ", keycode);
 	if (keycode == 'w')
 	{
 		black_pixel(map, map->res_x, map->image[0].line_bytes, map->image[0].bpp, black_colour(map));

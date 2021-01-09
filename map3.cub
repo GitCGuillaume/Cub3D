@@ -1,11 +1,14 @@
  R 304 201
-	NO  ./
-	SO ah
-  WE ./
-	EA ./
- 		F 255,1,10
+	NO  ./textures/purplestone.xpm
+	SO ./textures/purplestone.xpm
+
+  WE ./textures/purplestone.xpm
+
+	EA ./textures/purplestone.xpm
+
+ 		F 100,1,30
 S sprite_path
-C 100,0,0
+C 0,100,255
       
 10001121111
 11110111111

@@ -53,6 +53,7 @@ int	initialization_map_struct(t_map *map)
 	map->player_exist = 0;
 	map->image[0].mlx_image = 0;
 	map->image[1].mlx_image = 0;
+	map->player.offset_tex = 0.0;
 	return (1);
 }
 

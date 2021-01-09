@@ -1,4 +1,4 @@
-R 320 200
+R 740 725
 NO ./textures/purplestone.xpm
 SO textures/bluestone.xpm
 WE ./textures/colorstone.xpm
@@ -9,6 +9,6 @@ F 200,20,0
 
 11111111
 10000001
-10010001
-11000W01
-0111   1
+10010W01
+11000001
+01111111
