@@ -480,14 +480,14 @@ void	raycast(t_map *map)
 	while (nb_sprite > 0)
 	{
 		nb_sprite--;
-		//map->sprite[nb_sprite].distance = sqrt(pow(((square_size * (map->player.pos_y + 1.0)) - (double)map->sprite[nb_sprite].y)
-		//		+ ((square_size * (map->player.pos_x + 1.0)) - (double)map->sprite[nb_sprite].x), 2));
 		map->sprite[nb_sprite].degree = atan2(map->sprite[nb_sprite].y - (square_size * (map->player.pos_y + 1.0)), map->sprite[nb_sprite].x - (square_size * (map->player.pos_x + 1.0)));
 		// signe - car degree inverse
 		map->sprite[nb_sprite].degree = correct_distance(radian_to_degree(-map->sprite[nb_sprite].degree));
 		map->sprite[nb_sprite].degree = correct_distance(map->player.degree_raycast + 30.0 - map->sprite[nb_sprite].degree);
 		map->sprite[nb_sprite].x_sprite = map->sprite[nb_sprite].degree * map->res_x / 60.0;
-		printf("degree=%f x=%f\n ", map->sprite[nb_sprite].degree, map->sprite[0].x_sprite);
+		map->sprite[nb_sprite].distance = sqrt(pow((square_size * (map->player.pos_y + 1.0)) - (double)map->sprite[nb_sprite].y, 2)
+				+ pow((square_size * (map->player.pos_x + 1.0)) - (double)map->sprite[nb_sprite].x, 2));
+		printf("degree=%f x=%f distance=%f\n", map->sprite[nb_sprite].degree, map->sprite[nb_sprite].x_sprite, map->sprite[nb_sprite].distance);
 	}
 	int z = 0;
 	while (map->res_x > z)
