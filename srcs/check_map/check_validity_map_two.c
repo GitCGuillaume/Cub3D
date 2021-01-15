@@ -22,7 +22,7 @@ int	check_indicator_full(t_map *map)
 	return (i);
 }
 
-int	check_first_character(t_map *map)
+unsigned int	check_first_character(t_map *map)
 {
 	unsigned int	i;
 
@@ -59,6 +59,25 @@ static int	case_is_false(char *line, unsigned int j)
 	return (0);
 }
 
+static unsigned int	check_character(t_map *map, char *character)
+{
+	unsigned int	j;
+
+	j = 0;
+	while (character[j] != '\0' &&
+			(character[j] == '0' || character[j] == '1'
+			|| character[j] == '2' || character[j] == 'N'
+			|| character[j] == 'S' || character[j] == 'E'
+			|| character[j] == 'W' || is_space(character[j])
+			|| character[j] == ' '))
+	{
+		if (character[j] == '2')
+			map->nb_sprite = map->nb_sprite + 1;
+		j++;
+	}
+	return (j);
+}
+
 int	check_valid_character(t_map *map)
 {
 	unsigned int	i;
@@ -71,14 +90,7 @@ int	check_valid_character(t_map *map)
 	{
 		while (map->lines[i])
 		{
-			j = 0;
-			while (map->lines[i][j] != '\0' &&
-				(map->lines[i][j] == '0' || map->lines[i][j] == '1'
-				|| map->lines[i][j] == '2' || map->lines[i][j] == 'N'
-				|| map->lines[i][j] == 'S' || map->lines[i][j] == 'E'
-				|| map->lines[i][j] == 'W' || is_space(map->lines[i][j])
-				|| map->lines[i][j] == ' '))
-				j++;
+			j = check_character(map, map->lines[i]);
 			if (case_is_false(map->lines[i], j) == 1)
 				close_program_gnl(map, "Bad character in map game.\n", 2);
 			i++;

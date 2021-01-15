@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../../includes/libft.h"
 
-t_list	*ft_lstlast(t_list *lst)
+t_image	*ft_lstlast(t_image *lst)
 {
 	if (lst != NULL)
 	{

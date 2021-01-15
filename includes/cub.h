@@ -10,6 +10,9 @@
 # include "../minilibx-linux/mlx.h"
 
 # define KEYPRESS 2
+# define KEYRELEASE 3
+# define KEYPRESS_MASK 1L << 0
+# define KEYRELEASE_MASK 1L << 1
 
 typedef struct		s_ray
 {
@@ -62,15 +65,35 @@ typedef struct		s_player
 	t_ray		ray_vertical;
 }		t_player;
 
-typedef struct		t_image
+typedef struct		s_image
 {
-	void	*mlx_image;
-	char	*mlx_get_data;
-	int	width;
-	int	height;
-	int	line_bytes;
-	int	bpp;
+	int		id;
+	void		*mlx_image;
+	char		*mlx_get_data;
+	int		width;
+	int		height;
+	int		line_bytes;
+	int		bpp;
+
 }		t_image;
+
+typedef struct s_control
+{
+	int	forward;
+	int	backward;
+	int	ss_left;
+	int	ss_right;
+	int	t_left;
+	int	t_right;
+}		t_control;
+
+typedef struct	s_sprite
+{
+	double	x_sprite;
+	double	degree;
+	int	x;
+	int	y;
+}		t_sprite;
 
 typedef struct	s_map
 {
@@ -80,6 +103,7 @@ typedef struct	s_map
 	unsigned short	is_south;
 	unsigned short	is_sprite;
 	unsigned short	is_resolution;
+	unsigned int	nb_sprite;
 	int		colour_counter;
 	int		player_exist;
 	int		ceiling_colour;
@@ -97,8 +121,10 @@ typedef struct	s_map
 	char		*mlx_get_data;
 	void		*mlx_ptr;
 	void		*mlx_window;
-	t_image		image[5];
+	t_image		image[6];
 	t_player	player;
+	t_control	*control;
+	t_sprite	*sprite;
 	int	x_tmp;
 	int	y_tmp;
 	int	res_x;
@@ -111,14 +137,16 @@ typedef struct	s_map
 void	init_player(t_map *map);
 int	close_program_key(int keycode, void *param, char *message, int msg_number);
 int	search_player(t_map *map, char **lines, int i);
-int	control_player(int keycode, void *param);
+int	control_press(int keycode, void *param);
+int	control_release(int keycode, void *param);
+int	control_player(void *param);
 /* MAP */
 void	put_pixel(t_map *map, int x, unsigned int line_bytes, int bpp, int colour);
 int	initialization_map(t_map *map);
 int	initialization_map_struct(t_map *map);
 /* COLOUR */
 unsigned int	manage_bit_colour_floor(t_map *map);
-unsigned int	manage_bit_colour_ceiling(t_map *map);
+unsigned int	manage_bit_colour_ceil(t_map *map);
 /* PARSE MAP FILE */
 char	*get_line_fd(t_map *map, int fd);
 int	parse_line_fd(t_map *map);
@@ -132,7 +160,7 @@ void	find_texture_two(char *line, unsigned int *i, unsigned int old_i, t_map *ma
 void	find_texture_three(char *line, unsigned int i, t_map *map);
 /* CHECK VALIDITY MAP */
 int	check_indicator_full(t_map *map);
-int	check_first_character(t_map *map);
+unsigned int	check_first_character(t_map *map);
 int		check_validity_map(t_map *map);
 int		check_valid_character(t_map *map);
 /* UTILS */
@@ -153,8 +181,10 @@ int	start_ray_direction(t_map *map);
 //void	camera_wall(t_map *map);
 /** RAYCASTER MOVEMENT **/
 int	move_camera_lr(int keycode, void *param);
+t_image			*ft_lstlast(t_image *lst);
 
-
+/** SPRITE **/
+int	find_sprite(t_map *map);
 
 void	black_pixel(t_map *map, int x, unsigned int line_bytes, int bpp, int colour);
 unsigned int	black_colour(t_map *map);

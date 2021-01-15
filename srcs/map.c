@@ -26,9 +26,21 @@ int	init_map_struct_two(t_map *map)
 	return (1);
 }
 
+void	init_keymap(t_control *control)
+{
+	control->forward = 0;
+	control->backward = 0;
+	control->ss_left = 0;
+	control->ss_right = 0;
+	control->t_left = 0;
+	control->t_right = 0;
+}
+
 int	initialization_map_struct(t_map *map)
 {
 	int	init;
+	t_image	lst;
+	t_control control;
 
 	init = init_map_struct_two(map);
 	if (init == 0)
@@ -51,9 +63,11 @@ int	initialization_map_struct(t_map *map)
 	map->lines = NULL;
 	map->lines_copy = NULL;
 	map->player_exist = 0;
-	map->image[0].mlx_image = 0;
-	map->image[1].mlx_image = 0;
 	map->player.offset_tex = 0.0;
+	map->nb_sprite = 0;
+	map->sprite = 0;
+	map->control = &control;
+	init_keymap(map->control);
 	return (1);
 }
 
@@ -115,22 +129,23 @@ int	render_map(void *param)
 	bpp = 32;
 	endian = 0;
 	map = (t_map *)param;
+	control_player((void *)map);
 	//put_pixel(map->mlx_get_data, map->player.pos_x,
 	//		map->player.pos_y, line_bytes, bpp, manage_bit_colour_ceiling(map));
 	//camera_wall(map);
 	//exit(0);
-	/*if (map->image[0].mlx_image)
+	if (map->image[0].mlx_image)
 		mlx_destroy_image(map->mlx_ptr, map->image[0].mlx_image);
 	if (!(map->image[0].mlx_image = mlx_new_image(map->mlx_ptr, map->res_x, map->res_y)))
 		return (-1);
 	map->image[0].mlx_get_data = mlx_get_data_addr(map->image[0].mlx_image,
 			&map->image[0].bpp, &map->image[0].line_bytes, &endian);
-	*/
+	
 	raycast(map);
 	mlx_put_image_to_window(map->mlx_ptr,
-			map->mlx_window, map->image[0].mlx_image, 0, 0);	
-	ft_swap(map->image[0].mlx_image, map->image[1].mlx_image);
-	ft_swap(map->image[0].mlx_get_data, map->image[1].mlx_get_data);
+			map->mlx_window, map->image->mlx_image, 0, 0);	
+	//ft_swap(map->image[0].mlx_image, map->image[1].mlx_image);
+	//ft_swap(map->image[0].mlx_get_data, map->image[1].mlx_get_data);
 	return (0);
 }
 
@@ -140,7 +155,6 @@ int	initialization_map(t_map *map)
 	int	y;
 int	endian = 0;
 	int	textures_exist;
-
 	x = ft_atoi(map->resolution[0]);
 	y = ft_atoi(map->resolution[1]);
 	textures_exist = 0;
@@ -160,9 +174,11 @@ int	endian = 0;
 	}
 	//camera_wall(map);
 	printf("north_path=%s\n", map->north_path);
+printf("p=%p ", map->image);
+printf("p=%p ", map->image);
 	if (!(map->mlx_window = mlx_new_window(map->mlx_ptr, map->res_x, map->res_y, "Cub3D")))
 		return (-1);	
-	if (!(map->image[0].mlx_image = mlx_new_image(map->mlx_ptr, map->res_x, map->res_y)))
+	if (!(map[0].image->mlx_image = mlx_new_image(map->mlx_ptr, map->res_x, map->res_y)))
 		return (-1);
 	map->image[0].mlx_get_data = mlx_get_data_addr(map->image[0].mlx_image,
 			&map->image[0].bpp, &map->image[0].line_bytes, &endian);
@@ -172,6 +188,11 @@ int	endian = 0;
 		close_program(map, "Can't create textures image.\n", 2);
 		return (-1);
 	}
+	map->sprite = malloc(sizeof(t_sprite) * map->nb_sprite);
+	if (map->sprite == NULL)
+		close_program(map, "Sprite memory allocation failed.\n", 2);
+	if (map->nb_sprite > 0)
+		find_sprite(map);
 	//if (!(map->image[1].mlx_image = mlx_new_image(map->mlx_ptr, map->res_x, map->res_y)))
 	//	return (-1);
 	//map->image[1].mlx_get_data = mlx_get_data_addr(map->image[1].mlx_image,
@@ -212,11 +233,14 @@ while (20 > j)
 	//printf("line_bytes=%d\n", map->image[0].line_bytes);
 	//printf("bpp=%d\n", map->image[0].bpp);
 	if (!(start_ray_direction(map)))
-		exit(0);
+		return (-1);
 	map->player.degree += 30.0;
-	mlx_hook(map->mlx_window, KEYPRESS, 1L << 0, control_player, (void *)map);
+	mlx_hook(map->mlx_window, KEYPRESS, KEYPRESS_MASK, control_press, (void *)map);
+	mlx_hook(map->mlx_window, KEYRELEASE, KEYRELEASE_MASK, control_release, (void *)map->control);
+	//mlx_hook(map->mlx_window, KEYPRESS, KEYPRESS_MASK, control_player, (void *)map);
 	//if (map->image[0].mlx_image)
 	//	mlx_destroy_image(map->mlx_ptr, map->image[0].mlx_image);
+	//mlx_loop_hook(map->mlx_ptr, &control_player, (void *)map);
 	mlx_loop_hook(map->mlx_ptr, &render_map, (void *)map);
 	mlx_hook(map->mlx_window, 33, 1L << 17, close_program, (void *)map);
 	mlx_loop(map->mlx_ptr);

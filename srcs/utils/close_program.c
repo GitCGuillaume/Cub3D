@@ -93,9 +93,20 @@ int	close_program_ok(t_map *map, char *message, int msg_number)
 		mlx_destroy_window(map->mlx_ptr, map->mlx_window);
 	if (map->image[0].mlx_image)
 		mlx_destroy_image(map->mlx_ptr, map->image[0].mlx_image);
+	if (map->image[1].mlx_image)
+		mlx_destroy_image(map->mlx_ptr, map->image[1].mlx_image);
+	if (map->image[2].mlx_image)
+		mlx_destroy_image(map->mlx_ptr, map->image[2].mlx_image);
+	if (map->image[3].mlx_image)
+		mlx_destroy_image(map->mlx_ptr, map->image[3].mlx_image);
+	if (map->image[4].mlx_image)
+		mlx_destroy_image(map->mlx_ptr, map->image[4].mlx_image);
+	if (map->image[5].mlx_image)
+		mlx_destroy_image(map->mlx_ptr, map->image[5].mlx_image);
 	free(map->mlx_ptr);
 	clear_array(map);
 	clear_array_two(map);
+	free(map->sprite);
 	if (map->north_path)
 		free(map->north_path);
 	if (map->east_path)

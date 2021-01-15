@@ -57,7 +57,7 @@ int	search_player(t_map *map, char **lines, int i)
 				{
 					map->player_exist++;
 					map->player.pos_y = (double)i;
-					map->player.pos_x = (double)j;
+					map->player.pos_x = (double)j + 0.4;
 					map->player.fill_y = i;
 					map->player.fill_x = j;
 				}
@@ -71,7 +71,50 @@ int	search_player(t_map *map, char **lines, int i)
 	return (1);
 }
 #include <stdio.h>
-int	control_player(int keycode, void *param)
+
+int	control_press(int keycode, void *param)
+{
+	t_map		*map;
+
+	map = (t_map *)param;
+	if (keycode == 'w')
+		map->control->forward = 1;
+	if (keycode == 115)
+		map->control->backward = 1;
+	if (keycode == 97)
+		map->control->ss_left = 1;
+	if (keycode == 100)
+		map->control->ss_right = 1;
+	if (keycode == 65361)
+		map->control->t_left = 1;
+	if (keycode == 65363)
+		map->control->t_right = 1;
+	if (keycode == 65307)
+		close_program_key(keycode, map, "Closed OK.\n", 1);
+	return (0);
+}
+
+int	control_release(int keycode, void *param)
+{
+	t_control		*control;
+
+	control = (t_control *)param;
+	if (keycode == 'w')
+		control->forward = 0;
+	if (keycode == 115)
+		control->backward = 0;
+	if (keycode == 97)
+		control->ss_left = 0;
+	if (keycode == 100)
+		control->ss_right = 0;
+	if (keycode == 65361)
+		control->t_left = 0;
+	if (keycode == 65363)
+		control->t_right = 0;
+	return (0);
+}
+
+int	control_player(void *param)
 {
 	t_map	*map;
 	char	pos_character;
@@ -81,50 +124,51 @@ int	control_player(int keycode, void *param)
 	map = (t_map *)param;
 	check_pos_y = map->player.pos_y;
 	check_pos_x = map->player.pos_x;
-	if (keycode == 'w')
+	if (map->control->forward == 1)
 	{
-		black_pixel(map, map->res_x, map->image[0].line_bytes, map->image[0].bpp, black_colour(map));
-		if (map->lines[(int)(check_pos_y - sin(degree_to_radian(map->player.degree_raycast)) * 0.1)][(int)check_pos_x] != '1')
-			map->player.pos_y -= sin(degree_to_radian(map->player.degree_raycast)) * 0.1;
-		if (map->lines[(int)check_pos_y][(int)(check_pos_x + cos(degree_to_radian(map->player.degree_raycast)) * 0.1)] != '1')
-			map->player.pos_x += cos(degree_to_radian(map->player.degree_raycast)) * 0.1;
+		if (map->lines[(int)(check_pos_y - sin(degree_to_radian(map->player.degree_raycast)) * 0.35)][(int)check_pos_x] != ' '
+				&& map->lines[(int)(check_pos_y - sin(degree_to_radian(map->player.degree_raycast)) * 0.35)][(int)check_pos_x] != '1')
+			map->player.pos_y -= sin(degree_to_radian(map->player.degree_raycast)) * 0.05;
+		if (map->lines[(int)check_pos_y][(int)(check_pos_x + cos(degree_to_radian(map->player.degree_raycast)) * 0.35)] != ' '
+				&& map->lines[(int)check_pos_y][(int)(check_pos_x + cos(degree_to_radian(map->player.degree_raycast)) * 0.35)] != '1')
+			map->player.pos_x += cos(degree_to_radian(map->player.degree_raycast)) * 0.05;
 	}
-	if (keycode == 115)
+	if (map->control->backward == 1)
 	{
-		black_pixel(map, map->res_x, map->image[0].line_bytes, map->image[0].bpp, black_colour(map));
-		if (map->lines[(int)(check_pos_y + sin(degree_to_radian(map->player.degree_raycast)) * 0.1)][(int)check_pos_x] != '1')
-			map->player.pos_y += sin(degree_to_radian(map->player.degree_raycast)) * 0.1;
-		if (map->lines[(int)check_pos_y][(int)(check_pos_x - cos(degree_to_radian(map->player.degree_raycast)) * 0.1)] != '1')
-			map->player.pos_x -= cos(degree_to_radian(map->player.degree_raycast)) * 0.1;
+		if (map->lines[(int)(check_pos_y + sin(degree_to_radian(map->player.degree_raycast)) * 0.35)][(int)check_pos_x] != ' '
+				&& map->lines[(int)(check_pos_y + sin(degree_to_radian(map->player.degree_raycast)) * 0.35)][(int)check_pos_x] != '1')
+			map->player.pos_y += sin(degree_to_radian(map->player.degree_raycast)) * 0.05;
+		if (map->lines[(int)check_pos_y][(int)(check_pos_x - cos(degree_to_radian(map->player.degree_raycast)) * 0.35)] != ' '
+				&& map->lines[(int)check_pos_y][(int)(check_pos_x - cos(degree_to_radian(map->player.degree_raycast)) * 0.3)] != '1')
+			map->player.pos_x -= cos(degree_to_radian(map->player.degree_raycast)) * 0.05;
 	}
-	else if (keycode == 97)
+	if (map->control->ss_left == 1)
 	{
-		black_pixel(map, map->res_x, map->image[0].line_bytes, map->image[0].bpp, black_colour(map));
-		if (map->lines[(int)check_pos_y][(int)(check_pos_x - sin(degree_to_radian(map->player.degree_raycast)) * 0.1)] != '1')
-			map->player.pos_x -= sin(degree_to_radian(map->player.degree_raycast)) * 0.1;
-		if (map->lines[(int)(check_pos_y - cos(degree_to_radian(map->player.degree_raycast)) * 0.1)][(int)check_pos_x] != '1')
-			map->player.pos_y -= cos(degree_to_radian(map->player.degree_raycast)) * 0.1;
+		if (map->lines[(int)check_pos_y][(int)(check_pos_x - sin(degree_to_radian(map->player.degree_raycast)) * 0.35)] != ' '
+				&& map->lines[(int)check_pos_y][(int)(check_pos_x - sin(degree_to_radian(map->player.degree_raycast)) * 0.35)] != '1')
+			map->player.pos_x -= sin(degree_to_radian(map->player.degree_raycast)) * 0.05;
+		if (map->lines[(int)(check_pos_y - cos(degree_to_radian(map->player.degree_raycast)) * 0.35)][(int)check_pos_x] != ' '
+				&& map->lines[(int)(check_pos_y - cos(degree_to_radian(map->player.degree_raycast)) * 0.35)][(int)check_pos_x] != '1')
+			map->player.pos_y -= cos(degree_to_radian(map->player.degree_raycast)) * 0.05;
 	}
-	else if (keycode == 100)
+	if (map->control->ss_right == 1)
 	{
-		black_pixel(map, map->res_x, map->image[0].line_bytes, map->image[0].bpp, black_colour(map));
-		if (map->lines[(int)check_pos_y][(int)(check_pos_x + sin(degree_to_radian(map->player.degree_raycast)) * 0.1)] != '1')
-			map->player.pos_x += sin(degree_to_radian(map->player.degree_raycast)) * 0.1;
-		if (map->lines[(int)(check_pos_y + cos(degree_to_radian(map->player.degree_raycast)) * 0.1)][(int)check_pos_x] != '1')
-			map->player.pos_y += cos(degree_to_radian(map->player.degree_raycast)) * 0.1;
+		//black_pixel(map, map->res_x, map->image[0].line_bytes, map->image[0].bpp, black_colour(map));
+		if (map->lines[(int)check_pos_y][(int)(check_pos_x + sin(degree_to_radian(map->player.degree_raycast)) * 0.35)] != ' '
+				&& map->lines[(int)check_pos_y][(int)(check_pos_x + sin(degree_to_radian(map->player.degree_raycast)) * 0.3)] != '1')
+			map->player.pos_x += sin(degree_to_radian(map->player.degree_raycast)) * 0.05;
+		if (map->lines[(int)(check_pos_y + cos(degree_to_radian(map->player.degree_raycast)) * 0.35)][(int)check_pos_x] != ' '
+				&& map->lines[(int)(check_pos_y + cos(degree_to_radian(map->player.degree_raycast)) * 0.35)][(int)check_pos_x] != '1')
+			map->player.pos_y += cos(degree_to_radian(map->player.degree_raycast)) * 0.05;
 
 	}
-	else if (keycode == 65361)
+	if (map->control->t_left == 1)
 	{
-		black_pixel(map, map->res_x, map->image[0].line_bytes, map->image[0].bpp, black_colour(map));
-		map->player.degree_raycast = correct_distance(map->player.degree_raycast) + 4.4;
+		map->player.degree_raycast = correct_distance(map->player.degree_raycast) + 3.0;
 	}
-	else if (keycode == 65363)
+	else if (map->control->t_right == 1)
 	{
-		black_pixel(map, map->res_x, map->image[0].line_bytes, map->image[0].bpp, black_colour(map));
-		map->player.degree_raycast = correct_distance(map->player.degree_raycast) - 4.4;
+		map->player.degree_raycast = correct_distance(map->player.degree_raycast) - 3.0;
 	}
-	if (keycode == 65307)
-		close_program_key(keycode, param, "Closed OK.\n", 1);
 	return (0);
 }

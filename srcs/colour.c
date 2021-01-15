@@ -47,7 +47,7 @@ unsigned int	black_colour(t_map *map)
 	return (0);
 }
 
-unsigned int	manage_bit_colour_ceiling(t_map *map)
+unsigned int	manage_bit_colour_ceil(t_map *map)
 {
 	int colour;
 	int r;
