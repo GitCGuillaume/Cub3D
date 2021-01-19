@@ -20,7 +20,7 @@ int	find_sprite(t_map *map)
 				map->sprite[nb_sprite].x = ((j + 1) * map->res_x / 5);
 				map->sprite[nb_sprite].degree = 0;
 				map->sprite[nb_sprite].x_sprite = 0;
-				nb_sprite++;
+				map->sprite[nb_sprite++].distance = 0;
 			}
 			j++;
 		}

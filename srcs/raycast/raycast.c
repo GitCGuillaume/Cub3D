@@ -313,24 +313,63 @@ double distance = 0;
 	}
 }
 
-void	sprite_mapping(t_map *map, int x)
+void	sprite_mapping(t_map *map)
 {
 	int	i;
 	int	pixel;
+	int	width;
+	int	height;
+	int	bottom;
 
 	i = 0;
-	while (map->player.height_wall > i)
+	pixel = 0;
+	width = map->sprite[0].x_sprite - (64.0 / map->sprite[0].distance * ((map->res_x / 2) / tan(0.523599))) / 2.0;
+	//width = map->sprite[0].distance;
+	//height = (map->res_y / 2) - (32.0 / map->sprite[0].distance * ((map->res_x / 2) / tan(0.523599))) / 2.0;
+	bottom = (map->res_y / 2) + (64.0 / map->sprite[0].distance * ((map->res_x / 2) / tan(0.523599))) / 2.0;
+	//bottom = (map->res_y / 2) + (32.0 map->sprite[0].distance;
+	if (bottom > map->res_y)
+		bottom = map->res_y;
+	if (height < 0)
+		height = 0;
+	//if (width > map->res_x)
+	//	width = map->res_x;
+	if (width < 0)
+		width = 0;
+	//if (map->sprite[0].x_sprite > 0.0 && map->sprite[0].x_sprite < map->res_x + 1)
+	//{
+	while (map->sprite[0].x_sprite + (64.0 / map->sprite[0].distance * ((map->res_x / 2) / tan(0.523599))) / 2.0 > width) // * ((map->res_x / 2) / tan(0.523599)))/2.0 > width)
 	{
-		pixel = (i * map->image[0].line_bytes) + (x * 4);
-		map->image[0].mlx_get_data[pixel + 0]
-			= map->image[5].mlx_get_data[(((i%64) * map->image[5].line_bytes) + ((int)map->sprite[0].x_sprite/64)*4) + 0];
-		map->image[0].mlx_get_data[pixel + 1]
-			= map->image[5].mlx_get_data[(((i%64) * map->image[5].line_bytes) + ((int)map->sprite[0].x_sprite/64)*4) + 1];
-		map->image[0].mlx_get_data[pixel + 2]
-			= map->image[5].mlx_get_data[(((i%64) * map->image[5].line_bytes) + ((int)map->sprite[0].x_sprite/64)*4) + 2];
-		map->image[0].mlx_get_data[pixel + 3]
-			= map->image[5].mlx_get_data[(((i%64) * map->image[5].line_bytes) + ((int)map->sprite[0].x_sprite/64)*4) + 3];
-		i++;
+		height = (map->res_y / 2) - ((64.0 / map->sprite[0].distance * ((map->res_x / 2) / tan(0.523599))) / 2.0);
+		if (bottom > map->res_y)
+			bottom = map->res_y;
+		if (height < 0)
+			height = 0;
+	printf("width=%d height=%d bottom=%d\n", width, height, bottom);
+		while (bottom > height)
+		{
+		/*
+			pixel = (i * map->image[0].line_bytes) + (x * 4);
+			map->image[0].mlx_get_data[pixel + 0]
+				= map->image[5].mlx_get_data[(((i%64) * map->image[5].line_bytes) + (x_sprite_s)*4) + 0];
+			map->image[0].mlx_get_data[pixel + 1]
+				= map->image[5].mlx_get_data[(((i%64) * map->image[5].line_bytes) + (x_sprite_s)*4) + 1];
+			map->image[0].mlx_get_data[pixel + 2]
+				= map->image[5].mlx_get_data[(((i%64) * map->image[5].line_bytes) + (x_sprite_s)*4) + 2];
+			map->image[0].mlx_get_data[pixel + 3]
+				= map->image[5].mlx_get_data[(((i%64) * map->image[5].line_bytes) + (x_sprite_s)*4) + 3];
+		*/
+			pixel = (height * map->image[0].line_bytes) + (width * 4);
+			if (width <= map->res_x)
+			{
+			map->image[0].mlx_get_data[pixel + 0] = (manage_bit_colour_ceil(map)) & 0xFF;
+			map->image[0].mlx_get_data[pixel + 1] = (manage_bit_colour_ceil(map) >> 8) & 0xFF;
+			map->image[0].mlx_get_data[pixel + 2] = (manage_bit_colour_ceil(map) >> 16) & 0xFF;
+			map->image[0].mlx_get_data[pixel + 3] = (manage_bit_colour_ceil(map) >> 24) & 0xFF;	
+			}
+			height++;
+		}
+		width++;
 	}
 }
 
@@ -483,17 +522,17 @@ void	raycast(t_map *map)
 		map->sprite[nb_sprite].degree = atan2(map->sprite[nb_sprite].y - (square_size * (map->player.pos_y + 1.0)), map->sprite[nb_sprite].x - (square_size * (map->player.pos_x + 1.0)));
 		// signe - car degree inverse
 		map->sprite[nb_sprite].degree = correct_distance(radian_to_degree(-map->sprite[nb_sprite].degree));
-		map->sprite[nb_sprite].degree = correct_distance(map->player.degree_raycast + 30.0 - map->sprite[nb_sprite].degree);
-		map->sprite[nb_sprite].x_sprite = map->sprite[nb_sprite].degree * map->res_x / 60.0;
-		map->sprite[nb_sprite].distance = sqrt(pow((square_size * (map->player.pos_y + 1.0)) - (double)map->sprite[nb_sprite].y, 2)
-				+ pow((square_size * (map->player.pos_x + 1.0)) - (double)map->sprite[nb_sprite].x, 2));
-		printf("degree=%f x=%f distance=%f\n", map->sprite[nb_sprite].degree, map->sprite[nb_sprite].x_sprite, map->sprite[nb_sprite].distance);
+		map->sprite[nb_sprite].degree = correct_distance(map->player.degree_raycast + 30 - map->sprite[nb_sprite].degree);
+		map->sprite[nb_sprite].x_sprite = map->sprite[nb_sprite].degree * map->res_x / 60; //+ (map->res_x/60);
+		map->sprite[nb_sprite].distance = sqrt(pow((double)map->sprite[nb_sprite].y - (square_size * (map->player.pos_y + 1.0)), 2)
+				+ pow((double)map->sprite[nb_sprite].x - (square_size * (map->player.pos_x + 1.0)), 2));
+		printf("y=%dx=%ddegree=%f x=%f distance=%f\n", map->sprite[nb_sprite].y, map->sprite[nb_sprite].x, map->sprite[nb_sprite].degree, map->sprite[nb_sprite].x_sprite, map->sprite[nb_sprite].distance);
+		sprite_mapping(map);
 	}
-	int z = 0;
-	while (map->res_x > z)
-	{
-		sprite_mapping(map, z);
-		z++;
-	}
+	//while (map->res_x > z)
+	//{
+	//if (map->sprite[0].x_sprite >= 0 && map->sprite[0].x_sprite <= 360)
+	//	z++;
+//	}
 	free(z_buffer);
 }
