@@ -92,6 +92,7 @@ typedef struct	s_sprite
 	double	x_sprite;
 	double	degree;
 	double	distance;
+	double	size;
 	int	x;
 	int	y;
 }		t_sprite;

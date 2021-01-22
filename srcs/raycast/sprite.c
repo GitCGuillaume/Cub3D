@@ -16,10 +16,11 @@ int	find_sprite(t_map *map)
 		{
 			if (map->lines[i][j] == '2' && map->nb_sprite > nb_sprite)
 			{
-				map->sprite[nb_sprite].y = ((i + 1) * map->res_x / 5);
-				map->sprite[nb_sprite].x = ((j + 1) * map->res_x / 5);
+				map->sprite[nb_sprite].y = ((i + 1) * map->res_x / 5) + 32.0;
+				map->sprite[nb_sprite].x = ((j + 1) * map->res_x / 5) + 32.0;
 				map->sprite[nb_sprite].degree = 0;
 				map->sprite[nb_sprite].x_sprite = 0;
+				map->sprite[nb_sprite].size = 0;
 				map->sprite[nb_sprite++].distance = 0;
 			}
 			j++;
