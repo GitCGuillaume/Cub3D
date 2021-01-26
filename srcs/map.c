@@ -87,7 +87,7 @@ void	put_pixel(t_map *map, int x, unsigned int line_bytes, int bpp, int colour)
 			map->image[0].mlx_get_data[pixel + 0] = (colour) & 0xFF;
 			map->image[0].mlx_get_data[pixel + 1] = (colour >> 8) & 0xFF;
 			map->image[0].mlx_get_data[pixel + 2] = (colour >> 16) & 0xFF;
-			map->image[0].mlx_get_data[pixel + 3] = (colour >> 24) & 0xFF;
+			//map->image[0].mlx_get_data[pixel + 3] = (colour >> 24) & 0xFF;
 		//}
 		y_pix++;
 	}
@@ -109,7 +109,7 @@ void	black_pixel(t_map *map, int x, unsigned int line_bytes, int bpp, int colour
 			map->image[0].mlx_get_data[pixel + 0] = (colour) & 0xFF;
 			map->image[0].mlx_get_data[pixel + 1] = (colour >> 8) & 0xFF;
 			map->image[0].mlx_get_data[pixel + 2] = (colour >> 16) & 0xFF;
-			map->image[0].mlx_get_data[pixel + 3] = (colour >> 24) & 0xFF;
+			//map->image[0].mlx_get_data[pixel + 3] = (colour >> 24) & 0xFF;
 			y_pix++;
 		}
 		z++;
@@ -140,7 +140,6 @@ int	render_map(void *param)
 		return (-1);
 	map->image[0].mlx_get_data = mlx_get_data_addr(map->image[0].mlx_image,
 			&map->image[0].bpp, &map->image[0].line_bytes, &endian);
-	
 	raycast(map);
 	mlx_put_image_to_window(map->mlx_ptr,
 			map->mlx_window, map->image->mlx_image, 0, 0);	

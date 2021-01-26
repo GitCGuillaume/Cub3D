@@ -153,7 +153,6 @@ int	control_player(void *param)
 	}
 	if (map->control->ss_right == 1)
 	{
-		//black_pixel(map, map->res_x, map->image[0].line_bytes, map->image[0].bpp, black_colour(map));
 		if (map->lines[(int)check_pos_y][(int)(check_pos_x + sin(degree_to_radian(map->player.degree_raycast)) * 0.35)] != ' '
 				&& map->lines[(int)check_pos_y][(int)(check_pos_x + sin(degree_to_radian(map->player.degree_raycast)) * 0.3)] != '1')
 			map->player.pos_x += sin(degree_to_radian(map->player.degree_raycast)) * 0.05;

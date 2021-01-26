@@ -296,7 +296,7 @@ double distance = 0;
 	//pos_u *= 1.0;
 	while (max > i)
 	{
-		pos_v = ((i - (map->res_y / 2) + (map->player.slice_height / 2))) * zoom;
+		pos_v = (i - (map->res_y / 2) + (map->player.slice_height / 2)) * zoom;
 		// -1 sinon texture pas complète
 		y = (int)floor(pos_v);
 		//y = (int)pos_v; //& (test->height - 1);
@@ -307,8 +307,8 @@ double distance = 0;
 			= test->mlx_get_data[((y * test->line_bytes) + ((int)(pos_u))*4) + 1];
 		map->image[0].mlx_get_data[pixel + 2]
 			= test->mlx_get_data[((y * test->line_bytes) + ((int)(pos_u))*4) + 2];
-		map->image[0].mlx_get_data[pixel + 3]
-			= test->mlx_get_data[((y * test->line_bytes) + ((int)(pos_u))*4) + 3];
+		//map->image[0].mlx_get_data[pixel + 3]
+		//	= test->mlx_get_data[((y * test->line_bytes) + ((int)(pos_u))*4) + 3];
 		i++;
 	}
 }
@@ -323,6 +323,8 @@ void	sprite_mapping(t_map *map, unsigned int nb_sprite)
 	int	bottom;
 	int	width;
 	int	u;
+	int	v;
+
 	i = 0;
 	pixel = 0;
 	//size = 64.0 / map->sprite[0].distance * ((map->res_x / 2) / tan(0.523599));
@@ -332,7 +334,7 @@ void	sprite_mapping(t_map *map, unsigned int nb_sprite)
 	//width_right = map->sprite[0].x_sprite + (64.0 / map->sprite[0].distance * ((map->res_x / 2) / tan(0.523599))) / 2.0;
 	
 	//width_right = map->sprite[0].x_sprite + sqrt(pow((64 * (map->player.pos_x + 1.0)) - (double)map->sprite[0].x, 2)) / 2;
-	width_left = (map->res_x / 2) + map->sprite[nb_sprite].x_sprite - ((int)map->sprite[nb_sprite].size / 2);
+	width_left = (map->res_x / 2) + (int)floor(map->sprite[nb_sprite].x_sprite) - ((int)map->sprite[nb_sprite].size / 2);
 	//width_right = (map->res_x / 2) + map->sprite[0].x_sprite - ((int)map->sprite[0].size / 2);
 	//width_right = (map->res_x / 2) + map->sprite[0].x_sprite + (size / 2);
 	//width_left = (map->res_x / 2) + map->sprite[0].x_sprite - (size / 2);
@@ -343,10 +345,10 @@ void	sprite_mapping(t_map *map, unsigned int nb_sprite)
 	
 	//map->player.slice_height = square_size / map->player.distance_wall * ((map->res_x / 2) / tan(0.523599));
 	//bottom = 64.0 / map->sprite[0].distance * ((map->res_x / 2) / tan(0.523599));
-	width = width_left + (int)map->sprite[nb_sprite].size;
+	width = width_left + (int)floor(map->sprite[nb_sprite].size);
 	//width = (map->res_x / 2) + map->sprite[0].x_sprite + ((int)map->sprite[0].size / 2);
-	height = (map->res_y - map->sprite[nb_sprite].size) / 2;
-	bottom = height + (int)map->sprite[nb_sprite].size;
+	height = (map->res_y - (int)floor(map->sprite[nb_sprite].size)) / 2;
+	bottom = height + (int)floor(map->sprite[nb_sprite].size);
 	if (height < 0)
 		height = 0;
 	if (bottom > map->res_y)
@@ -359,20 +361,26 @@ void	sprite_mapping(t_map *map, unsigned int nb_sprite)
 	//	width_right = map->res_x;
 	//if (map->sprite[0].x_sprite > 0.0 && map->sprite[0].x_sprite < map->res_x + 1)
 	//{
-	u = (int)map->sprite[nb_sprite].x_sprite * (64 / (int)map->sprite[nb_sprite].distance);
+	//u = width_left * ((int)map->sprite[nb_sprite].distance);
 	while (width > width_left) // * ((map->res_x / 2) / tan(0.523599)))/2.0 > width)
 	{
+		//u = width_left % 64;
+		u = ((width_left - (map->res_x / 2) - (int)floor(map->sprite[nb_sprite].x_sprite) + ((int)floor(map->sprite[nb_sprite].size) / 2))
+				+ (int)floor(map->sprite[nb_sprite].size)) * 64 / (int)floor(map->sprite[nb_sprite].size);
 		//height = 64.0 / map->sprite[0].distance * ((map->res_x / 2) / tan(0.523599));
-		height = (map->res_y / 2) - (map->sprite[nb_sprite].size / 2);
+		height = (map->res_y / 2) - ((int)floor(map->sprite[nb_sprite].size) / 2);
 		if (height < 0)
 			height = 0;
 		//if (width_right < 320)
 		//{
 			while (bottom > height)
 			{
-		/*
+				v = ((height - (map->res_y + (int)floor(map->sprite[nb_sprite].size)) / 2)
+						+ (int)floor(map->sprite[nb_sprite].size)) * 64 / (int)floor(map->sprite[nb_sprite].size);
+			if (v< 0)
+				printf("v=%d\n", v);
 			
-		   pixel = (i * map->image[0].line_bytes) + (x * 4);
+				/*		   pixel = (i * map->image[0].line_bytes) + (x * 4);
 			map->image[0].mlx_get_data[pixel + 0]
 				= map->image[5].mlx_get_data[(((i%64) * map->image[5].line_bytes) + (x_sprite_s)*4) + 0];
 			map->image[0].mlx_get_data[pixel + 1]
@@ -383,19 +391,32 @@ void	sprite_mapping(t_map *map, unsigned int nb_sprite)
 				= map->image[5].mlx_get_data[(((i%64) * map->image[5].line_bytes) + (x_sprite_s)*4) + 3];
 		*/
 			pixel = (height * map->image[0].line_bytes) + (width_left * 4);
-			map->image[0].mlx_get_data[pixel + 0]
-				= map->image[5].mlx_get_data[(((height%64) * map->image[5].line_bytes) + (u)*4) + 0];
-			map->image[0].mlx_get_data[pixel + 1]
-				= map->image[5].mlx_get_data[(((height%64) * map->image[5].line_bytes) + (u)*4) + 1];
-			map->image[0].mlx_get_data[pixel + 2]
-				= map->image[5].mlx_get_data[(((height%64) * map->image[5].line_bytes) + (u)*4) + 2];
-			map->image[0].mlx_get_data[pixel + 3]
-				= map->image[5].mlx_get_data[(((height%64) * map->image[5].line_bytes) + (u)*4) + 3];
+			if (map->image[5].mlx_get_data[((v * map->image[5].line_bytes) + (u*4)) + 0])
+			{
+				map->image[0].mlx_get_data[pixel + 0]
+					= map->image[5].mlx_get_data[((v * map->image[5].line_bytes) + (u*4)) + 0];
+			}
+			if (map->image[5].mlx_get_data[((v * map->image[5].line_bytes) + (u*4)) + 1])
+			{
+				map->image[0].mlx_get_data[pixel + 1]
+					= map->image[5].mlx_get_data[((v * map->image[5].line_bytes) + (u*4)) + 1];
+			}
+			if (map->image[5].mlx_get_data[((v * map->image[5].line_bytes) + (u*4)) + 2])
+			{
+				map->image[0].mlx_get_data[pixel + 2]
+					= map->image[5].mlx_get_data[((v * map->image[5].line_bytes) + (u*4)) + 2];
+			}
+			if (map->image[5].mlx_get_data[((v * map->image[5].line_bytes) + (u*4)) + 3])
+			{
+				map->image[0].mlx_get_data[pixel + 3]
+					= map->image[5].mlx_get_data[((v * map->image[5].line_bytes) + (u*4)) + 3];
+			}
 			height++;
 			}
 		//}
 		width_left++;
 	}
+
 }
 
 void	ceil_mapping(t_map *map, int x, int ceil_colour)
@@ -417,7 +438,7 @@ void	ceil_mapping(t_map *map, int x, int ceil_colour)
 			map->image[0].mlx_get_data[pixel + 0] = (ceil_colour) & 0xFF;
 			map->image[0].mlx_get_data[pixel + 1] = (ceil_colour >> 8) & 0xFF;
 			map->image[0].mlx_get_data[pixel + 2] = (ceil_colour >> 16) & 0xFF;
-			map->image[0].mlx_get_data[pixel + 3] = (ceil_colour >> 24) & 0xFF;
+			//map->image[0].mlx_get_data[pixel + 3] = (ceil_colour >> 24) & 0xFF;
 			y_pix--;
 		}
 	}
@@ -438,7 +459,7 @@ void	floor_mapping(t_map *map, int x, int floor_colour)
 			map->image[0].mlx_get_data[pixel + 0] = (floor_colour) & 0xFF;
 			map->image[0].mlx_get_data[pixel + 1] = (floor_colour >> 8) & 0xFF;
 			map->image[0].mlx_get_data[pixel + 2] = (floor_colour >> 16) & 0xFF;
-			map->image[0].mlx_get_data[pixel + 3] = (floor_colour >> 24) & 0xFF;
+			//map->image[0].mlx_get_data[pixel + 3] = (floor_colour >> 24) & 0xFF;
 			i++;
 		}
 	}

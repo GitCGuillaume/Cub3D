@@ -12,12 +12,24 @@ void	add_texture(t_map *map, char *path, int id, int endian)
 	ft_lstadd_front(&map->image, &lst_image);
 }
 */
+
+void writebits (const unsigned long v, int fd)
+{
+    if (!v)  { putchar ('0'); return; };
+
+    size_t sz = sizeof v * CHAR_BIT;
+    unsigned long rem = 0;
+
+    while (sz--)
+        if ((rem = v >> sz))
+            write (fd, (rem & 1) ? "1" : "0", 1);
+}
+
 int	register_texture(t_map *map)
 {
 	int	endian;
 
 	endian = 0;
-	//printf("id=%d", map->image->head->id);
 	map->image[1].mlx_image = mlx_xpm_file_to_image(map->mlx_ptr, map->north_path,
 			&map->image[1].width, &map->image[1].height);
 	if (map->image[1].mlx_image == NULL)
@@ -53,6 +65,5 @@ int	register_texture(t_map *map)
 	map->image[5].mlx_get_data = mlx_get_data_addr(map->image[5].mlx_image, &map->image[5].bpp, &map->image[5].line_bytes, &endian);
 	if (map->image[5].mlx_get_data == NULL)
 		return (0);
-
 	return (1);
 }

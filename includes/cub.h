@@ -67,7 +67,6 @@ typedef struct		s_player
 
 typedef struct		s_image
 {
-	int		id;
 	void		*mlx_image;
 	char		*mlx_get_data;
 	int		width;
