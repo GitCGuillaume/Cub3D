@@ -313,7 +313,7 @@ double distance = 0;
 	}
 }
 
-void	sprite_mapping(t_map *map, unsigned int nb_sprite)
+void	sprite_mapping(t_map *map, double *z_buffer, unsigned int nb_sprite)
 {
 	int	i;
 	int	pixel;
@@ -366,30 +366,18 @@ void	sprite_mapping(t_map *map, unsigned int nb_sprite)
 	{
 		//u = width_left % 64;
 		u = ((width_left - (map->res_x / 2) - (int)floor(map->sprite[nb_sprite].x_sprite) + ((int)floor(map->sprite[nb_sprite].size) / 2))
-				+ (int)floor(map->sprite[nb_sprite].size)) * 64 / (int)floor(map->sprite[nb_sprite].size);
+				+ (int)floor(map->sprite[nb_sprite].size)) * map->image[5].width / (int)floor(map->sprite[nb_sprite].size);
 		//height = 64.0 / map->sprite[0].distance * ((map->res_x / 2) / tan(0.523599));
 		height = (map->res_y / 2) - ((int)floor(map->sprite[nb_sprite].size) / 2);
 		if (height < 0)
 			height = 0;
 		//if (width_right < 320)
 		//{
-			while (bottom > height)
+			while (bottom > height && map->sprite[nb_sprite].distance * (map->res_x / 5) < *(z_buffer + width_left))
 			{
 				v = ((height - (map->res_y + (int)floor(map->sprite[nb_sprite].size)) / 2)
-						+ (int)floor(map->sprite[nb_sprite].size)) * 64 / (int)floor(map->sprite[nb_sprite].size);
-			if (v< 0)
-				printf("v=%d\n", v);
-			
-				/*		   pixel = (i * map->image[0].line_bytes) + (x * 4);
-			map->image[0].mlx_get_data[pixel + 0]
-				= map->image[5].mlx_get_data[(((i%64) * map->image[5].line_bytes) + (x_sprite_s)*4) + 0];
-			map->image[0].mlx_get_data[pixel + 1]
-				= map->image[5].mlx_get_data[(((i%64) * map->image[5].line_bytes) + (x_sprite_s)*4) + 1];
-			map->image[0].mlx_get_data[pixel + 2]
-				= map->image[5].mlx_get_data[(((i%64) * map->image[5].line_bytes) + (x_sprite_s)*4) + 2];
-			map->image[0].mlx_get_data[pixel + 3]
-				= map->image[5].mlx_get_data[(((i%64) * map->image[5].line_bytes) + (x_sprite_s)*4) + 3];
-		*/
+						+ (int)floor(map->sprite[nb_sprite].size)) * map->image[5].height / (int)floor(map->sprite[nb_sprite].size);
+			//if for checking pixel existence
 			pixel = (height * map->image[0].line_bytes) + (width_left * 4);
 			if (map->image[5].mlx_get_data[((v * map->image[5].line_bytes) + (u*4)) + 0])
 			{
@@ -406,11 +394,11 @@ void	sprite_mapping(t_map *map, unsigned int nb_sprite)
 				map->image[0].mlx_get_data[pixel + 2]
 					= map->image[5].mlx_get_data[((v * map->image[5].line_bytes) + (u*4)) + 2];
 			}
-			if (map->image[5].mlx_get_data[((v * map->image[5].line_bytes) + (u*4)) + 3])
+			/*if (map->image[5].mlx_get_data[((v * map->image[5].line_bytes) + (u*4)) + 3])
 			{
 				map->image[0].mlx_get_data[pixel + 3]
 					= map->image[5].mlx_get_data[((v * map->image[5].line_bytes) + (u*4)) + 3];
-			}
+			}*/
 			height++;
 			}
 		//}
@@ -478,7 +466,7 @@ void	raycast(t_map *map)
 	size_t	number_lines;
 	int	number_tex;
 	int side = 0;
-	z_buffer = malloc(sizeof(double) * ((double)map->res_x + 1.0));
+	z_buffer = malloc(sizeof(double) * ((double)map->res_x));
 	map->player.degree = correct_distance(map->player.degree_raycast + 30);
 	square_size = map->res_x / 5;
 	number_lines = max_lines(map);
@@ -497,25 +485,6 @@ void	raycast(t_map *map)
 		map->player.degree = correct_distance(map->player.degree);
 		horizontal_detection(map, number_lines);
 		vertical_detection(map, number_lines);
-		//if (compare_equal(map->player.ray_horizontal.distance_wall, 0.0))
-		//{
-			//map->player.ray_horizontal.distance_wall = sqrt(pow(map->player.ray_horizontal.pos_x - map->player.ray_horizontal.length_case_x, 2)
-			//		+ pow(map->player.ray_horizontal.pos_y - map->player.ray_horizontal.length_case_y, 2));
-		//}
-		//if (compare_equal(map->player.ray_vertical.distance_wall, 0.0))
-		//{
-			//map->player.ray_vertical.distance_wall = sqrt(pow(map->player.ray_vertical.pos_x - map->player.ray_vertical.length_case_x, 2)
-			//		+ pow(map->player.ray_vertical.pos_y - map->player.ray_vertical.length_case_y, 2));
-		//}
-		/*map->player.ray_horizontal.distance_wall = sqrt(((map->player.ray_horizontal.pos_x - map->player.ray_horizontal.length_case_x)
-				* (map->player.ray_horizontal.pos_x - map->player.ray_horizontal.length_case_x))
-				+ ((map->player.ray_horizontal.pos_y - map->player.ray_horizontal.length_case_y)
-				* (map->player.ray_horizontal.pos_y - map->player.ray_horizontal.length_case_y)));
-		map->player.ray_vertical.distance_wall = sqrt(((map->player.ray_vertical.pos_x - map->player.ray_vertical.length_case_x)
-				* (map->player.ray_vertical.pos_x - map->player.ray_vertical.length_case_x))
-				+ ((map->player.ray_vertical.pos_y - map->player.ray_vertical.length_case_y)
-				* (map->player.ray_vertical.pos_y - map->player.ray_vertical.length_case_y)));
-		*/
 		double pos_u = 0;
 		t_image *test;
 
@@ -527,7 +496,6 @@ void	raycast(t_map *map)
 				test = &map->image[4];
 			map->player.distance_wall = map->player.ray_horizontal.distance_wall;
 			map->player.offset_tex = map->player.ray_horizontal.length_case_x;
-			*(z_buffer + x) = map->player.ray_horizontal.length_case_x;
 		}
 		else
 		{
@@ -537,10 +505,10 @@ void	raycast(t_map *map)
 				test = &map->image[3];
 			map->player.distance_wall = map->player.ray_vertical.distance_wall;
 			map->player.offset_tex = map->player.ray_vertical.length_case_y;
-			*(z_buffer + x) = map->player.ray_vertical.length_case_y;
 		}
 		if (map->player.distance_wall < 0.0 || compare_equal(map->player.distance_wall, 0.0))
 			map->player.distance_wall = 0.000001;
+		*(z_buffer + x) = map->player.distance_wall;
 		map->player.distance_wall = map->player.distance_wall * cos(degree_to_radian(correct_degree));
 		//map->player.slice_height = square_size * ((map->res_x / 2) / tan(0.523599)) / map->player.distance_wall;
 		map->player.slice_height = square_size / map->player.distance_wall * ((map->res_x / 2) / tan(0.523599));
@@ -559,7 +527,7 @@ void	raycast(t_map *map)
 		correct_degree += add_degree;
 		x++;
 	}
-	*(z_buffer + x) = 0;
+	//*(z_buffer + x) = 0;
 	unsigned int	nb_sprite = map->nb_sprite;
 	//on calcule la distance comme un ray
 	while (nb_sprite > 0)
@@ -567,7 +535,14 @@ void	raycast(t_map *map)
 		nb_sprite--;
 		map->sprite[nb_sprite].distance = sqrt(pow((double)map->sprite[nb_sprite].y - (square_size * (map->player.pos_y + 1.0)), 2)
 				+ pow((double)map->sprite[nb_sprite].x - (square_size * (map->player.pos_x + 1.0)), 2));
-		map->sprite[nb_sprite].distance = map->sprite[nb_sprite].distance / 64.0;
+	}
+	nb_sprite = map->nb_sprite;
+	/** We need to quicksort the sprite from distance, sprites will be displayed from the nearest to the farthest **/
+	quicksort_sprite(map->sprite, nb_sprite);
+	while (nb_sprite > 0)
+	{
+		nb_sprite--;
+		map->sprite[nb_sprite].distance = map->sprite[nb_sprite].distance / (map->res_x / 5);
 		map->sprite[nb_sprite].degree = atan2(map->sprite[nb_sprite].y - (square_size * (map->player.pos_y + 1.0)), map->sprite[nb_sprite].x - (square_size * (map->player.pos_x + 1.0)));
 		map->sprite[nb_sprite].degree = (-map->sprite[nb_sprite].degree) - degree_to_radian(map->player.degree_raycast);
 		map->sprite[nb_sprite].degree = correct_distance(radian_to_degree(map->sprite[nb_sprite].degree));
@@ -579,7 +554,7 @@ void	raycast(t_map *map)
 		//map->sprite[nb_sprite].x_sprite = (map->sprite[nb_sprite].degree * map->res_x / 60.0);
 		map->sprite[nb_sprite].x_sprite = tan(map->sprite[nb_sprite].degree) * ((map->res_x / 2) / tan(0.523599));
 		map->sprite[nb_sprite].x_sprite = -map->sprite[nb_sprite].x_sprite;
-		sprite_mapping(map, nb_sprite);
+		sprite_mapping(map, z_buffer, nb_sprite);
 	}
 	//while (map->res_x > z)
 	//{

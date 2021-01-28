@@ -90,8 +90,8 @@ typedef struct	s_sprite
 {
 	double	x_sprite;
 	double	degree;
-	double	distance;
 	double	size;
+	double	distance;
 	int	x;
 	int	y;
 }		t_sprite;
@@ -168,7 +168,7 @@ int		check_valid_character(t_map *map);
 int	is_other(char c);
 int	is_tab(char c);
 int	is_space(char c);
-void	ft_swap(void *a, void *b);
+void	ft_swap(t_sprite *a, t_sprite *b);
 int	register_texture(t_map *map);
 /* CLOSE */
 int	close_program(t_map *map, char *message, int msg_number);
@@ -186,6 +186,7 @@ t_image			*ft_lstlast(t_image *lst);
 
 /** SPRITE **/
 int	find_sprite(t_map *map);
+void	quicksort_sprite(t_sprite *sprite, unsigned int nb_sprite);
 
 void	black_pixel(t_map *map, int x, unsigned int line_bytes, int bpp, int colour);
 unsigned int	black_colour(t_map *map);

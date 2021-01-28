@@ -1,10 +1,10 @@
 #include "../../includes/cub.h"
 
-void	ft_swap(void *a, void *b)
+void	ft_swap(t_sprite *a, t_sprite *b)
 {
-	void *c;
+	t_sprite c;
 
-	c = (char *)a;
-	a = (char *)b;
-	b = (char *)c;
+	c = *a;
+	*a = *b;
+	*b = c;
 }
