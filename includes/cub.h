@@ -16,8 +16,6 @@
 
 typedef struct		s_ray
 {
-	double		inter_x;
-	double		inter_y;
 	double		length_case_x;
 	double		length_case_y;
 	double		distance_x;
@@ -35,29 +33,13 @@ typedef struct		s_player
 	int		fill_y;
 	double		pos_x;
 	double		pos_y;
-	double		ray_dir_x;
-	double		ray_dir_y;
-	double		ray_dir;
-	double		inter_x;
-	double		inter_y;
-	double		pi_x;
-	double		pi_y;
-	double		cross_x;
-	double		cross_y;
-	double		rotation_lr;
-	double		side_ray_x;
-	double		side_ray_y;
 	double		length_case_x;
 	double		length_case_y;
-	double		perpendicular_distance;
 	double		distance_wall;
 	double		offset_tex;
 	double		degree;
 	double		degree_raycast;
 	int		slice_height;
-	int		step_x;
-	int		step_y;
-	int		side_ray;
 	int		is_wall;
 	int		height_wall;
 	int		bottom_wall;
@@ -94,6 +76,7 @@ typedef struct	s_sprite
 	double	distance;
 	int	x;
 	int	y;
+	int	u;
 }		t_sprite;
 
 typedef struct	s_map
@@ -105,10 +88,6 @@ typedef struct	s_map
 	unsigned short	is_sprite;
 	unsigned short	is_resolution;
 	unsigned int	nb_sprite;
-	int		colour_counter;
-	int		player_exist;
-	int		ceiling_colour;
-	int		floor_colour;
 	char		**colour;
 	char		**resolution;
 	char		*north_path;
@@ -120,16 +99,21 @@ typedef struct	s_map
 	char		**lines;
 	char		**lines_copy;
 	char		*mlx_get_data;
+	int		colour_counter;
+	int		player_exist;
+	int		ceiling_colour;
+	int		floor_colour;
+	int	x_tmp;
+	int	y_tmp;
+	int	res_x;
+	int	res_y;
 	void		*mlx_ptr;
 	void		*mlx_window;
 	t_image		image[6];
 	t_player	player;
 	t_control	*control;
 	t_sprite	*sprite;
-	int	x_tmp;
-	int	y_tmp;
-	int	res_x;
-	int	res_y;
+	double	*z_buffer;
 
 }		t_map;
 
@@ -172,21 +156,21 @@ void	ft_swap(t_sprite *a, t_sprite *b);
 int	register_texture(t_map *map);
 /* CLOSE */
 int	close_program(t_map *map, char *message, int msg_number);
+int	close_program_cross(t_map *map, char *message, int msg_number);
 int	close_program_ok(t_map *map, char *message, int msg_number);
 int	close_program_gnl(t_map *map, char *message, int msg_number);
 void	clear_array(t_map *map);
 void	clear_array_two(t_map *map);
 /** RAYCASTER **/
 void	raycast(t_map *map);
+double	radian_to_degree(double radian);
 int	start_ray_direction(t_map *map);
-//void	camera_wall(t_map *map);
 /** RAYCASTER MOVEMENT **/
-int	move_camera_lr(int keycode, void *param);
 t_image			*ft_lstlast(t_image *lst);
 
 /** SPRITE **/
 int	find_sprite(t_map *map);
-void	quicksort_sprite(t_sprite *sprite, unsigned int nb_sprite);
+void	display_sprite(t_map *map, int square_size);
 
 void	black_pixel(t_map *map, int x, unsigned int line_bytes, int bpp, int colour);
 unsigned int	black_colour(t_map *map);
