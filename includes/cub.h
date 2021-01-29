@@ -36,7 +36,6 @@ typedef struct		s_player
 	double		length_case_x;
 	double		length_case_y;
 	double		distance_wall;
-	double		offset_tex;
 	double		degree;
 	double		degree_raycast;
 	int		slice_height;

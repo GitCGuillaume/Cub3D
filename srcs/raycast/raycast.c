@@ -75,21 +75,21 @@ void	instanciate_length_ver(t_map *map, double tang, int square_size)
 	double	floor_pos_x;
 
 	floor_pos_x = floor(map->player.ray_vertical.pos_x / square_size);
-	if (map->player.degree < 90.0 || map->player.degree > 270.0)
-		map->player.ray_vertical.length_case_x =
-			floor_pos_x * square_size + square_size;
-	else
+	if (map->player.degree > 90.0 && map->player.degree < 270.0)
 		map->player.ray_vertical.length_case_x =
 			floor_pos_x * square_size - 0.000001;
+	else
+		map->player.ray_vertical.length_case_x =
+			floor_pos_x * square_size + square_size;
 	map->player.ray_vertical.length_case_y =
 		map->player.ray_vertical.pos_y
 		+ (map->player.ray_vertical.pos_x
 				- map->player.ray_vertical.length_case_x)
 		* tang;
-	if (map->player.degree < 90.0 || map->player.degree > 270.0)
-		map->player.ray_vertical.distance_x = square_size;
-	else
+	if (map->player.degree > 90.0 && map->player.degree < 270.0)
 		map->player.ray_vertical.distance_x = -square_size;
+	else
+		map->player.ray_vertical.distance_x = square_size;
 	map->player.ray_vertical.distance_y =
 		map->player.ray_vertical.distance_x * tang;
 	map->player.ray_vertical.distance_y =
@@ -269,53 +269,71 @@ double	correct_distance(double value)
 	return (value);
 }
 
-void	texture_mapping(t_map *map, int x, int square, t_image *test)
+int	text_map_u(t_map *map, t_image *img)
 {
-double	pos_v;
-double	zoom;
-int y = 0;
-double distance = 0;
-double	pos_u;
-	int	i;
-	int	max;
-	int	pixel;
+	double	pos_u;
+	int		u;
 
-	i = floor(map->player.height_wall);
-	max = floor(map->player.bottom_wall);
-	pixel = 0;
-	pos_v = 0;
-	//On obtient le milieu du mur et on va vers le haut de l'écran
-	zoom = ((double)test->height / map->player.slice_height);
-	//On obtient la position du rayon sur la carte,et on réduit la position pour obtenir la position du rayon dans la texture en x (ex:1..5-1=0.5)
-	double length=0;
-	if (i >= 2147483647 || max >= 2147483647 || i < 0)
-		close_program(map, "Size window exceed the limit pixel handled by the engine\n.", 2);
-	if (map->player.ray_horizontal.distance_wall < map->player.ray_vertical.distance_wall)
+	pos_u = 0;
+	u = 0;
+	if (map->player.ray_horizontal.distance_wall
+			< map->player.ray_vertical.distance_wall)
 	{
-		distance = map->player.ray_horizontal.distance_y;
-		pos_u = map->player.ray_horizontal.pos_y + (map->player.ray_horizontal.length_case_x / map->player.ray_horizontal.distance_y);
+		pos_u = map->player.ray_horizontal.pos_y
+			+ (map->player.ray_horizontal.length_case_x
+					/ map->player.ray_horizontal.distance_y);
 	}
 	else
 	{
-		length = map->player.ray_vertical.length_case_x;
-		distance = map->player.ray_vertical.distance_x;
-		pos_u = map->player.ray_vertical.pos_x + (map->player.ray_vertical.length_case_y / map->player.ray_vertical.distance_x);
+		pos_u = map->player.ray_vertical.pos_x
+			+ (map->player.ray_vertical.length_case_y
+					/ map->player.ray_vertical.distance_x);
 	}
 	pos_u -= floor(pos_u);
-	pos_u = pos_u * 64.0;
-	while (max > i)
+	pos_u = pos_u * (double)img->width;
+	u = (int)floor(pos_u);
+	return (u);
+}
+
+int	text_map_v(t_map *map, int height, double zoom, t_image *img)
+{
+	double	pos_v;
+	int		v;
+
+	if (height >= 2147483647
+			|| map->player.bottom_wall >= 2147483647 || height < 0)
+		close_program(map,
+				"Size window exceed the limit handled by the engine\n.", 2);
+	pos_v = (height - (map->res_y / 2) + (map->player.slice_height / 2)) * zoom;
+	v = (int)floor(pos_v);
+	return (v);
+}
+
+void	texture_mapping(t_map *map, int x, int square, t_image *img)
+{
+	int		height;
+	int		pixel;
+	int		v;
+	int		u;
+	double	zoom;
+
+	height = map->player.height_wall;
+	pixel = 0;
+	u = 0;
+	v = 0;
+	zoom = (double)img->height / map->player.slice_height;
+	u = text_map_u(map, img);
+	while (map->player.bottom_wall > height)
 	{
-		pos_v = (i - (map->res_y / 2) + (map->player.slice_height / 2)) * zoom;
-		// -1 sinon texture pas complète
-		y = (int)floor(pos_v);
-		pixel = (i * map->image[0].line_bytes) + (x * 4);
-		map->image[0].mlx_get_data[pixel + 0]
-			= test->mlx_get_data[((y * test->line_bytes) + ((int)(pos_u))*4) + 0];
-		map->image[0].mlx_get_data[pixel + 1]
-			= test->mlx_get_data[((y * test->line_bytes) + ((int)(pos_u))*4) + 1];
-		map->image[0].mlx_get_data[pixel + 2]
-			= test->mlx_get_data[((y * test->line_bytes) + ((int)(pos_u))*4) + 2];
-		i++;
+		v = text_map_v(map, height, zoom, img);
+		pixel = (height * map->image[0].line_bytes) + (x * 4);
+		map->image[0].mlx_get_data[pixel + 0] =
+			img->mlx_get_data[((v * img->line_bytes) + u * 4) + 0];
+		map->image[0].mlx_get_data[pixel + 1] =
+			img->mlx_get_data[((v * img->line_bytes) + u * 4) + 1];
+		map->image[0].mlx_get_data[pixel + 2] =
+			img->mlx_get_data[((v * img->line_bytes) + u * 4) + 2];
+		height++;
 	}
 }
 
@@ -330,7 +348,7 @@ void	ceil_mapping(t_map *map, int x, int ceil_colour)
 		y_pix = 0;
 	}
 	else
-	{	
+	{
 		pixel = 0;
 		while (y_pix >= 0)
 		{
@@ -363,72 +381,86 @@ void	floor_mapping(t_map *map, int x, int floor_colour)
 	}
 }
 
+t_image	side_distance(t_map *map)
+{
+	t_image img;
+
+	if (map->player.ray_horizontal.distance_wall
+			< map->player.ray_vertical.distance_wall)
+	{
+		if (map->player.degree > 0.0 && map->player.degree < 180.0)
+			img = map->image[1];
+		else
+			img = map->image[4];
+		map->player.distance_wall = map->player.ray_horizontal.distance_wall;
+	}
+	else
+	{
+		if (map->player.degree > 90.0 && map->player.degree < 270.0)
+			img = map->image[2];
+		else
+			img = map->image[3];
+		map->player.distance_wall = map->player.ray_vertical.distance_wall;
+	}
+	if (map->player.distance_wall < 0.0
+			|| cpr_equal(map->player.distance_wall, 0.0))
+		map->player.distance_wall = 0.000001;
+	return (img);
+}
+
+void	math_wall(t_map *map, double correct_degree, int square_size, int x)
+{
+	*(map->z_buffer + x) = map->player.distance_wall;
+	map->player.distance_wall =
+		map->player.distance_wall * cos(degree_to_radian(correct_degree));
+	map->player.slice_height = square_size
+		/ map->player.distance_wall * ((map->res_x / 2) / tan(0.523599));
+	map->player.height_wall = (map->res_y / 2) - (map->player.slice_height / 2);
+	if (map->player.height_wall < 0)
+		map->player.height_wall = 0;
+	map->player.bottom_wall = (map->res_y / 2) + (map->player.slice_height / 2);
+	if (map->player.bottom_wall > map->res_y)
+		map->player.bottom_wall = map->res_y;
+}
+
+void	raycast_two(t_map *map, int square_size, t_image *img)
+{
+	if (cpr_equal(map->player.degree, 0.0)
+			|| cpr_equal(map->player.degree, 90.0)
+			|| cpr_equal(map->player.degree, 180.0)
+			|| cpr_equal(map->player.degree, 270.0))
+		map->player.degree = map->player.degree + 0.000001;
+	map->player.degree = correct_distance(map->player.degree);
+	horizontal_detection(map, max_lines(map), square_size);
+	vertical_detection(map, max_lines(map), square_size);
+	*img = side_distance(map);
+}
+
 void	raycast(t_map *map)
 {
-	int	x;
-	int	square_size;
-	double	add_degree;
+	int		x;
+	int		square_size;
 	double	correct_degree;
-	/** Source : https://fr.wikipedia.org/wiki/Z-buffer **/
-	size_t	number_lines;
-	t_image *test;
+	t_image img;
 
-	map->z_buffer = malloc(sizeof(double) * ((double)map->res_x));
-	map->player.degree = correct_distance(map->player.degree_raycast + 30);
-	square_size = map->res_x / 5;
-	number_lines = max_lines(map);
 	x = 0;
-	add_degree = 60.0 / map->res_x;
+	square_size = map->res_x / 5;
+	map->z_buffer = malloc(sizeof(double) * ((double)map->res_x));
 	correct_degree = -30.0;
+	map->player.degree = correct_distance(map->player.degree_raycast + 30);
 	map->player.ray_horizontal.distance_wall = 0;
 	map->player.ray_vertical.distance_wall = 0;
 	while (map->res_x > x)
 	{
-		if (cpr_equal(map->player.degree, 0.0) || cpr_equal(map->player.degree, 90.0)
-				|| cpr_equal(map->player.degree, 180.0) || cpr_equal(map->player.degree, 270.0))
-		{
-			map->player.degree = map->player.degree + 0.000001;
-		}
-		map->player.degree = correct_distance(map->player.degree);
-		horizontal_detection(map, number_lines, square_size);
-		vertical_detection(map, number_lines, square_size);
-		if (map->player.ray_horizontal.distance_wall < map->player.ray_vertical.distance_wall)
-		{
-			if (map->player.degree > 0.0 && map->player.degree < 180.0)
-				test = &map->image[1];
-			else
-				test = &map->image[4];
-			map->player.distance_wall = map->player.ray_horizontal.distance_wall;
-			map->player.offset_tex = map->player.ray_horizontal.length_case_x;
-		}
-		else
-		{
-			if (map->player.degree > 90.0 && map->player.degree < 270.0)
-				test = &map->image[2];
-			else
-				test = &map->image[3];
-			map->player.distance_wall = map->player.ray_vertical.distance_wall;
-			map->player.offset_tex = map->player.ray_vertical.length_case_y;
-		}
-		if (map->player.distance_wall < 0.0 || cpr_equal(map->player.distance_wall, 0.0))
-			map->player.distance_wall = 0.000001;
-		*(map->z_buffer + x) = map->player.distance_wall;
-		map->player.distance_wall = map->player.distance_wall * cos(degree_to_radian(correct_degree));
-		map->player.slice_height = square_size / map->player.distance_wall * ((map->res_x / 2) / tan(0.523599));
-		map->player.height_wall = (map->res_y / 2) - (map->player.slice_height / 2);
-		if (map->player.height_wall < 0)
-			map->player.height_wall = 0;
-		map->player.bottom_wall = (map->res_y / 2) + (map->player.slice_height /2);
-		if (map->player.bottom_wall > map->res_y)
-				map->player.bottom_wall = map->res_y;
+		raycast_two(map, square_size, &img);
+		math_wall(map, correct_degree, square_size, x);
 		ceil_mapping(map, x, manage_bit_colour_ceil(map));
-		texture_mapping(map, x, square_size, test);
+		texture_mapping(map, x, square_size, &img);
 		floor_mapping(map, x, manage_bit_colour_floor(map));
-		map->player.degree -= add_degree;
-		correct_degree += add_degree;
+		map->player.degree -= 60.0 / map->res_x;
+		correct_degree += 60.0 / map->res_x;
 		x++;
 	}
-	//on calcule la distance comme un ray
 	display_sprite(map, square_size);
 	free(map->z_buffer);
 }

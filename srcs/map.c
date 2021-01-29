@@ -63,7 +63,6 @@ int	initialization_map_struct(t_map *map)
 	map->lines = NULL;
 	map->lines_copy = NULL;
 	map->player_exist = 0;
-	map->player.offset_tex = 0.0;
 	map->nb_sprite = 0;
 	map->sprite = 0;
 	map->control = &control;
@@ -241,7 +240,7 @@ while (20 > j)
 	//	mlx_destroy_image(map->mlx_ptr, map->image[0].mlx_image);
 	//mlx_loop_hook(map->mlx_ptr, &control_player, (void *)map);
 	mlx_loop_hook(map->mlx_ptr, &render_map, (void *)map);
-	mlx_hook(map->mlx_window, 33, 1L << 17, close_program, (void *)map);
+	mlx_hook(map->mlx_window, 33, 1L << 17, close_program_cross, (void *)map);
 	mlx_loop(map->mlx_ptr);
 	return (0);
 }
