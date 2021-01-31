@@ -26,21 +26,10 @@ int	init_map_struct_two(t_map *map)
 	return (1);
 }
 
-void	init_keymap(t_control *control)
-{
-	control->forward = 0;
-	control->backward = 0;
-	control->ss_left = 0;
-	control->ss_right = 0;
-	control->t_left = 0;
-	control->t_right = 0;
-}
-
 int	initialization_map_struct(t_map *map)
 {
 	int	init;
-	t_image	lst;
-	t_control control;
+	//t_image lst;
 
 	init = init_map_struct_two(map);
 	if (init == 0)
@@ -65,12 +54,10 @@ int	initialization_map_struct(t_map *map)
 	map->player_exist = 0;
 	map->nb_sprite = 0;
 	map->sprite = 0;
-	map->control = &control;
-	init_keymap(map->control);
 	return (1);
 }
 
-void	put_pixel(t_map *map, int x, unsigned int line_bytes, int bpp, int colour)
+void	put_pixel(t_map *map, int x, unsigned int line_bytes, int colour)
 {
 	int	pixel;
 	int	y_pix;
@@ -91,7 +78,7 @@ void	put_pixel(t_map *map, int x, unsigned int line_bytes, int bpp, int colour)
 		y_pix++;
 	}
 }
-void	black_pixel(t_map *map, int x, unsigned int line_bytes, int bpp, int colour)
+void	black_pixel(t_map *map, int x, unsigned int line_bytes, int colour)
 {
 	int	pixel;
 	int	y_pix;
@@ -129,10 +116,6 @@ int	render_map(void *param)
 	endian = 0;
 	map = (t_map *)param;
 	control_player((void *)map);
-	//put_pixel(map->mlx_get_data, map->player.pos_x,
-	//		map->player.pos_y, line_bytes, bpp, manage_bit_colour_ceiling(map));
-	//camera_wall(map);
-	//exit(0);
 	if (map->image[0].mlx_image)
 		mlx_destroy_image(map->mlx_ptr, map->image[0].mlx_image);
 	if (!(map->image[0].mlx_image = mlx_new_image(map->mlx_ptr, map->res_x, map->res_y)))
@@ -153,6 +136,7 @@ int	initialization_map(t_map *map)
 	int	y;
 int	endian = 0;
 	int	textures_exist;
+
 	x = ft_atoi(map->resolution[0]);
 	y = ft_atoi(map->resolution[1]);
 	textures_exist = 0;
@@ -170,10 +154,6 @@ int	endian = 0;
 		map->res_x = x;
 		map->res_y = y;
 	}
-	//camera_wall(map);
-	printf("north_path=%s\n", map->north_path);
-printf("p=%p ", map->image);
-printf("p=%p ", map->image);
 	if (!(map->mlx_window = mlx_new_window(map->mlx_ptr, map->res_x, map->res_y, "Cub3D")))
 		return (-1);	
 	if (!(map[0].image->mlx_image = mlx_new_image(map->mlx_ptr, map->res_x, map->res_y)))
@@ -191,54 +171,12 @@ printf("p=%p ", map->image);
 		close_program(map, "Sprite memory allocation failed.\n", 2);
 	if (map->nb_sprite > 0)
 		find_sprite(map);
-	//if (!(map->image[1].mlx_image = mlx_new_image(map->mlx_ptr, map->res_x, map->res_y)))
-	//	return (-1);
-	//map->image[1].mlx_get_data = mlx_get_data_addr(map->image[1].mlx_image,
-	//		&map->image[1].bpp, &map->image[1].line_bytes, &endian);	
-	//put_pixel(map->image[0].mlx_get_data, 500, map->player.height_wall, map->image[0].line_bytes, map->image[0].bpp, manage_bit_colour_ceiling(map));
-
-	/*if (!(map->image[0].mlx_image = mlx_xpm_file_to_image(map->mlx_ptr, map->north_path, &map->image[0].height, &map->image[0].width)))
-		return (-1);
-	map->image[0].mlx_get_data = mlx_get_data_addr(map->image[0].mlx_image,
-			&map->image[0].bpp, &map->image[0].line_bytes, &endian);
-	if (!(map->image[4].mlx_image = mlx_new_image(map->mlx_ptr, map->res_x, map->res_y)))
-		return (-1);
-	map->image[4].mlx_get_data = mlx_get_data_addr(map->image[4].mlx_image,
-			&map->image[4].bpp, &map->image[4].line_bytes, &endian);
-	//int pixel = (y_pix * line_bytes) + (x_pix * 4);
-	printf("sixtyfour=%d\n", map->image[0].width);
-	printf("sixtyfour=%d\n", map->image[0].height);
-	int i, j;
-	i = 0;
-	j = 0;
-while (20 > j)
-{
-	i = 0;
-	while (20 > i)
-	{
-	map->image[4].mlx_get_data[((j) * map->image[4].line_bytes) + (i * 4) + 0]
-		= map->image[0].mlx_get_data[((1 * map->image[0].line_bytes) + (1 * 4)) + 0];
-	map->image[4].mlx_get_data[((j) * map->image[4].line_bytes) + (i * 4) + 1]
-		= map->image[0].mlx_get_data[((1 * map->image[0].line_bytes) + (1 * 4)) + 1];
-	map->image[4].mlx_get_data[((j) * map->image[4].line_bytes) + (i * 4) + 2]
-		= map->image[0].mlx_get_data[((1 * map->image[0].line_bytes) + (1 * 4)) + 2];
-	map->image[4].mlx_get_data[((j) * map->image[4].line_bytes) + (i * 4) + 3]
-		= map->image[0].mlx_get_data[((1 * map->image[0].line_bytes) + (1 * 4)) + 3];
-		i++;
-	}
-	j++;
-}*/
-	//printf("line_bytes=%d\n", map->image[0].line_bytes);
-	//printf("bpp=%d\n", map->image[0].bpp);
 	if (!(start_ray_direction(map)))
 		return (-1);
 	map->player.degree += 30.0;
 	mlx_hook(map->mlx_window, KEYPRESS, KEYPRESS_MASK, control_press, (void *)map);
-	mlx_hook(map->mlx_window, KEYRELEASE, KEYRELEASE_MASK, control_release, (void *)map->control);
+	mlx_hook(map->mlx_window, KEYRELEASE, KEYRELEASE_MASK, control_release, (void *)map);
 	//mlx_hook(map->mlx_window, KEYPRESS, KEYPRESS_MASK, control_player, (void *)map);
-	//if (map->image[0].mlx_image)
-	//	mlx_destroy_image(map->mlx_ptr, map->image[0].mlx_image);
-	//mlx_loop_hook(map->mlx_ptr, &control_player, (void *)map);
 	mlx_loop_hook(map->mlx_ptr, &render_map, (void *)map);
 	mlx_hook(map->mlx_window, 33, 1L << 17, close_program_cross, (void *)map);
 	mlx_loop(map->mlx_ptr);

@@ -1,29 +1,4 @@
 #include "../../includes/cub.h"
-/*
-void	add_texture(t_map *map, char *path, int id, int endian)
-{
-	t_image lst_image;
-
-	lst_image.id = id;
-	lst_image.mlx_image = mlx_xpm_file_to_image(map->mlx_ptr, path,
-			&lst_image.width, &lst_image.height);
-	lst_image.mlx_get_data = mlx_get_data_addr(lst_image.mlx_image, &lst_image.bpp, &lst_image.line_bytes, &endian);
-	lst_image.next = NULL;
-	ft_lstadd_front(&map->image, &lst_image);
-}
-*/
-
-void writebits (const unsigned long v, int fd)
-{
-    if (!v)  { putchar ('0'); return; };
-
-    size_t sz = sizeof v * CHAR_BIT;
-    unsigned long rem = 0;
-
-    while (sz--)
-        if ((rem = v >> sz))
-            write (fd, (rem & 1) ? "1" : "0", 1);
-}
 
 int	register_texture(t_map *map)
 {

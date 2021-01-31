@@ -156,9 +156,11 @@ int	close_program_cross(t_map *map, char *message, int msg_number)
 		free(map->south_path);
 	if (map->sprite_path)
 		free(map->sprite_path);
+	if (map->sprite)
+		free(map->sprite);
 	if (message != NULL)
 	{
-		ft_putstr_fd(message, msg_number);
+		ft_putstr_fd("Closed OK\n", msg_number);
 	}
 	exit(0);
 	return (0);
@@ -197,6 +199,8 @@ int	close_program(t_map *map, char *message, int msg_number)
 		free(map->south_path);
 	if (map->sprite_path)
 		free(map->sprite_path);
+	if (map->sprite)
+		free(map->sprite);
 	if (message != NULL)
 	{
 		ft_putstr_fd("Error\n", 2);

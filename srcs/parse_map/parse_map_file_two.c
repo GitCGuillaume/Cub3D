@@ -1,6 +1,6 @@
 #include "../../includes/cub.h"
 
-char	*get_number(t_map *map, unsigned int *i, char *line)
+char	*get_number(unsigned int *i, char *line)
 {
 	unsigned int	start;
 	unsigned int	end;
@@ -67,8 +67,8 @@ void	find_texture_two(char *line, unsigned int *i,
 {
 	if (line[*i] == 'R' && line[*i + 1] == ' ')
 	{
-		map->resolution[0] = get_number(map, i, line);
-		map->resolution[1] = get_number(map, i, line);
+		map->resolution[0] = get_number(i, line);
+		map->resolution[1] = get_number(i, line);
 		ft_memset(line, 0, ft_strlen(line));
 		if (map->is_resolution == 0 && map->resolution[0][0] != '\0')
 			map->is_resolution = 1;

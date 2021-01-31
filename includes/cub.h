@@ -97,7 +97,6 @@ typedef struct	s_map
 	char		*full_line;
 	char		**lines;
 	char		**lines_copy;
-	char		*mlx_get_data;
 	int		colour_counter;
 	int		player_exist;
 	int		ceiling_colour;
@@ -108,11 +107,11 @@ typedef struct	s_map
 	int	res_y;
 	void		*mlx_ptr;
 	void		*mlx_window;
+	double			*z_buffer;
+	t_control	control;
 	t_image		image[6];
 	t_player	player;
-	t_control	*control;
 	t_sprite	*sprite;
-	double	*z_buffer;
 
 }		t_map;
 
@@ -125,34 +124,38 @@ int	control_press(int keycode, void *param);
 int	control_release(int keycode, void *param);
 int	control_player(void *param);
 /* MAP */
-void	put_pixel(t_map *map, int x, unsigned int line_bytes, int bpp, int colour);
 int	initialization_map(t_map *map);
 int	initialization_map_struct(t_map *map);
+
 /* COLOUR */
 unsigned int	manage_bit_colour_floor(t_map *map);
 unsigned int	manage_bit_colour_ceil(t_map *map);
+
 /* PARSE MAP FILE */
 char	*get_line_fd(t_map *map, int fd);
 int	parse_line_fd(t_map *map);
 int	is_full_line_ok(char *line);
 void	is_printable(t_map *map, char *line, unsigned int *i);
-char	*get_number(t_map *map, unsigned int *i, char *line);
+char	*get_number(unsigned int *i, char *line);
 char	*get_number_two(t_map *map, unsigned int *i, char *line);
 char	*get_texture(t_map *map, unsigned int i, char *line);
 void	find_texture(char *line, unsigned int old_i, t_map *map);
 void	find_texture_two(char *line, unsigned int *i, unsigned int old_i, t_map *map);
 void	find_texture_three(char *line, unsigned int i, t_map *map);
+
 /* CHECK VALIDITY MAP */
 int	check_indicator_full(t_map *map);
 unsigned int	check_first_character(t_map *map);
 int		check_validity_map(t_map *map);
 int		check_valid_character(t_map *map);
+
 /* UTILS */
 int	is_other(char c);
 int	is_tab(char c);
 int	is_space(char c);
 void	ft_swap(t_sprite *a, t_sprite *b);
 int	register_texture(t_map *map);
+
 /* CLOSE */
 int	close_program(t_map *map, char *message, int msg_number);
 int	close_program_cross(t_map *map, char *message, int msg_number);
@@ -160,20 +163,59 @@ int	close_program_ok(t_map *map, char *message, int msg_number);
 int	close_program_gnl(t_map *map, char *message, int msg_number);
 void	clear_array(t_map *map);
 void	clear_array_two(t_map *map);
+
 /** RAYCASTER **/
 void	raycast(t_map *map);
-double	radian_to_degree(double radian);
+
+/** RAYCASTER TOOLS TWO **/
+size_t	max_lines(t_map *map);
+double	correct_distance(double value);
+
+/** RAYCASTER VER **/
+void	instanciate_pos_ver(t_map *map, int square_size);
+void	instanciate_length_ver(t_map *map, double tang, int square_size);
+void	vertical_check(t_map *map, double *length_case_x,
+		double *length_case_y, int square);
+void	vertical_detection(t_map *map, int number_lines, int square_size);
+
+/** RAYCASTER HOR **/
+void	instanciate_pos_hor(t_map *map, int square_size);
+void	instanciate_length_hor(t_map *map, double tang, int square_size);
+void	horizontal_check(t_map *map, double *length_case_x,
+		double *length_case_y, int square);
+void	horizontal_detection(t_map *map, int number_lines, int square_size);
+
+/** RAYCASTER TOOLS **/
+int	cpr_equal(double a, double b);
 int	start_ray_direction(t_map *map);
-/** RAYCASTER MOVEMENT **/
-t_image			*ft_lstlast(t_image *lst);
+double	radian_to_degree(double radian);
+double	degree_to_radian(double degree);
+double	max_case(char *line);
+
+/** RAYCASTER TEX **/
+int	text_map_u(t_map *map, t_image *img);
+int	text_map_v(t_map *map, int height, double zoom);
+void	texture_mapping(t_map *map, int x, t_image *img);
+void	ceil_mapping(t_map *map, int x, int ceil_colour);
+void	floor_mapping(t_map *map, int x, int floor_colour);
+
+/** RAYCASTER ERRORS OR FREE **/
+void check_error_ln_hor(t_map *map, double floor_pos_y);
+void check_error_ln_ver(t_map *map, double floor_pos_x);
+void	check_loop_cast(t_map *map);
+void	check_distance(t_map *map);
 
 /** SPRITE **/
 int	find_sprite(t_map *map);
-void	display_sprite(t_map *map, int square_size);
+void	display_sprite(t_map *map, int square_size, unsigned int nb_spt);
 
-void	black_pixel(t_map *map, int x, unsigned int line_bytes, int bpp, int colour);
-unsigned int	black_colour(t_map *map);
-double	correct_distance(double value);
-double	degree_to_radian(double degree);
+/** SPRITE TOOLS **/
+int	init_sprite(t_map *map, int nb_sprite, int i, int j);
+int	find_sprite(t_map *map);
+void	distance_math(t_map *map, unsigned int nb_sprite, int square_size);
+void	quicksort_sprite(t_map *map, t_sprite *sprite,
+		unsigned int nb_sprite, int square_size);
+void	sprite_values_check(t_map *map, unsigned int nb_spt);
+void	degree_check_divide(t_map *map, int nb_spt);
 
 #endif
