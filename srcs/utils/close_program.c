@@ -128,7 +128,8 @@ int	close_program_cross(t_map *map, char *message, int msg_number)
 	int	i;
 
 	i = 0;
-	free(map->full_line);	
+	if (map->full_line)
+		free(map->full_line);	
 	if (map->mlx_window)
 		mlx_destroy_window(map->mlx_ptr, map->mlx_window);
 	if (map->image[0].mlx_image)
@@ -143,7 +144,8 @@ int	close_program_cross(t_map *map, char *message, int msg_number)
 		mlx_destroy_image(map->mlx_ptr, map->image[4].mlx_image);
 	if (map->image[5].mlx_image)
 		mlx_destroy_image(map->mlx_ptr, map->image[5].mlx_image);
-	free(map->mlx_ptr);
+	if (map->mlx_ptr)
+		free(map->mlx_ptr);
 	clear_array(map);
 	clear_array_two(map);
 	if (map->north_path)
@@ -171,22 +173,24 @@ int	close_program(t_map *map, char *message, int msg_number)
 	int	i;
 
 	i = 0;
-	free(map->full_line);	
+	if (map->full_line)
+		free(map->full_line);	
 	if (map->mlx_window)
 		mlx_destroy_window(map->mlx_ptr, map->mlx_window);
-	if (map->image[0].mlx_image)
+	if (map->image[0].mlx_get_data)
 		mlx_destroy_image(map->mlx_ptr, map->image[0].mlx_image);
-	if (map->image[1].mlx_image)
+	if (map->image[1].mlx_get_data)
 		mlx_destroy_image(map->mlx_ptr, map->image[1].mlx_image);
-	if (map->image[2].mlx_image)
+	if (map->image[2].mlx_get_data)
 		mlx_destroy_image(map->mlx_ptr, map->image[2].mlx_image);
-	if (map->image[3].mlx_image)
+	if (map->image[3].mlx_get_data)
 		mlx_destroy_image(map->mlx_ptr, map->image[3].mlx_image);
-	if (map->image[4].mlx_image)
+	if (map->image[4].mlx_get_data)
 		mlx_destroy_image(map->mlx_ptr, map->image[4].mlx_image);
-	if (map->image[5].mlx_image)
+	if (map->image[5].mlx_get_data)
 		mlx_destroy_image(map->mlx_ptr, map->image[5].mlx_image);
-	free(map->mlx_ptr);
+	if (map->mlx_ptr)
+		free(map->mlx_ptr);
 	clear_array(map);
 	clear_array_two(map);
 	if (map->north_path)

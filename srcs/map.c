@@ -23,6 +23,12 @@ int	init_map_struct_two(t_map *map)
 		map->resolution[i] = NULL;
 		i++;
 	}
+	i = 0;
+	while (6 > i)
+	{
+		map->image[i].mlx_get_data = NULL;
+		i++;
+	}
 	return (1);
 }
 
@@ -160,17 +166,19 @@ int	endian = 0;
 		return (-1);
 	map->image[0].mlx_get_data = mlx_get_data_addr(map->image[0].mlx_image,
 			&map->image[0].bpp, &map->image[0].line_bytes, &endian);
+	if (map->image[0].mlx_get_data == NULL)
+		close_program(map, "image creation failed.\n", 2);
+	map->sprite = malloc(sizeof(t_sprite) * map->nb_sprite);
+	if (map->sprite == NULL)
+		close_program(map, "Sprite memory allocation failed.\n", 2);
+	if (map->nb_sprite > 0)
+		find_sprite(map);
 	textures_exist = register_texture(map);
 	if (textures_exist == 0)
 	{
 		close_program(map, "Can't create textures image.\n", 2);
 		return (-1);
 	}
-	map->sprite = malloc(sizeof(t_sprite) * map->nb_sprite);
-	if (map->sprite == NULL)
-		close_program(map, "Sprite memory allocation failed.\n", 2);
-	if (map->nb_sprite > 0)
-		find_sprite(map);
 	if (!(start_ray_direction(map)))
 		return (-1);
 	map->player.degree += 30.0;

@@ -78,11 +78,6 @@ void	quicksort_sprite(t_map *map, t_sprite *sprite,
 
 void	sprite_values_check(t_map *map, unsigned int nb_spt)
 {
-	if (cpr_equal(map->sprite[nb_spt].degree, 0.0)
-			|| cpr_equal(map->sprite[nb_spt].degree, 90.0)
-			|| cpr_equal(map->sprite[nb_spt].degree, 180.0)
-			|| cpr_equal(map->sprite[nb_spt].degree, 270.0))
-		map->sprite[nb_spt].degree += 0.000010;
 	if (cpr_equal(map->sprite[nb_spt].x_sprite, 0.0))
 		map->sprite[nb_spt].x_sprite += 0.000010;
 	if (map->sprite[nb_spt].x_sprite >= 2147483647.0
