@@ -86,7 +86,6 @@ typedef struct	s_map
 	unsigned short	is_south;
 	unsigned short	is_sprite;
 	unsigned short	is_resolution;
-	unsigned int	nb_sprite;
 	char		**colour;
 	char		**resolution;
 	char		*north_path;
@@ -97,6 +96,8 @@ typedef struct	s_map
 	char		*full_line;
 	char		**lines;
 	char		**lines_copy;
+	int		fd;
+	int		save;
 	int		colour_counter;
 	int		player_exist;
 	int		ceiling_colour;
@@ -105,6 +106,7 @@ typedef struct	s_map
 	int	y_tmp;
 	int	res_x;
 	int	res_y;
+	unsigned int	nb_sprite;
 	void		*mlx_ptr;
 	void		*mlx_window;
 	double			*z_buffer;
@@ -116,6 +118,8 @@ typedef struct	s_map
 }		t_map;
 
 /* MAIN */
+int		ft_close_fd(int fd);
+
 /* PLAYER */
 void	init_player(t_map *map);
 int	close_program_key(int keycode, void *param, char *message, int msg_number);
@@ -124,7 +128,7 @@ int	control_press(int keycode, void *param);
 int	control_release(int keycode, void *param);
 int	control_player(void *param);
 /* MAP */
-int	initialization_map(t_map *map);
+int	initialization_map(t_map *map, char *argv, int argc);
 int	initialization_map_struct(t_map *map);
 
 /* COLOUR */
@@ -217,5 +221,8 @@ void	quicksort_sprite(t_map *map, t_sprite *sprite,
 		unsigned int nb_sprite, int square_size);
 void	sprite_values_check(t_map *map, unsigned int nb_spt);
 void	degree_check_divide(t_map *map, int nb_spt);
+
+/** BMP **/
+void	create_bmp(t_map *map, char *argv);
 
 #endif

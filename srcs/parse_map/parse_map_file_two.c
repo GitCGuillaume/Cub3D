@@ -2,9 +2,9 @@
 
 char	*get_number(unsigned int *i, char *line)
 {
+	char		*value;
 	unsigned int	start;
 	unsigned int	end;
-	char		*value;
 
 	start = 0;
 	end = 0;
@@ -23,8 +23,8 @@ char	*get_number(unsigned int *i, char *line)
 
 char	*get_number_two(t_map *map, unsigned int *i, char *line)
 {
-	unsigned int	start;
 	char	*value;
+	unsigned int	start;
 
 	start = 0;
 	value = 0;
@@ -45,9 +45,9 @@ char	*get_number_two(t_map *map, unsigned int *i, char *line)
 #include <stdio.h>
 char	*get_texture(t_map *map, unsigned int i, char *line)
 {
+	char		*value;
 	unsigned int	start;
 	unsigned int	end;
-	char		*value;
 
 	start = 0;
 	end = 0;

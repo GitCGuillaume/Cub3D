@@ -60,6 +60,8 @@ int	close_program_gnl(t_map *map, char *message, int msg_number)
 	int	i;
 
 	i = 0;
+	if (map->fd != -1)
+		ft_close_fd(map->fd);
 	if (map->full_line)
 		free(map->full_line);
 	clear_array(map);
@@ -88,7 +90,10 @@ int	close_program_ok(t_map *map, char *message, int msg_number)
 	int	i;
 
 	i = 0;
-	free(map->full_line);	
+	if (map->fd != -1)
+		ft_close_fd(map->fd);
+	if (map->full_line)
+		free(map->full_line);	
 	if (map->mlx_window)
 		mlx_destroy_window(map->mlx_ptr, map->mlx_window);
 	if (map->image[0].mlx_image)
@@ -128,6 +133,8 @@ int	close_program_cross(t_map *map, char *message, int msg_number)
 	int	i;
 
 	i = 0;
+	if (map->fd != -1)
+		ft_close_fd(map->fd);
 	if (map->full_line)
 		free(map->full_line);	
 	if (map->mlx_window)
@@ -162,8 +169,9 @@ int	close_program_cross(t_map *map, char *message, int msg_number)
 		free(map->sprite);
 	if (message != NULL)
 	{
-		ft_putstr_fd("Closed OK\n", msg_number);
+		ft_putstr_fd(message, msg_number);
 	}
+	ft_putstr_fd("Closed OK\n", 1);
 	exit(0);
 	return (0);
 }
@@ -173,6 +181,8 @@ int	close_program(t_map *map, char *message, int msg_number)
 	int	i;
 
 	i = 0;
+	if (map->fd != -1)
+		ft_close_fd(map->fd);
 	if (map->full_line)
 		free(map->full_line);	
 	if (map->mlx_window)

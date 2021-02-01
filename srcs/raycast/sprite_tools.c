@@ -16,9 +16,9 @@ int	init_sprite(t_map *map, int nb_sprite, int i, int j)
 
 int	find_sprite(t_map *map)
 {
+	unsigned int	nb_sprite;
 	long int		i;
 	long int		j;
-	unsigned int	nb_sprite;
 
 	i = 0;
 	nb_sprite = 0;

@@ -75,14 +75,14 @@ char	*get_line_fd(t_map *map, int fd)
 {
 	char	*line;
 	char	*tmp_line;
+	char	*join_str;
 	int		ret;
 	int		i;
-	char	*join_str;
 
 	line = ft_strdup("");
 	tmp_line = NULL;
-	join_str = NULL;
 	i = 0;
+	join_str = NULL;
 	while ((ret = get_next_line(fd, &tmp_line)) > 0)
 	{
 		i = 0;

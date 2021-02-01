@@ -2,11 +2,11 @@
 
 int	text_map_u(t_map *map, t_image *img)
 {
-	double	pos_u;
 	int		u;
+	double	pos_u;
 
-	pos_u = 0;
 	u = 0;
+	pos_u = 0;
 	if (map->player.ray_horizontal.distance_wall
 			< map->player.ray_vertical.distance_wall)
 	{
@@ -28,8 +28,8 @@ int	text_map_u(t_map *map, t_image *img)
 
 int	text_map_v(t_map *map, int height, double zoom)
 {
-	double	pos_v;
 	int		v;
+	double	pos_v;
 
 	if (height >= 2147483647
 			|| map->player.bottom_wall >= 2147483647 || height < 0)

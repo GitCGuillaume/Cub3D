@@ -35,7 +35,6 @@ int	init_map_struct_two(t_map *map)
 int	initialization_map_struct(t_map *map)
 {
 	int	init;
-	//t_image lst;
 
 	init = init_map_struct_two(map);
 	if (init == 0)
@@ -136,7 +135,7 @@ int	render_map(void *param)
 	return (0);
 }
 
-int	initialization_map(t_map *map)
+int	initialization_map(t_map *map, char *argv, int argc)
 {
 	int	x;
 	int	y;
@@ -145,6 +144,8 @@ int	endian = 0;
 
 	x = ft_atoi(map->resolution[0]);
 	y = ft_atoi(map->resolution[1]);
+	if (x < 320 || y < 200)
+		close_program_gnl(map, "resolution too low.\n", 2);
 	textures_exist = 0;
 	if (!(map->mlx_ptr = mlx_init()))
 		return (-1);
@@ -186,6 +187,8 @@ int	endian = 0;
 	mlx_hook(map->mlx_window, KEYRELEASE, KEYRELEASE_MASK, control_release, (void *)map);
 	//mlx_hook(map->mlx_window, KEYPRESS, KEYPRESS_MASK, control_player, (void *)map);
 	mlx_loop_hook(map->mlx_ptr, &render_map, (void *)map);
+	if (map->save == 1 && argc == 3)
+		create_bmp(map, argv);
 	mlx_hook(map->mlx_window, 33, 1L << 17, close_program_cross, (void *)map);
 	mlx_loop(map->mlx_ptr);
 	return (0);
