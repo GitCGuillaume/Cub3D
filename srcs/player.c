@@ -163,7 +163,7 @@ int	control_player(void *param)
 	}
 	if (map->control.ss_left == 1)
 	{
-		if (map->lines[(int)check_pos_y][(int)(check_pos_x - sin(degree_to_radian(player.degree)) * 0.35)] != ' '
+		if (map->lines[(int)check_pos_y][(int)(check_pos_x - sin(degree_to_radian(degree)) * 0.35)] != ' '
 				&& map->lines[(int)check_pos_y][(int)(check_pos_x - sin(degree_to_radian(degree)) * 0.35)] != '1')
 			map->player.pos_x -= sin(degree_to_radian(degree)) * 0.05;
 		if (map->lines[(int)(check_pos_y - cos(degree_to_radian(degree)) * 0.35)][(int)check_pos_x] != ' '
