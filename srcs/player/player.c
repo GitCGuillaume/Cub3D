@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/cub.h"
+#include "../../includes/cub.h"
 
-t_control	init_keymap(void)
+void	init_player(t_map *map)
 {
 	t_control control;
 
@@ -22,12 +22,7 @@ t_control	init_keymap(void)
 	control.ss_right = 0;
 	control.t_left = 0;
 	control.t_right = 0;
-	return (control);
-}
-
-void	init_player(t_map *map)
-{
-	map->control = init_keymap();
+	map->control = control;
 	map->player.fill_x = 0;
 	map->player.fill_y = 0;
 	map->player.pos_x = 0;
@@ -129,60 +124,5 @@ int		control_release(int keycode, void *param)
 		control->t_left = 0;
 	if (keycode == 65363)
 		control->t_right = 0;
-	return (0);
-}
-
-int	control_player(void *param)
-{
-	t_map	*map;
-	double	check_pos_y;
-	double	check_pos_x;
-	double	degree;
-
-	map = (t_map *)param;
-	check_pos_y = map->player.pos_y;
-	check_pos_x = map->player.pos_x;
-	degree = map->player.degree_raycast;
-	if (map->control.forward == 1)
-	{
-		if (map->lines[(int)(check_pos_y - sin(degree_to_radian(degree)) * 0.35)][(int)check_pos_x] != ' '
-				&& map->lines[(int)(check_pos_y - sin(degree_to_radian(degree)) * 0.35)][(int)check_pos_x] != '1')
-			map->player.pos_y -= sin(degree_to_radian(degree)) * 0.05;
-		if (map->lines[(int)check_pos_y][(int)(check_pos_x + cos(degree_to_radian(degree)) * 0.35)] != ' '
-				&& map->lines[(int)check_pos_y][(int)(check_pos_x + cos(degree_to_radian(degree)) * 0.35)] != '1')
-			map->player.pos_x += cos(degree_to_radian(degree)) * 0.05;
-	}
-	if (map->control.backward == 1)
-	{
-		if (map->lines[(int)(check_pos_y + sin(degree_to_radian(degree)) * 0.35)][(int)check_pos_x] != ' '
-				&& map->lines[(int)(check_pos_y + sin(degree_to_radian(degree)) * 0.35)][(int)check_pos_x] != '1')
-			map->player.pos_y += sin(degree_to_radian(degree)) * 0.05;
-		if (map->lines[(int)check_pos_y][(int)(check_pos_x - cos(degree_to_radian(degree)) * 0.35)] != ' '
-				&& map->lines[(int)check_pos_y][(int)(check_pos_x - cos(degree_to_radian(degree)) * 0.3)] != '1')
-			map->player.pos_x -= cos(degree_to_radian(degree)) * 0.05;
-	}
-	if (map->control.ss_left == 1)
-	{
-		if (map->lines[(int)check_pos_y][(int)(check_pos_x - sin(degree_to_radian(degree)) * 0.35)] != ' '
-				&& map->lines[(int)check_pos_y][(int)(check_pos_x - sin(degree_to_radian(degree)) * 0.35)] != '1')
-			map->player.pos_x -= sin(degree_to_radian(degree)) * 0.05;
-		if (map->lines[(int)(check_pos_y - cos(degree_to_radian(degree)) * 0.35)][(int)check_pos_x] != ' '
-				&& map->lines[(int)(check_pos_y - cos(degree_to_radian(degree)) * 0.35)][(int)check_pos_x] != '1')
-			map->player.pos_y -= cos(degree_to_radian(degree)) * 0.05;
-	}
-	if (map->control.ss_right == 1)
-	{
-		if (map->lines[(int)check_pos_y][(int)(check_pos_x + sin(degree_to_radian(degree)) * 0.35)] != ' '
-				&& map->lines[(int)check_pos_y][(int)(check_pos_x + sin(degree_to_radian(degree)) * 0.3)] != '1')
-			map->player.pos_x += sin(degree_to_radian(degree)) * 0.05;
-		if (map->lines[(int)(check_pos_y + cos(degree_to_radian(degree)) * 0.35)][(int)check_pos_x] != ' '
-				&& map->lines[(int)(check_pos_y + cos(degree_to_radian(degree)) * 0.35)][(int)check_pos_x] != '1')
-			map->player.pos_y += cos(degree_to_radian(degree)) * 0.05;
-
-	}
-	if (map->control.t_left == 1)
-		map->player.degree_raycast = correct_distance(map->player.degree_raycast) + 3.0;
-	else if (map->control.t_right == 1)
-		map->player.degree_raycast = correct_distance(map->player.degree_raycast) - 3.0;
 	return (0);
 }

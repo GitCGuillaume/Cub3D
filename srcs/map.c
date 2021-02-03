@@ -36,6 +36,7 @@ int	initialization_map_struct(t_map *map)
 {
 	int	init;
 
+	map->mlx_window = NULL;
 	init = init_map_struct_two(map);
 	if (init == 0)
 		return (0);
@@ -130,11 +131,30 @@ int	render_map(void *param)
 	raycast(map);
 	mlx_put_image_to_window(map->mlx_ptr,
 			map->mlx_window, map->image->mlx_image, 0, 0);	
-	if (map->save == 1 /*&& argc == 3*/)
-		create_bmp(map, "map.cub");
 	//ft_swap(map->image[0].mlx_image, map->image[1].mlx_image);
 	//ft_swap(map->image[0].mlx_get_data, map->image[1].mlx_get_data);
 	return (0);
+}
+
+void	take_screenshot(t_map *map)
+{
+
+	int	line_bytes;
+	int	bpp;
+	int	endian;
+
+	line_bytes = 125;
+	bpp = 32;
+	endian = 0;
+	if (map->image[0].mlx_image)
+		mlx_destroy_image(map->mlx_ptr, map->image[0].mlx_image);
+	if (!(map->image[0].mlx_image = mlx_new_image(map->mlx_ptr, map->res_x, map->res_y)))
+		close_program(map, "Screenshot failed, can't create the picture.\n", 2);
+	map->image[0].mlx_get_data = mlx_get_data_addr(map->image[0].mlx_image,
+			&map->image[0].bpp, &map->image[0].line_bytes, &endian);
+	raycast(map);
+	if (map->save == 1 /*&& argc == 3*/)
+		create_bmp(map, "map.cub");
 }
 
 int	initialization_map(t_map *map, char *argv, int argc)
@@ -163,14 +183,13 @@ int	endian = 0;
 		map->res_x = x;
 		map->res_y = y;
 	}
-	if (!(map->mlx_window = mlx_new_window(map->mlx_ptr, map->res_x, map->res_y, "Cub3D")))
-		return (-1);	
 	if (!(map[0].image->mlx_image = mlx_new_image(map->mlx_ptr, map->res_x, map->res_y)))
 		return (-1);
 	map->image[0].mlx_get_data = mlx_get_data_addr(map->image[0].mlx_image,
 			&map->image[0].bpp, &map->image[0].line_bytes, &endian);
 	if (map->image[0].mlx_get_data == NULL)
 		close_program(map, "image creation failed.\n", 2);
+
 	map->sprite = malloc(sizeof(t_sprite) * map->nb_sprite);
 	if (map->sprite == NULL)
 		close_program(map, "Sprite memory allocation failed.\n", 2);
@@ -185,6 +204,11 @@ int	endian = 0;
 	if (!(start_ray_direction(map)))
 		return (-1);
 	map->player.degree += 30.0;
+
+	if (map->save == 1 /*&& argc == 3*/)
+		take_screenshot(map);
+	if (!(map->mlx_window = mlx_new_window(map->mlx_ptr, map->res_x, map->res_y, "Cub3D")))
+		return (-1);	
 	mlx_hook(map->mlx_window, KEYPRESS, KEYPRESS_MASK, control_press, (void *)map);
 	mlx_hook(map->mlx_window, KEYRELEASE, KEYRELEASE_MASK, control_release, (void *)map);
 	//mlx_hook(map->mlx_window, KEYPRESS, KEYPRESS_MASK, control_player, (void *)map);
