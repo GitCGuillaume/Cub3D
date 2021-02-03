@@ -63,14 +63,12 @@ int		search_player(t_map *map, char **lines, int i)
 {
 	int		j;
 
-	j = -1;
 	if (lines)
 	{
-		while (lines[i++])
+		while (lines[i])
 		{
-			printf("i=%d\n",i);
-			j = 0;
-			while (lines[i][j] != '\0')
+			j = -1;
+			while (lines[i][++j] != '\0')
 			{
 				if (lines[i][j] == 'N' || lines[i][j] == 'S'
 					|| lines[i][j] == 'E' || lines[i][j] == 'W')
@@ -81,9 +79,8 @@ int		search_player(t_map *map, char **lines, int i)
 					map->player.fill_y = i;
 					map->player.fill_x = j;
 				}
-				j++;
 			}
-			//i++;
+			i++;
 		}
 	}
 	if (map->player_exist != 1)
