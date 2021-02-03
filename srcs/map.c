@@ -130,6 +130,8 @@ int	render_map(void *param)
 	raycast(map);
 	mlx_put_image_to_window(map->mlx_ptr,
 			map->mlx_window, map->image->mlx_image, 0, 0);	
+	if (map->save == 1 /*&& argc == 3*/)
+		create_bmp(map, "map.cub");
 	//ft_swap(map->image[0].mlx_image, map->image[1].mlx_image);
 	//ft_swap(map->image[0].mlx_get_data, map->image[1].mlx_get_data);
 	return (0);
@@ -187,8 +189,6 @@ int	endian = 0;
 	mlx_hook(map->mlx_window, KEYRELEASE, KEYRELEASE_MASK, control_release, (void *)map);
 	//mlx_hook(map->mlx_window, KEYPRESS, KEYPRESS_MASK, control_player, (void *)map);
 	mlx_loop_hook(map->mlx_ptr, &render_map, (void *)map);
-	if (map->save == 1 && argc == 3)
-		create_bmp(map, argv);
 	mlx_hook(map->mlx_window, 33, 1L << 17, close_program_cross, (void *)map);
 	mlx_loop(map->mlx_ptr);
 	return (0);

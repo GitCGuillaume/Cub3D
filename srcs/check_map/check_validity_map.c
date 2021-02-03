@@ -57,9 +57,11 @@ static void	flood_fill(t_map *map, int x, int y, char old_value)
 			if (map->lines_copy[y - 1][x] != '1'
 					&& map->lines_copy[y - 1][x] != ' ')
 				flood_fill(map, x, y - 1, old_value);
-			if (map->lines_copy[y][x + 1] != '1' && map->lines_copy[y][x + 1] != ' ')
+			if (map->lines_copy[y][x + 1] != '1'
+					&& map->lines_copy[y][x + 1] != ' ')
 				flood_fill(map, x + 1, y, old_value);
-			if (map->lines_copy[y][x - 1] != '1' && map->lines_copy[y][x - 1] != ' ')
+			if (map->lines_copy[y][x - 1] != '1'
+					&& map->lines_copy[y][x - 1] != ' ')
 				flood_fill(map, x - 1, y, old_value);
 		}
 	}
@@ -67,11 +69,9 @@ static void	flood_fill(t_map *map, int x, int y, char old_value)
 
 static void	assignate_array(short *is_valid_array, t_map *map)
 {
-	int		i;
-	int		j;
+	int	i;
 
 	i = 0;
-	j = 0;
 	if (map->colour_counter == 6)
 		is_valid_array[0] = 1;
 	if (map->is_north == 1)
@@ -86,22 +86,21 @@ static void	assignate_array(short *is_valid_array, t_map *map)
 		is_valid_array[5] = 1;
 	if (map->is_resolution == 2)
 		is_valid_array[6] = 1;
-	while (j != 7)
+	while (i != 7)
 	{
-		if (is_valid_array[j] == 0)
-			close_program_gnl(map, "Some setting(s) from the map are wrongs.\n", 2);
-		j++;
+		if (is_valid_array[i] == 0)
+			close_program_gnl(map,
+					"Some setting(s) from the map are wrongs.\n", 2);
+		i++;
 	}
 }
 
-int		check_validity_map(t_map *map)
+int	check_validity_map(t_map *map)
 {
 	short	is_valid_array[9];
 	int		i;
-	int		j;
 
 	i = 0;
-	j = 0;
 	while (i != 9)
 	{
 		is_valid_array[i] = 0;
@@ -110,10 +109,10 @@ int		check_validity_map(t_map *map)
 	assignate_array(&is_valid_array[0], map);
 	if (check_valid_character(map) == 0)
 	{
-		is_valid_array[7] = search_player(map, map->lines_copy, j);
-		map->player.start_position = map->lines[map->player.fill_y][map->player.fill_x];
-		flood_fill(map, map->player.pos_x,
-				map->player.pos_y,
+		is_valid_array[7] = search_player(map, map->lines_copy, 0);
+		map->player.start_position =
+			map->lines[map->player.fill_y][map->player.fill_x];
+		flood_fill(map, map->player.pos_x, map->player.pos_y,
 				map->lines_copy[map->player.fill_y][map->player.fill_x]);
 		is_valid_array[8] = 1;
 	}

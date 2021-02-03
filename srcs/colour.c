@@ -2,10 +2,10 @@
 
 unsigned int	manage_bit_colour_floor(t_map *map)
 {
-	int colour;
-	int r;
-	int g;
-	int b;
+	int	colour;
+	int	r;
+	int	g;
+	int	b;
 
 	colour = 0;
 	r = ft_atoi(map->colour[0]);
@@ -23,12 +23,13 @@ unsigned int	manage_bit_colour_floor(t_map *map)
 	close_program(map, "every colours rgb must be between 0 and 255\n", 2);
 	return (0);
 }
+
 unsigned int	black_colour(t_map *map)
 {
-	int colour;
-	int r;
-	int g;
-	int b;
+	int	colour;
+	int	r;
+	int	g;
+	int	b;
 
 	colour = 0;
 	r = 105;
@@ -49,10 +50,10 @@ unsigned int	black_colour(t_map *map)
 
 unsigned int	manage_bit_colour_ceil(t_map *map)
 {
-	int colour;
-	int r;
-	int g;
-	int b;
+	int	colour;
+	int	r;
+	int	g;
+	int	b;
 
 	colour = 0;
 	r = ft_atoi(map->colour[3]);

@@ -26,7 +26,7 @@ int		ft_close_fd(int fd)
 	return (fd);
 }
 
-int	save_check(t_map *map, char *save)	
+int	save_check(t_map *map, char *save)
 {
 	if (save[0] == '-' && save[1] == '-' && save[2] == 's'
 			&& save[3] == 'a' && save[4] == 'v' && save[5] == 'e'
@@ -39,19 +39,41 @@ int	save_check(t_map *map, char *save)
 	{
 		ft_putstr_fd("Error\n--save command is wrong.\n", 2);
 		exit(0);
-
 	}
-	return (0);	
+	return (0);
+}
+
+void	display_game(t_map *map, int argc, char *argv, char *result)
+{
+	if (ft_strncmp(result, ".cub", 4) == 0)
+		map->fd = ft_open_fd(argv);
+	else
+		ft_putstr_fd("Error\nWrong name format.\n", 2);
+	if (map->fd != -1)
+	{
+		init_player(map);
+		if (!(initialization_map_struct(map)))
+			ft_putstr_fd("Error\nMap struct allocation failed.\n", 2);
+		else
+		{
+			map->full_line = get_line_fd(map, map->fd);
+			if (map->full_line)
+			{
+				parse_line_fd(map);
+				initialization_map(map, argv, argc);
+			}
+		}
+	}
+	if (map->fd != -1)
+		ft_close_fd(map->fd);
 }
 
 int	main(int argc, char *argv[])
 {
 	char	*result;
 	char	*save;
-	int	i;
 	t_map	map;
 
-	i = 0;
 	map.save = 0;
 	map.fd = -1;
 	save = NULL;
@@ -64,33 +86,11 @@ int	main(int argc, char *argv[])
 			save_check(&map, save);
 		}
 		if (result != NULL)
-		{
-			if (ft_strncmp(result, ".cub", 4) == 0)
-				map.fd = ft_open_fd(argv[1]);
-			else
-				ft_putstr_fd("Error\nWrong name format.\n", 2);
-			if (map.fd != -1)
-			{
-				init_player(&map);
-				if (!(initialization_map_struct(&map)))
-					ft_putstr_fd("Error\nMap struct allocation failed.\n", 2);
-				else
-				{
-					map.full_line = get_line_fd(&map, map.fd);
-					if (map.full_line)
-					{
-						parse_line_fd(&map);
-						initialization_map(&map, argv[1], argc);
-					}
-				}
-			}
-			if (map.fd != -1)
-				ft_close_fd(map.fd);
-		}
+			display_game(&map, argc, argv[1], result);
 		else
 			ft_putstr_fd("Error\nWrong name format.\n", 2);
 	}
 	else
-		ft_putstr_fd("Error\nPlease enter a file, and --save if you want a screenshot.\n", 2);
+		ft_putstr_fd("Error\nPlease enter a file path.\n", 2);
 	return (0);
 }
