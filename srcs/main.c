@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gchopin <gchopin@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/02/03 17:24:42 by gchopin           #+#    #+#             */
+/*   Updated: 2021/02/03 17:24:48 by gchopin          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/cub.h"
 #include <stdio.h>
 
@@ -26,7 +38,7 @@ int		ft_close_fd(int fd)
 	return (fd);
 }
 
-int	save_check(t_map *map, char *save)
+int		save_check(t_map *map, char *save)
 {
 	if (save[0] == '-' && save[1] == '-' && save[2] == 's'
 			&& save[3] == 'a' && save[4] == 'v' && save[5] == 'e'
@@ -68,7 +80,7 @@ void	display_game(t_map *map, int argc, char *argv, char *result)
 		ft_close_fd(map->fd);
 }
 
-int	main(int argc, char *argv[])
+int		main(int argc, char *argv[])
 {
 	char	*result;
 	char	*save;

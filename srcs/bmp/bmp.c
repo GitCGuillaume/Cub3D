@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   bmp.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gchopin <gchopin@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/02/03 17:25:16 by gchopin           #+#    #+#             */
+/*   Updated: 2021/02/03 17:26:35 by gchopin          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/cub.h"
 
-int	ft_open_bmp(t_map *map, char *path)
+int		ft_open_bmp(t_map *map, char *path)
 {
 	int		fd;
 	char	*bmp_file;
@@ -26,7 +38,7 @@ void	write_header(t_map *map, int fd)
 {
 	unsigned short		two_bytes;
 	unsigned int		four_bytes;
-	int	s_four_bytes;
+	int					s_four_bytes;
 
 	four_bytes = 54 + (map->res_x * map->res_y);
 	s_four_bytes = 0;
@@ -43,7 +55,7 @@ void	write_header_img(t_map *map, int fd)
 {
 	unsigned short		two_bytes;
 	unsigned int		four_bytes;
-	int		s_four_bytes;
+	int					s_four_bytes;
 
 	four_bytes = 40;
 	write(fd, &four_bytes, sizeof(unsigned int));
@@ -85,7 +97,8 @@ void	write_img(t_map *map, int fd)
 }
 
 /*
- ** Source : https://medium.com/sysf/bits-to-bitmaps-a-simple-walkthrough-of-bmp-image-format-765dc6857393
+ ** Source : https://medium.com/sysf/
+ ** bits-to-bitmaps-a-simple-walkthrough-of-bmp-image-format-765dc6857393
 */
 
 void	create_bmp(t_map *map, char *argv)

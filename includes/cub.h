@@ -121,15 +121,15 @@ typedef struct	s_map
 int		ft_close_fd(int fd);
 
 /* PLAYER */
-void	init_player(t_map *map);
-int	close_program_key(int keycode, void *param, char *message, int msg_number);
-int	search_player(t_map *map, char **lines, int i);
-int	control_press(int keycode, void *param);
-int	control_release(int keycode, void *param);
-int	control_player(void *param);
+void		init_player(t_map *map);
+int			close_program_key(int keycode, void *param, char *message, int msg_number);
+int			search_player(t_map *map, char **lines, int i);
+int			control_press(int keycode, void *param);
+int			control_release(int keycode, void *param);
+int			control_player(void *param);
 /* MAP */
-int	initialization_map(t_map *map, char *argv, int argc);
-int	initialization_map_struct(t_map *map);
+int			initialization_map(t_map *map, char *argv, int argc);
+int			initialization_map_struct(t_map *map);
 
 /* COLOUR */
 unsigned int	manage_bit_colour_floor(t_map *map);

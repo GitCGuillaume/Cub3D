@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   player.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gchopin <gchopin@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/02/03 17:39:58 by gchopin           #+#    #+#             */
+/*   Updated: 2021/02/03 18:03:09 by gchopin          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/cub.h"
 
 t_control	init_keymap(void)
@@ -14,7 +26,7 @@ t_control	init_keymap(void)
 }
 
 void	init_player(t_map *map)
-{	
+{
 	map->control = init_keymap();
 	map->player.fill_x = 0;
 	map->player.fill_y = 0;
@@ -30,10 +42,11 @@ void	init_player(t_map *map)
 	map->player.height_wall = 0;
 }
 
-int	close_program_key(int keycode, void *param, char *message, int msg_number)
+int		close_program_key(int keycode, void *param,
+		char *message, int msg_number)
 {
-	int	i;
-	t_map *map;
+	int		i;
+	t_map	*map;
 
 	i = 0;
 	map = (t_map *)param;
@@ -45,16 +58,17 @@ int	close_program_key(int keycode, void *param, char *message, int msg_number)
 	}
 	return (0);
 }
-#include <stdio.h>
-int	search_player(t_map *map, char **lines, int i)
-{
-	int j;
 
-	j = 0;
+int		search_player(t_map *map, char **lines, int i)
+{
+	int		j;
+
+	j = -1;
 	if (lines)
 	{
-		while (lines[i])
+		while (lines[i++])
 		{
+			printf("i=%d\n",i);
 			j = 0;
 			while (lines[i][j] != '\0')
 			{
@@ -69,18 +83,17 @@ int	search_player(t_map *map, char **lines, int i)
 				}
 				j++;
 			}
-			i++;
+			//i++;
 		}
 	}
 	if (map->player_exist != 1)
 		close_program_gnl(map, "No player in the map, or too much.\n", 2);
 	return (1);
 }
-#include <stdio.h>
 
-int	control_press(int keycode, void *param)
+int		control_press(int keycode, void *param)
 {
-	t_map		*map;
+	t_map	*map;
 
 	map = (t_map *)param;
 	if (keycode == 'w')
@@ -100,10 +113,10 @@ int	control_press(int keycode, void *param)
 	return (0);
 }
 
-int	control_release(int keycode, void *param)
+int		control_release(int keycode, void *param)
 {
-	t_map	*map;
-	t_control		*control;
+	t_map		*map;
+	t_control	*control;
 
 	map = (t_map *)param;
 	control = &map->control;

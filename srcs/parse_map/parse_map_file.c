@@ -1,28 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_map_file.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gchopin <gchopin@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/02/03 17:31:43 by gchopin           #+#    #+#             */
+/*   Updated: 2021/02/03 17:32:15 by gchopin          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/cub.h"
 
-/*int	is_map_incorrect(int i, char *line, t_map *map)
-{
-	if (map->is_north != 1 || map->is_south != 1
-		|| map->is_east != 1 || map->is_west != 1
-		|| map->is_resolution != 2 || map->is_sprite != 1
-		|| map->colour_counter != 6)
-	{
-		if (!(line[i] == 'R' && line[i + 1] == ' ')
-			&& !(line[i] == 'N' && line[i + 1] == 'O' && line[i + 2] == ' ')
-			&& !(line[i] == 'S' && line[i + 1] == 'O' && line[i + 2] == ' ')
-			&& !(line[i] == 'W' && line[i + 1] == 'E' && line[i + 2] == ' ')
-			&& !(line[i] == 'E' && line[i + 1] == 'A' && line[i + 2] == ' ')
-			&& !(line[i] == 'S' && line[i + 1] == ' ')
-			&& !(line[i] == 'C' && line[i + 1] == ' ')
-			&& !(line[i] == 'F' && line[i + 1] == ' '))
-		{
-			return (1);
-		}
-	}
-	return (0);
-}*/
-
-int	find_which_indicator(t_map *map, char *line)
+int		find_which_indicator(t_map *map, char *line)
 {
 	unsigned int	i;
 	unsigned int	old_i;
@@ -94,7 +84,7 @@ char	*get_line_fd(t_map *map, int fd)
 	return (line);
 }
 
-int	parse_line_fd(t_map *map)
+int		parse_line_fd(t_map *map)
 {
 	int	i;
 	int	is_space_ok;

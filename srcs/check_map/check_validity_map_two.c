@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   check_validity_map_two.c                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gchopin <gchopin@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/02/03 17:27:42 by gchopin           #+#    #+#             */
+/*   Updated: 2021/02/03 17:29:27 by gchopin          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/cub.h"
 
-int	check_indicator_full(t_map *map)
+int					check_indicator_full(t_map *map)
 {
 	int	i;
 
@@ -22,7 +34,7 @@ int	check_indicator_full(t_map *map)
 	return (i);
 }
 
-unsigned int	check_first_character(t_map *map)
+unsigned int		check_first_character(t_map *map)
 {
 	unsigned int	i;
 
@@ -46,7 +58,7 @@ unsigned int	check_first_character(t_map *map)
 	return (0);
 }
 
-static int	case_is_false(char *line, unsigned int j)
+static int			case_is_false(char *line, unsigned int j)
 {
 	if (line[j] != '\0' && (line[j] != '1'
 		&& line[j] != '2' && line[j] != 'N'
@@ -78,7 +90,7 @@ static unsigned int	check_character(t_map *map, char *character)
 	return (j);
 }
 
-int	check_valid_character(t_map *map)
+int					check_valid_character(t_map *map)
 {
 	unsigned int	i;
 	unsigned int	j;

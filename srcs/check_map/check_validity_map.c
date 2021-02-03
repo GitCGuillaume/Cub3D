@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   check_validity_map.c                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gchopin <gchopin@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/02/03 17:27:02 by gchopin           #+#    #+#             */
+/*   Updated: 2021/02/03 17:45:12 by gchopin          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/cub.h"
 
 static void	init_flood_fill(int is_valid_case[8][2])
@@ -95,7 +107,7 @@ static void	assignate_array(short *is_valid_array, t_map *map)
 	}
 }
 
-int	check_validity_map(t_map *map)
+int			check_validity_map(t_map *map)
 {
 	short	is_valid_array[9];
 	int		i;

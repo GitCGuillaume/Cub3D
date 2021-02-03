@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_map_file_two.c                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gchopin <gchopin@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/02/03 17:32:41 by gchopin           #+#    #+#             */
+/*   Updated: 2021/02/03 17:35:04 by gchopin          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/cub.h"
 
 char	*get_number(unsigned int *i, char *line)
 {
-	char		*value;
+	char			*value;
 	unsigned int	start;
 	unsigned int	end;
 
@@ -23,7 +35,7 @@ char	*get_number(unsigned int *i, char *line)
 
 char	*get_number_two(t_map *map, unsigned int *i, char *line)
 {
-	char	*value;
+	char			*value;
 	unsigned int	start;
 
 	start = 0;
@@ -42,10 +54,10 @@ char	*get_number_two(t_map *map, unsigned int *i, char *line)
 	value = ft_substr(line, start, *i - start);
 	return (value);
 }
-#include <stdio.h>
+
 char	*get_texture(t_map *map, unsigned int i, char *line)
 {
-	char		*value;
+	char			*value;
 	unsigned int	start;
 	unsigned int	end;
 
