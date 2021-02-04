@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   map_setting.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gchopin <gchopin@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/02/04 16:21:08 by gchopin           #+#    #+#             */
+/*   Updated: 2021/02/04 16:52:15 by gchopin          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/cub.h"
 
 void	init_map_four(t_map *map)
@@ -26,16 +38,16 @@ int	init_map_three(t_map *map)
 
 	i = 0;
 	i = 0;
-	map->ceiling_colour = -1;
-	map->floor_colour = -1;
-	if (!(map->colour = malloc(sizeof(unsigned char *) * 6)))
+	map->colour = malloc(sizeof(unsigned char *) * 6);
+	if (map->colour == NULL)
 		return (0);
 	while (6 > i)
 	{
 		map->colour[i] = NULL;
 		i++;
 	}
-	if (!(map->resolution = malloc(sizeof(char *) * 2)))
+	map->resolution = malloc(sizeof(char *) * 2);
+	if (map->resolution == NULL)
 	{
 		if (map->colour[0] == NULL)
 			free(map->colour);
@@ -86,6 +98,8 @@ int	initialization_map_struct(t_map *map)
 	map->player_exist = 0;
 	map->nb_sprite = 0;
 	map->sprite = 0;
+	map->ceiling_colour = -1;
+	map->floor_colour = -1;
 	init = init_map_three(map);
 	if (init == 0)
 		return (0);

@@ -6,7 +6,7 @@
 /*   By: gchopin <gchopin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/03 17:39:58 by gchopin           #+#    #+#             */
-/*   Updated: 2021/02/03 18:52:11 by gchopin          ###   ########.fr       */
+/*   Updated: 2021/02/04 17:53:32 by gchopin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	init_player(t_map *map)
 {
-	t_control control;
+	t_control	control;
 
 	control.forward = 0;
 	control.backward = 0;
@@ -37,11 +37,10 @@ void	init_player(t_map *map)
 	map->player.height_wall = 0;
 }
 
-int		close_program_key(int keycode, void *param,
-		char *message, int msg_number)
+int	close_program_key(int keycode, void *param, char *message, int msg_number)
 {
-	int		i;
-	t_map	*map;
+	int			i;
+	t_map	 * 	map;
 
 	i = 0;
 	map = (t_map *)param;

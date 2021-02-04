@@ -6,7 +6,7 @@
 /*   By: gchopin <gchopin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/03 17:31:43 by gchopin           #+#    #+#             */
-/*   Updated: 2021/02/03 17:32:15 by gchopin          ###   ########.fr       */
+/*   Updated: 2021/02/04 18:30:10 by gchopin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,10 @@ char	*get_line_fd(t_map *map, int fd)
 	tmp_line = NULL;
 	i = 0;
 	join_str = NULL;
-	while ((ret = get_next_line(fd, &tmp_line)) > 0)
+	ret = 1;
+	while (ret > 0)
 	{
+		ret = get_next_line(fd, &tmp_line);
 		i = 0;
 		while (tmp_line[i] == ' ' || tmp_line[i] == '\t')
 			i++;
