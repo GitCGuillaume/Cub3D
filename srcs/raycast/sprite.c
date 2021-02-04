@@ -81,7 +81,10 @@ void	sprite_mapping(t_map *map, unsigned int nb_sprite)
 	while_width(map, nb_sprite, width, bottom);
 }
 
-/** We need to quicksort the sprite from distance, sprites will be displayed from the nearest to the farthest **/
+/*
+ ** We need to quicksort the sprite from distance,
+ ** sprites will be displayed from the nearest to the farthest.
+*/
 
 void	display_sprite(t_map *map, int square, unsigned int nb_spt)
 {

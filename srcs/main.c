@@ -33,7 +33,7 @@ int		ft_close_fd(int fd)
 	{
 		ft_putstr_fd("Error\n", 2);
 		perror("Can't close file");
-		return (-1);
+		exit(1);
 	}
 	return (fd);
 }
@@ -63,21 +63,23 @@ void	display_game(t_map *map, int argc, char *argv, char *result)
 		ft_putstr_fd("Error\nWrong name format.\n", 2);
 	if (map->fd != -1)
 	{
-		init_player(map);
-		if (!(initialization_map_struct(map)))
-			ft_putstr_fd("Error\nMap struct allocation failed.\n", 2);
-		else
+		if (map->fd != -1)
 		{
-			map->full_line = get_line_fd(map, map->fd);
-			if (map->full_line)
+			init_player(map);
+			if (!(initialization_map_struct(map)))
+				ft_putstr_fd("Error\nMap struct allocation failed.\n", 2);
+			else
 			{
-				parse_line_fd(map);
-				initialization_map(map, argv, argc);
+				map->full_line = get_line_fd(map, map->fd);
+				map->fd = ft_close_fd(map->fd);
+				if (map->full_line && map->fd != -1)
+				{
+					parse_line_fd(map);
+					initialization_map(map, argv, argc);
+				}
 			}
 		}
 	}
-	if (map->fd != -1)
-		ft_close_fd(map->fd);
 }
 
 int		main(int argc, char *argv[])

@@ -131,6 +131,13 @@ int			control_player(void *param);
 int			initialization_map(t_map *map, char *argv, int argc);
 int			initialization_map_struct(t_map *map);
 
+/* MAP SETTING */
+int	initialization_map_struct(t_map *map);
+void	init_map_two(t_map *map);
+int	init_map_three(t_map *map);
+void	init_map_four(t_map *map);
+void	get_screen_size(t_map *map);
+
 /* COLOUR */
 unsigned int	manage_bit_colour_floor(t_map *map);
 unsigned int	manage_bit_colour_ceil(t_map *map);
@@ -165,8 +172,12 @@ int	close_program(t_map *map, char *message, int msg_number);
 int	close_program_cross(t_map *map, char *message, int msg_number);
 int	close_program_ok(t_map *map, char *message, int msg_number);
 int	close_program_gnl(t_map *map, char *message, int msg_number);
+
+/* CLEAR PROGRAM */
 void	clear_array(t_map *map);
 void	clear_array_two(t_map *map);
+void	clear_image(t_map *map);
+void	clear_path(t_map *map);
 
 /** RAYCASTER **/
 void	raycast(t_map *map);

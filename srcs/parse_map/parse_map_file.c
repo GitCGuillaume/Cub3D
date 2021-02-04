@@ -56,6 +56,7 @@ char	*gnl_next_ft(t_map *map, char *tmp_line, char *join_str, char *line)
 	{
 		free(line);
 		free(tmp_line);
+		map->fd = ft_close_fd(map->fd);
 		close_program_gnl(map, "Wrong number of parameter in map.\n", 2);
 	}
 	return (last_line);

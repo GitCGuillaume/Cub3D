@@ -111,4 +111,3 @@ void	floor_mapping(t_map *map, int x, int floor_colour)
 		}
 	}
 }
-

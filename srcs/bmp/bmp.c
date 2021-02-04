@@ -18,13 +18,19 @@ int		ft_open_bmp(t_map *map, char *path)
 	char	*bmp_file;
 	char	*substr;
 
-	substr = ft_substr(path, 0, ft_strlen(path) - 4);
-	bmp_file = ft_strjoin(substr, ".bmp");
+	bmp_file = NULL;
+	substr = NULL;
+	if (path)
+		substr = ft_substr(path, 0, ft_strlen(path) - 4);
+	else
+		close_program(map, "Can't get path file for the screenshot.\n", 2);
+	if (substr)
+		bmp_file = ft_strjoin(substr, ".bmp");
+	if (substr)
+		free(substr);
 	if (bmp_file == NULL)
 		close_program(map, "Can't get name bmp.\n", 2);
 	fd = open(bmp_file, O_CREAT | O_RDWR, 0777);
-	if (substr)
-		free(substr);
 	if (bmp_file)
 		free(bmp_file);
 	if (fd == -1)
@@ -122,7 +128,10 @@ void	create_bmp(t_map *map, char *argv)
 	}
 	if (fd != -1)
 	{
-		ft_close_fd(fd);
-		close_program_cross(map, "Screenshot taken successfully.\n", 1);
+		fd = ft_close_fd(fd);
+		if (fd != -1)
+			close_program_cross(map, "Screenshot taken successfully.\n", 1);
+		else
+			close_program(map, "Can't close the screenshot file\n", 2);
 	}
 }
