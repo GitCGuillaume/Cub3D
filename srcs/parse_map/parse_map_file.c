@@ -93,12 +93,12 @@ char	*get_line_fd(t_map *map, int fd)
 int		parse_line_fd(t_map *map)
 {
 	int	i;
-	int	is_space_ok;
+	short int	is_space_ok;
 
 	i = 0;
 	is_space_ok = 0;
 	is_space_ok = is_full_line_ok(map->full_line);
-	if (is_space_ok > 0)
+	if (is_space_ok > (short int)0)
 	{
 		map->lines = ft_split(map->full_line, '|');
 		map->lines_copy = ft_split(map->full_line, '|');

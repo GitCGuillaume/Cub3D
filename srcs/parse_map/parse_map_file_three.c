@@ -12,10 +12,10 @@
 
 #include "../includes/cub.h"
 
-int		is_full_line_ok(char *line)
+short int		is_full_line_ok(char *line)
 {
+	short int	is_ok;
 	int	i;
-	int	is_ok;
 
 	i = 0;
 	is_ok = 1;
