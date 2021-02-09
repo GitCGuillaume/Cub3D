@@ -33,8 +33,6 @@ typedef struct		s_player
 	int		fill_y;
 	double		pos_x;
 	double		pos_y;
-	double		length_case_x;
-	double		length_case_y;
 	double		distance_wall;
 	double		degree;
 	double		degree_raycast;
