@@ -27,7 +27,9 @@ int		is_full_line_ok(char *line)
 	while (line[i])
 	{
 		if (line[i] == '|' && line[i + 1] == '|')
+		{
 			is_ok = 0;
+		}
 		i++;
 	}
 	return (is_ok);
