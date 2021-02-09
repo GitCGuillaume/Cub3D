@@ -6,7 +6,7 @@ OBJS	=	${SRCS:.c=.o}
 
 OBJS_BONUS	=	${SRCS_BONUS:.c=.o}
 
-GCC		=	gcc
+GCC		=	clang
 
 CFLAGS	=	-Wall -Wextra -Werror
 

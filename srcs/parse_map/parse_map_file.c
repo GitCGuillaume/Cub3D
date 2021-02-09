@@ -78,10 +78,13 @@ char	*get_line_fd(t_map *map, int fd)
 	while (ret > 0)
 	{
 		ret = get_next_line(fd, &tmp_line);
-		i = 0;
-		while (tmp_line[i] == ' ' || tmp_line[i] == '\t')
-			i++;
-		line = gnl_next_ft(map, tmp_line, join_str, line);
+		if (ret > 0)
+		{
+			i = 0;
+			while (tmp_line[i] == ' ' || tmp_line[i] == '\t')
+				i++;
+			line = gnl_next_ft(map, tmp_line, join_str, line);
+		}
 	}
 	free(tmp_line);
 	return (line);

@@ -1,28 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstlast.c                                       :+:      :+:    :+:   */
+/*   mlx_destroy_display.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gchopin <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: mg <mg@student.42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/05/09 11:39:48 by gchopin           #+#    #+#             */
-/*   Updated: 2020/05/13 10:52:09 by gchopin          ###   ########.fr       */
+/*   Created: 2020/10/03 18:56:35 by mg                #+#    #+#             */
+/*   Updated: 2020/10/04 01:55:35 by mg               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/libft.h"
+#include "mlx_int.h"
 
-t_image	*ft_lstlast(t_list *lst)
+int	mlx_destroy_display(t_xvar *xvar)
 {
-	if (lst != NULL)
-	{
-		while (lst->next != NULL)
-		{
-			lst = lst->next;
-		}
-		return (lst);
-	}
-	else
-		return (NULL);
-	return (lst);
+	XCloseDisplay(xvar->display);
 }
