@@ -25,7 +25,7 @@ void	clear_array(t_map *map)
 		free(map->lines_copy);
 	}
 }
-
+#include <stdio.h>
 void	clear_array_two(t_map *map)
 {
 	int	i;
@@ -33,9 +33,9 @@ void	clear_array_two(t_map *map)
 	i = 0;
 	if (map->resolution)
 	{
-		while (i < 2)
+		while (2 > i)
 		{
-			if (map->resolution[i] != 0)
+			if (map->resolution[i] != NULL)
 				free(map->resolution[i]);
 			i++;
 		}
@@ -46,7 +46,7 @@ void	clear_array_two(t_map *map)
 	{
 		while (i < 6)
 		{
-			if (map->colour[i] != 0)
+			if (map->colour[i] != NULL)
 				free(map->colour[i]);
 			i++;
 		}

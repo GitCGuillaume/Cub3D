@@ -36,27 +36,29 @@ int		find_which_indicator(t_map *map, char *line)
 	return (1);
 }
 
-char	*gnl_next_ft(t_map *map, char *tmp_line, char *join_str, char *line)
+char	*gnl_next_ft(t_map *map, char *tmp_line, char *join_str)
 {
 	char	*last_line;
 
-	last_line = 0;
+	last_line = NULL;
 	if (check_indicator_full(map) < 8)
 	{
 		find_which_indicator(map, tmp_line);
-		join_str = ft_strjoin(line, tmp_line);
-		free(line);
-		line = join_str;
+		last_line = ft_strjoin(join_str, tmp_line);
+		free(join_str);
 		free(tmp_line);
-		tmp_line = ft_strjoin(line, "|");
-		free(line);
+		if (last_line == NULL)
+			close_program(map, "An error occured while reading the map.\n", 2);
+		tmp_line = ft_strjoin(last_line, "|");
+		free(last_line);
+		if (tmp_line == NULL)
+			close_program(map, "An error occured while reading the map.\n", 2);
 		last_line = tmp_line;
 	}
 	else
 	{
-		free(line);
+		free(join_str);
 		free(tmp_line);
-		map->fd = ft_close_fd(map->fd);
 		close_program_gnl(map, "Wrong number of parameter in map.\n", 2);
 	}
 	return (last_line);
@@ -64,30 +66,31 @@ char	*gnl_next_ft(t_map *map, char *tmp_line, char *join_str, char *line)
 
 char	*get_line_fd(t_map *map, int fd)
 {
-	char	*line;
 	char	*tmp_line;
 	char	*join_str;
-	int		ret;
-	int		i;
+	int	ret;
+	int	i;
 
-	line = ft_strdup("");
+	join_str = ft_strdup("");
+	if (join_str == NULL)
+		close_program(map, "Engine error.\n", 2);
 	tmp_line = NULL;
-	i = 0;
-	join_str = NULL;
 	ret = 1;
 	while (ret > 0)
 	{
 		ret = get_next_line(fd, &tmp_line);
+		if (tmp_line == NULL)
+			close_program_gnl(map, "Engine returned no map.\n", 2);
 		if (ret > 0)
 		{
 			i = 0;
 			while (tmp_line[i] == ' ' || tmp_line[i] == '\t')
 				i++;
-			line = gnl_next_ft(map, tmp_line, join_str, line);
+			join_str = gnl_next_ft(map, tmp_line, join_str);
 		}
 	}
 	free(tmp_line);
-	return (line);
+	return (join_str);
 }
 
 int		parse_line_fd(t_map *map)

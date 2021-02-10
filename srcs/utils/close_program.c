@@ -19,6 +19,7 @@ int	close_program_gnl(t_map *map, char *message, int msg_number)
 		free(map->south_path);
 	if (map->sprite_path)
 		free(map->sprite_path);
+	map->fd = ft_close_fd(map->fd);
 	if (message != NULL)
 	{
 		ft_putstr_fd("Error\n", 2);
@@ -39,6 +40,7 @@ int	close_program_ok(t_map *map, char *message, int msg_number)
 	clear_array_two(map);
 	clear_image(map);
 	clear_path(map);
+	map->fd = ft_close_fd(map->fd);
 	if (message != NULL)
 		ft_putstr_fd(message, msg_number);
 	exit(0);
@@ -56,6 +58,7 @@ int	close_program_cross(t_map *map, char *message, int msg_number)
 	clear_array(map);
 	clear_array_two(map);
 	clear_path(map);
+	map->fd = ft_close_fd(map->fd);
 	if (message != NULL)
 	{
 		ft_putstr_fd(message, msg_number);
@@ -76,6 +79,7 @@ int	close_program(t_map *map, char *message, int msg_number)
 	clear_array_two(map);
 	clear_image(map);
 	clear_path(map);
+	map->fd = ft_close_fd(map->fd);
 	if (message != NULL)
 	{
 		ft_putstr_fd("Error\n", 2);

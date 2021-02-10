@@ -100,9 +100,9 @@ void	display_sprite(t_map *map, int square, unsigned int nb_spt)
 			- degree_to_radian(map->player.degree_raycast);
 		map->sprite[nb_spt].degree =
 			correct_distance(radian_to_degree(map->sprite[nb_spt].degree));
+		degree_check_divide(map, nb_spt);
 		map->sprite[nb_spt].degree =
 			degree_to_radian(map->sprite[nb_spt].degree);
-		degree_check_divide(map, nb_spt);
 		map->sprite[nb_spt].size = ((map->res_x / 2) / tan(0.523599))
 			/ (cos(map->sprite[nb_spt].degree)
 					* (map->sprite[nb_spt].distance));

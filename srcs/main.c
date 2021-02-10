@@ -71,7 +71,6 @@ void	display_game(t_map *map, int argc, char *argv, char *result)
 			else
 			{
 				map->full_line = get_line_fd(map, map->fd);
-				map->fd = ft_close_fd(map->fd);
 				if (map->full_line && map->fd != -1)
 				{
 					parse_line_fd(map);

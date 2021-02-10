@@ -27,6 +27,9 @@ int	render_map(void *param)
 		close_program(map, "Can't create image display.\n", 2);
 	map->image[0].mlx_get_data = mlx_get_data_addr(map->image[0].mlx_image,
 			&map->image[0].bpp, &map->image[0].line_bytes, &endian);
+	map->z_buffer = malloc(sizeof(double) * ((double)map->res_x));
+	if (map->z_buffer == NULL)
+		close_program(map, "Z_buffer allocation failed.\n", 2);
 	raycast(map);
 	mlx_put_image_to_window(map->mlx_ptr,
 			map->mlx_window, map->image->mlx_image, 0, 0);

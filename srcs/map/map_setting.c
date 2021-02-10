@@ -37,7 +37,6 @@ int	init_map_three(t_map *map)
 	int	i;
 
 	i = 0;
-	i = 0;
 	map->colour = malloc(sizeof(unsigned char *) * 6);
 	if (map->colour == NULL)
 		return (0);
@@ -46,11 +45,11 @@ int	init_map_three(t_map *map)
 		map->colour[i] = NULL;
 		i++;
 	}
+	i = 0;
 	map->resolution = malloc(sizeof(char *) * 2);
 	if (map->resolution == NULL)
 	{
-		if (map->colour[0] == NULL)
-			free(map->colour);
+		free(map->colour);
 		return (0);
 	}
 	while (2 > i)

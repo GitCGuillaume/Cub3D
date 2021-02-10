@@ -65,7 +65,6 @@ void	raycast(t_map *map)
 
 	x = 0;
 	square_size = map->res_x / 5;
-	map->z_buffer = malloc(sizeof(double) * ((double)map->res_x));
 	correct_degree = -30.0;
 	map->player.degree = correct_distance(map->player.degree_raycast + 30);
 	map->player.ray_horizontal.distance_wall = 0;
