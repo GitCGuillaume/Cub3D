@@ -25,7 +25,7 @@ void	clear_array(t_map *map)
 		free(map->lines_copy);
 	}
 }
-#include <stdio.h>
+
 void	clear_array_two(t_map *map)
 {
 	int	i;

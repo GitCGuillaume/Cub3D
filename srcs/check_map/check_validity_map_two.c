@@ -60,13 +60,16 @@ unsigned int		check_first_character(t_map *map)
 
 static int			case_is_false(char *line, unsigned int j)
 {
-	if (line[j] != '\0' && (line[j] != '1'
-		&& line[j] != '2' && line[j] != 'N'
-		&& line[j] != 'S' && line[j] != 'E'
-		&& line[j] != 'W' && line[j] != '0'
-		&& line[j] != ' '))
+	if (line)
 	{
-		return (1);
+		if (line[j] != '\0' && (line[j] != '1'
+			&& line[j] != '2' && line[j] != 'N'
+			&& line[j] != 'S' && line[j] != 'E'
+			&& line[j] != 'W' && line[j] != '0'
+			&& line[j] != ' '))
+		{
+			return (1);
+		}
 	}
 	return (0);
 }
@@ -76,16 +79,19 @@ static unsigned int	check_character(t_map *map, char *character)
 	unsigned int	j;
 
 	j = 0;
-	while (character[j] != '\0' &&
-			(character[j] == '0' || character[j] == '1'
-			|| character[j] == '2' || character[j] == 'N'
-			|| character[j] == 'S' || character[j] == 'E'
-			|| character[j] == 'W' || is_space(character[j])
-			|| character[j] == ' '))
+	if (character)
 	{
-		if (character[j] == '2')
-			map->nb_sprite = map->nb_sprite + 1;
-		j++;
+		while (character[j] != '\0' &&
+				(character[j] == '0' || character[j] == '1'
+				|| character[j] == '2' || character[j] == 'N'
+				|| character[j] == 'S' || character[j] == 'E'
+				|| character[j] == 'W' || is_space(character[j])
+				|| character[j] == ' '))
+		{
+			if (character[j] == '2')
+				map->nb_sprite = map->nb_sprite + 1;
+			j++;
+		}
 	}
 	return (j);
 }

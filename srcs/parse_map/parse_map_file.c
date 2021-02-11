@@ -12,28 +12,30 @@
 
 #include "../../includes/cub.h"
 
-int		find_which_indicator(t_map *map, char *line)
+void		find_which_indicator(t_map *map, char *line)
 {
 	unsigned int	i;
 	unsigned int	old_i;
+	int	result;
 
 	i = 0;
+	result = 0;
 	while (is_tab(line[i]) || is_other(line[i]))
 		i++;
 	old_i = i;
-	find_texture(line, old_i, map);
-	find_texture_two(line, &i, old_i, map);
-	if (line[old_i] == 'C' && line[old_i + 1] == ' ')
+	if (line)
 	{
-		i = i + 1;
-		map->colour[3] = get_number_two(map, &i, line);
-		if (line[i] == ',')
-			map->colour[4] = get_number_two(map, &i, line);
-		if (line[i] == ',')
-			map->colour[5] = get_number_two(map, &i, line);
-		ft_memset(line, 0, ft_strlen(line));
+		if (line[old_i] == 'C' || line[old_i] == 'F')
+			i++;
+		find_texture(line, old_i, map);
+		result = find_resolution(line, &i, map);
+		result = find_colour(line, &i, old_i, map);
 	}
-	return (1);
+	if (result == 0)
+	{
+		free(line);
+		close_program(map, "Resolution or ceiling/floor colour bad format.", 2);
+	}
 }
 
 char	*gnl_next_ft(t_map *map, char *tmp_line, char *join_str)
@@ -59,20 +61,19 @@ char	*gnl_next_ft(t_map *map, char *tmp_line, char *join_str)
 	{
 		free(join_str);
 		free(tmp_line);
-		close_program_gnl(map, "Wrong number of parameter in map.\n", 2);
+		close_program(map, "Wrong number of parameter in map.\n", 2);
 	}
 	return (last_line);
 }
 
-char	*get_line_fd(t_map *map, int fd)
+void	get_line_fd(t_map *map, int fd)
 {
 	char	*tmp_line;
-	char	*join_str;
 	int	ret;
 	int	i;
 
-	join_str = ft_strdup("");
-	if (join_str == NULL)
+	map->full_line = ft_strdup("");
+	if (map->full_line == NULL)
 		close_program(map, "Engine error.\n", 2);
 	tmp_line = NULL;
 	ret = 1;
@@ -86,11 +87,10 @@ char	*get_line_fd(t_map *map, int fd)
 			i = 0;
 			while (tmp_line[i] == ' ' || tmp_line[i] == '\t')
 				i++;
-			join_str = gnl_next_ft(map, tmp_line, join_str);
+			map->full_line = gnl_next_ft(map, tmp_line, map->full_line);
 		}
 	}
 	free(tmp_line);
-	return (join_str);
 }
 
 int		parse_line_fd(t_map *map)

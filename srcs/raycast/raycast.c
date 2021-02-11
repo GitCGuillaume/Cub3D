@@ -82,4 +82,5 @@ void	raycast(t_map *map)
 	}
 	display_sprite(map, square_size, map->nb_sprite);
 	free(map->z_buffer);
+	map->z_buffer = NULL;
 }

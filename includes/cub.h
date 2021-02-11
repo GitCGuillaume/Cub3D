@@ -141,16 +141,18 @@ unsigned int	manage_bit_colour_floor(t_map *map);
 unsigned int	manage_bit_colour_ceil(t_map *map);
 
 /* PARSE MAP FILE */
-char	*get_line_fd(t_map *map, int fd);
+void	get_line_fd(t_map *map, int fd);
 int	parse_line_fd(t_map *map);
 short int	is_full_line_ok(char *line);
 void	is_printable(t_map *map, char *line, unsigned int *i);
 char	*get_number(unsigned int *i, char *line);
 char	*get_number_two(t_map *map, unsigned int *i, char *line);
 char	*get_texture(t_map *map, unsigned int i, char *line);
-void	find_texture(char *line, unsigned int old_i, t_map *map);
-void	find_texture_two(char *line, unsigned int *i, unsigned int old_i, t_map *map);
-void	find_texture_three(char *line, unsigned int i, t_map *map);
+void	find_texture(char *line, unsigned int i, t_map *map);
+int	find_resolution(char *line, unsigned int *i, t_map *map);
+int	find_colour(char *line, unsigned int *i,
+	unsigned int old_i, t_map *map);
+void	find_texture_two(char *line, unsigned int i, t_map *map);
 
 /* CHECK VALIDITY MAP */
 int	check_indicator_full(t_map *map);

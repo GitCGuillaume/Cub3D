@@ -6,42 +6,30 @@
 /*   By: gchopin <gchopin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/28 23:35:16 by gchopin           #+#    #+#             */
-/*   Updated: 2020/07/30 13:16:59 by gchopin          ###   ########.fr       */
+/*   Updated: 2021/02/09 18:33:17 by gchopin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-int		clear_memory(char **str, char **str_two, int type)
+int	clear_memory(char **str, char **str_two)
 {
-	size_t i;
-
-	i = 0;
-	if (str && type == 1)
+	if (str)
 	{
 		free(*str);
 		*str = NULL;
 	}
-	while (str_two != 0 && 10241 > i)
+	if (str_two)
 	{
-		if (str && type == 0)
-		{
-			free(str[i]);
-			str[i] = NULL;
-		}
-		if (str_two)
-		{
-			free(str_two[i]);
-			str_two[i] = NULL;
-		}
-		i++;
+		free(*str_two);
+		*str_two = NULL;
 	}
 	return (-1);
 }
 
-int		len_n(char *str, int *res)
+int	len_n(char *str, int *res)
 {
-	size_t i;
+	size_t	i;
 
 	i = 0;
 	if (str)
@@ -57,83 +45,84 @@ int		len_n(char *str, int *res)
 	return (i);
 }
 
-int		get_last_n(char **line, char **m_ln, int *res, int fd)
+int	get_last_n(char **line, char **m_ln, int *res)
 {
 	char	*m_tmp;
 
-	if (!m_ln[fd] || m_ln[fd][0] == '\0')
-	{
-		if (!(m_tmp = ft_substr(*line, 0, ft_len(*line))))
-			return (clear_memory(line, 0, 1));
-	}
+	if (!*m_ln || *m_ln[0] == '\0')
+		m_tmp = ft_substr(*line, 0, ft_len(*line));
 	else
-	{
-		if (!(m_tmp = ft_substr(m_ln[fd], 0, ft_len(m_ln[fd]))))
-			return (clear_memory(line, m_ln, 1));
-	}
-	free(m_ln[fd]);
-	m_ln[fd] = m_tmp;
-	if (!(m_tmp = ft_strdup_gnl(m_ln[fd])))
-		return (clear_memory(line, m_ln, 1));
+		m_tmp = ft_substr(*m_ln, 0, ft_len(*m_ln));
+	if (m_tmp == NULL)
+		return (clear_memory(line, m_ln));
+	free(*m_ln);
+	*m_ln = m_tmp;
+	m_tmp = ft_strdup(*m_ln);
+	if (m_tmp == NULL)
+		return (clear_memory(line, m_ln));
 	free(*line);
 	*line = m_tmp;
-	if (!(m_tmp = ft_substr(m_ln[fd], len_n(m_ln[fd], res), ft_len(m_ln[fd]))))
-		return (clear_memory(line, m_ln, 1));
-	free(m_ln[fd]);
-	m_ln[fd] = m_tmp;
-	if (m_ln[fd][0] == 0 || *res == -1 || *res == 0)
-		clear_memory(&m_ln[fd], 0, 1);
+	m_tmp = ft_substr(*m_ln, len_n(*m_ln, res), ft_len(*m_ln));
+	if (m_tmp == NULL)
+		return (clear_memory(line, m_ln));
+	free(*m_ln);
+	*m_ln = m_tmp;
+	if (*m_ln[0] == 0 || *res == -1 || *res == 0)
+		clear_memory(m_ln, 0);
 	return (*res);
 }
 
-int		read_line(int fd, char **line, char **mem_line)
+int	read_line(int fd, char **line, char **mem_line)
 {
-	char	buff[10241];
+	char	buff[BUFFER_SIZE + 1];
 	char	*tmp;
 	int		ret;
 
 	free(*line);
-	if (!(*line = malloc(sizeof(char))))
-		return (-1);
-	*line[0] = '\0';
-	while ((ret = read(fd, buff, BUFFER_SIZE)) > 0)
+	*line = ft_strdup("");
+	ret = 1;
+	while (ret > 0)
 	{
+		ret = read(fd, buff, BUFFER_SIZE);
+		if (ret < 0)
+			return (clear_memory(line, mem_line));
 		buff[ret] = '\0';
 		tmp = ft_strjoin(*line, buff);
 		if (tmp == NULL)
-			return (clear_memory(line, 0, 1));
+			return (clear_memory(line, 0));
 		free(*line);
 		*line = tmp;
 		if (ft_strchr(buff, '\n'))
 			break ;
 	}
 	if (ret == -1)
-		return (clear_memory(line, mem_line, 1));
+		return (clear_memory(line, mem_line));
 	return (ret);
 }
 
-int		get_next_line(int fd, char **line)
+int	get_next_line(int fd, char **line)
 {
-	static char	*m_line[10241];
+	static char	*m_line;
 	char		*mem_tmp;
 	int			res;
 
 	if (BUFFER_SIZE < 1 || fd < 0 || !line)
 		return (-1);
 	*line = NULL;
-	if (m_line[fd] && m_line[fd][0] != 0 && ft_strchr(m_line[fd], '\n') != 0)
-		return (get_last_n(line, m_line, &res, fd));
-	res = read_line(fd, line, m_line);
+	if (m_line && m_line[0] != 0 && ft_strchr(m_line, '\n') != 0)
+		return (get_last_n(line, &m_line, &res));
+	res = read_line(fd, line, &m_line);
 	if (res != -1)
 	{
-		if (m_line[fd] && m_line[fd][0] != 0 && !ft_strchr(m_line[fd], '\n'))
+		if (m_line && m_line[0] != 0 && !ft_strchr(m_line, '\n'))
 		{
-			if (!(mem_tmp = ft_strjoin(m_line[fd], *line)))
-				return (clear_memory(line, m_line, 1));
-			free(m_line[fd]);
-			m_line[fd] = mem_tmp;
+			mem_tmp = ft_strjoin(m_line, *line);
+			if (mem_tmp == NULL)
+				return (clear_memory(line, &m_line));
+			free(m_line);
+			m_line = mem_tmp;
 		}
-		res = get_last_n(line, m_line, &res, fd);
+		res = get_last_n(line, &m_line, &res);
 	}
 	return (res);
 }

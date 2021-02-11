@@ -1,14 +1,14 @@
-R 800 200
-NO ./textures/wood.xpm
+R 400 500
+NO ./textures/colorstone.xpm
 SO textures/bluestone.xpm
 WE ./textures/amethyst_block.xpm
 EA ./textures/rock.xpm
 S ./textures/amethyst_cluster.xpm
-C 242,126,58
-F 155, 89,217
+C 242,126,24
+F 155, 89,250
 
 11111111111111
-10000000000001
+12222222222121
 10010001000001
 10000000001001
 10000000000001

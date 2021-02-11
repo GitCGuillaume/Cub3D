@@ -6,7 +6,7 @@
 /*   By: gchopin <gchopin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/28 23:36:16 by gchopin           #+#    #+#             */
-/*   Updated: 2020/07/28 23:36:18 by gchopin          ###   ########.fr       */
+/*   Updated: 2020/10/11 18:54:09 by gchopin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ size_t	ft_len(char const *str)
 	return (i);
 }
 
-char	*ft_strdup_gnl(const char *s1)
+char	*ft_strdup(const char *s1)
 {
 	char	*ptr_char;
 	size_t	i;
@@ -32,7 +32,8 @@ char	*ft_strdup_gnl(const char *s1)
 	j = 0;
 	while (s1[j] != '\0' && s1[j] != '\n')
 		j++;
-	if (!(ptr_char = malloc(j + 1)))
+	ptr_char = malloc(j + 1);
+	if (ptr_char == NULL)
 		return (NULL);
 	while (s1[i] != '\0' && s1[i] != '\n')
 	{

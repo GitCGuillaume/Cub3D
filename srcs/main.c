@@ -63,19 +63,18 @@ void	display_game(t_map *map, int argc, char *argv, char *result)
 		ft_putstr_fd("Error\nWrong name format.\n", 2);
 	if (map->fd != -1)
 	{
-		if (map->fd != -1)
+		init_player(map);
+		if (!(initialization_map_struct(map)))
+			ft_putstr_fd("Error\nMap struct allocation failed.\n", 2);
+		else
 		{
-			init_player(map);
-			if (!(initialization_map_struct(map)))
-				ft_putstr_fd("Error\nMap struct allocation failed.\n", 2);
-			else
+			get_line_fd(map, map->fd);
+			if (map->full_line == NULL)
+				close_program(map, "The engine can't retrieve map parameters.", 2);
+			if (map->full_line && map->fd != -1)
 			{
-				map->full_line = get_line_fd(map, map->fd);
-				if (map->full_line && map->fd != -1)
-				{
-					parse_line_fd(map);
-					initialization_map(map, argv, argc);
-				}
+				parse_line_fd(map);
+				initialization_map(map, argv, argc);
 			}
 		}
 	}
@@ -102,6 +101,7 @@ int		main(int argc, char *argv[])
 			display_game(&map, argc, argv[1], result);
 		else
 			ft_putstr_fd("Error\nWrong name format.\n", 2);
+		close_program(&map, "Something with the engine went wrong.", 2);
 	}
 	else
 		ft_putstr_fd("Error\nPlease enter a file path.\n", 2);

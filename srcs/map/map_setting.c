@@ -77,6 +77,8 @@ void	init_map_two(t_map *map)
 	map->is_west = 0;
 	map->is_south = 0;
 	map->is_sprite = 0;
+	map->ceiling_colour = -1;
+	map->floor_colour = -1;
 }
 
 int	initialization_map_struct(t_map *map)
@@ -97,9 +99,8 @@ int	initialization_map_struct(t_map *map)
 	map->player_exist = 0;
 	map->nb_sprite = 0;
 	map->sprite = 0;
-	map->ceiling_colour = -1;
-	map->floor_colour = -1;
 	init = init_map_three(map);
+	map->z_buffer = NULL;
 	if (init == 0)
 		return (0);
 	return (1);

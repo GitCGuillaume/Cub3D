@@ -22,7 +22,8 @@ int	render_map(void *param)
 	control_player((void *)map);
 	if (map->image[0].mlx_image)
 		mlx_destroy_image(map->mlx_ptr, map->image[0].mlx_image);
-	map->image[0].mlx_image = mlx_new_image(map->mlx_ptr, map->res_x, map->res_y);
+	map->image[0].mlx_image =
+		mlx_new_image(map->mlx_ptr, map->res_x, map->res_y);
 	if (map->image[0].mlx_image == NULL)
 		close_program(map, "Can't create image display.\n", 2);
 	map->image[0].mlx_get_data = mlx_get_data_addr(map->image[0].mlx_image,
@@ -43,7 +44,8 @@ void	take_screenshot(t_map *map, char *argv)
 	endian = 0;
 	if (map->image[0].mlx_image)
 		mlx_destroy_image(map->mlx_ptr, map->image[0].mlx_image);
-	map->image[0].mlx_image = mlx_new_image(map->mlx_ptr, map->res_x, map->res_y);
+	map->image[0].mlx_image =
+		mlx_new_image(map->mlx_ptr, map->res_x, map->res_y);
 	if (map->image[0].mlx_image == NULL)
 		close_program(map, "Screenshot failed, can't create the picture.\n", 2);
 	map->image[0].mlx_get_data = mlx_get_data_addr(map->image[0].mlx_image,
@@ -67,7 +69,8 @@ int	initialization_map(t_map *map, char *argv, int argc)
 	init_map_four(map);
 	if (map->save == 1 && argc == 3)
 		take_screenshot(map, argv);
-	map->mlx_window = mlx_new_window(map->mlx_ptr, map->res_x, map->res_y, "Cub3D");
+	map->mlx_window =
+		mlx_new_window(map->mlx_ptr, map->res_x, map->res_y, "Cub3D");
 	if (map->mlx_window == NULL)
 		close_program(map, "Can't create game window.\n", 2);
 	mlx_hook(map->mlx_window,

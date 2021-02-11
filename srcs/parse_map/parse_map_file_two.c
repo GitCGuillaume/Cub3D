@@ -74,29 +74,23 @@ char	*get_texture(t_map *map, unsigned int i, char *line)
 	return (value);
 }
 
-void	find_texture_two(char *line, unsigned int *i,
-	unsigned int old_i, t_map *map)
+int	find_resolution(char *line, unsigned int *i, t_map *map)
 {
 	if (line[*i] == 'R' && line[*i + 1] == ' ')
 	{
 		map->resolution[0] = get_number(i, line);
 		map->resolution[1] = get_number(i, line);
+		if (line[*i] != '\0' || !map->resolution[0] || !map->resolution[1])
+			return (0);
 		ft_memset(line, 0, ft_strlen(line));
 		if (map->is_resolution == 0 && map->resolution[0][0] != '\0')
 			map->is_resolution = 1;
-		if (map->is_resolution == 1 && map->resolution[1][0] != '\0')
+		if (map->is_resolution == 1
+				&& map->resolution[0][0] != '\0'
+				&& map->resolution[1][0] != '\0')
 			map->is_resolution = 2;
 	}
-	if (line[old_i] == 'F' && line[old_i + 1] == ' ')
-	{
-		*i = *i + 1;
-		map->colour[0] = get_number_two(map, i, line);
-		if (line[*i] == ',')
-			map->colour[1] = get_number_two(map, i, line);
-		if (line[*i] == ',')
-			map->colour[2] = get_number_two(map, i, line);
-		ft_memset(line, 0, ft_strlen(line));
-	}
+	return (1);
 }
 
 void	find_texture(char *line, unsigned int i, t_map *map)
@@ -119,5 +113,5 @@ void	find_texture(char *line, unsigned int i, t_map *map)
 		map->west_path = get_texture(map, i, line);
 		map->is_west++;
 	}
-	find_texture_three(line, i, map);
+	find_texture_two(line, i, map);
 }

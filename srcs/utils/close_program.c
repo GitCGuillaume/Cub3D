@@ -36,6 +36,8 @@ int	close_program_ok(t_map *map, char *message, int msg_number)
 	i = 0;
 	if (map->full_line)
 		free(map->full_line);
+	if (map->z_buffer)
+		free(map->z_buffer);
 	clear_array(map);
 	clear_array_two(map);
 	clear_image(map);
@@ -54,6 +56,8 @@ int	close_program_cross(t_map *map, char *message, int msg_number)
 	i = 0;
 	if (map->full_line)
 		free(map->full_line);
+	if (map->z_buffer)
+		free(map->z_buffer);
 	clear_image(map);
 	clear_array(map);
 	clear_array_two(map);
@@ -75,6 +79,8 @@ int	close_program(t_map *map, char *message, int msg_number)
 	i = 0;
 	if (map->full_line)
 		free(map->full_line);
+	if (map->z_buffer)
+		free(map->z_buffer);
 	clear_array(map);
 	clear_array_two(map);
 	clear_image(map);

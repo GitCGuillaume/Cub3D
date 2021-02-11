@@ -22,18 +22,21 @@ int	find_sprite(t_map *map)
 
 	i = 0;
 	nb_sprite = 0;
-	while (map->lines[i])
+	if (map->lines)
 	{
-		j = 0;
-		while (map->lines[i][j])
+		while (map->lines[i])
 		{
-			if (map->lines[i][j] == '2' && map->nb_sprite > nb_sprite)
+			j = 0;
+			while (map->lines[i][j])
 			{
-				nb_sprite = init_sprite(map, nb_sprite, i, j);
+				if (map->lines[i][j] == '2' && map->nb_sprite > nb_sprite)
+				{
+					nb_sprite = init_sprite(map, nb_sprite, i, j);
+				}
+				j++;
 			}
-			j++;
+			i++;
 		}
-		i++;
 	}
 	return (nb_sprite);
 }
