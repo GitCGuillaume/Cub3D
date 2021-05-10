@@ -116,7 +116,7 @@ typedef struct	s_map
 }		t_map;
 
 /* MAIN */
-int		ft_close_fd(int fd);
+int		ft_close_fd(int fd, t_map *map);
 
 /* PLAYER */
 void		init_player(t_map *map);
@@ -217,7 +217,8 @@ void	floor_mapping(t_map *map, int x, int floor_colour);
 /** RAYCASTER ERRORS OR FREE **/
 void check_error_ln_hor(t_map *map, double floor_pos_y);
 void check_error_ln_ver(t_map *map, double floor_pos_x);
-void	check_loop_cast(t_map *map);
+void	check_loop_cast_hor(t_map *map);
+void	check_loop_cast_ver(t_map *map);
 void	check_distance(t_map *map);
 
 /** SPRITE **/

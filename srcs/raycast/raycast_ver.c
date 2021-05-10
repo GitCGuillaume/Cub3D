@@ -10,7 +10,6 @@ void	instanciate_pos_ver(t_map *map, int square_size)
 	if (map->player.ray_vertical.pos_x < 0
 			|| map->player.ray_vertical.pos_y < 0)
 	{
-		free(map->z_buffer);
 		close_program(map, "player position is wrong.\n", 2);
 	}
 }
@@ -45,7 +44,7 @@ void	instanciate_length_ver(t_map *map, double tang, int square_size)
 void	vertical_check(t_map *map, double *length_case_x,
 		double *length_case_y, int square)
 {
-	check_loop_cast(map);
+	check_loop_cast_ver(map);
 	if (map->player.ray_vertical.is_wall == 1
 			|| map->lines[(int)floor(*length_case_y) / square]
 			[(int)floor(*length_case_x) / square] == '1'

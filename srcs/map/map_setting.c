@@ -6,7 +6,7 @@
 /*   By: gchopin <gchopin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/04 16:21:08 by gchopin           #+#    #+#             */
-/*   Updated: 2021/02/04 16:52:15 by gchopin          ###   ########.fr       */
+/*   Updated: 2021/05/10 22:54:04 by gchopin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,7 @@ void	init_map_four(t_map *map)
 		find_sprite(map);
 	textures_exist = register_texture(map);
 	if (textures_exist == 0)
-	{
 		close_program(map, "Can't create textures image.\n", 2);
-	}
 	if (!(start_ray_direction(map)))
 		close_program(map, "Can't find direction's player.\n", 2);
 	map->player.degree += 30.0;
@@ -48,10 +46,7 @@ int	init_map_three(t_map *map)
 	i = 0;
 	map->resolution = malloc(sizeof(char *) * 2);
 	if (map->resolution == NULL)
-	{
-		free(map->colour);
 		return (0);
-	}
 	while (2 > i)
 	{
 		map->resolution[i] = NULL;
@@ -71,7 +66,10 @@ void	init_map_two(t_map *map)
 	{
 		map->image[i].mlx_get_data = NULL;
 		i++;
-	}
+	}	
+	map->colour = NULL;
+	map->resolution = NULL;
+	map->sprite = NULL;
 	map->is_north = 0;
 	map->is_east = 0;
 	map->is_west = 0;
@@ -85,6 +83,7 @@ int	initialization_map_struct(t_map *map)
 {
 	int	init;
 
+	map->z_buffer = NULL;
 	init_map_two(map);
 	map->is_resolution = 0;
 	map->colour_counter = 0;

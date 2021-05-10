@@ -6,7 +6,7 @@
 /*   By: gchopin <gchopin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/03 17:25:16 by gchopin           #+#    #+#             */
-/*   Updated: 2021/02/03 17:26:35 by gchopin          ###   ########.fr       */
+/*   Updated: 2021/05/11 00:32:54 by gchopin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ int		ft_open_bmp(t_map *map, char *path)
 
 	bmp_file = NULL;
 	substr = NULL;
+	if (path == NULL)
+		close_program(map, "Files's path is NULL.\n", 2);
 	if (path)
 		substr = ft_substr(path, 0, ft_strlen(path) - 4);
 	else
@@ -34,9 +36,7 @@ int		ft_open_bmp(t_map *map, char *path)
 	if (bmp_file)
 		free(bmp_file);
 	if (fd == -1)
-	{
 		close_program(map, "Can't open bmp file.\n", 2);
-	}
 	return (fd);
 }
 
@@ -74,6 +74,7 @@ void	write_header_img(t_map *map, int fd)
 	four_bytes = 0;
 	write(fd, &four_bytes, sizeof(unsigned int));
 	write(fd, &four_bytes, sizeof(unsigned int));
+	s_four_bytes = 0;
 	write(fd, &s_four_bytes, sizeof(signed int));
 	write(fd, &s_four_bytes, sizeof(signed int));
 	write(fd, &four_bytes, sizeof(unsigned int));
@@ -112,26 +113,22 @@ void	create_bmp(t_map *map, char *argv)
 	int	fd;
 
 	fd = ft_open_bmp(map, argv);
-	if (fd != 1)
+	if (fd == -1)
+		close_program(map, "Bmp file has been not opened.\n", 1);
+	if (map->image[0].mlx_get_data != NULL)
 	{
-		if (map->image[0].mlx_get_data != NULL)
-		{
-			write_header(map, fd);
-			write_header_img(map, fd);
-			write_img(map, fd);
-		}
-		else
-		{
-			close_program(map, "Can't take screenshot\n", 2);
-			ft_close_fd(fd);
-		}
+		write_header(map, fd);
+		write_header_img(map, fd);
+		write_img(map, fd);
 	}
+	else
+	{
+		close_program(map, "Can't take screenshot\n", 2);
+		ft_close_fd(fd, 0);
+	}
+	fd = ft_close_fd(fd, map);
 	if (fd != -1)
-	{
-		fd = ft_close_fd(fd);
-		if (fd != -1)
-			close_program_cross(map, "Screenshot taken successfully.\n", 1);
-		else
-			close_program(map, "Can't close the screenshot file\n", 2);
-	}
+		close_program_cross(map, "Screenshot taken successfully.\n", 1);
+	else
+		close_program(map, "Can't close the screenshot file\n", 2);
 }

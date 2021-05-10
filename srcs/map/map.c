@@ -6,7 +6,7 @@
 /*   By: gchopin <gchopin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/04 16:20:19 by gchopin           #+#    #+#             */
-/*   Updated: 2021/02/04 17:31:33 by gchopin          ###   ########.fr       */
+/*   Updated: 2021/05/10 20:44:53 by gchopin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ int	render_map(void *param)
 		close_program(map, "Can't create image display.\n", 2);
 	map->image[0].mlx_get_data = mlx_get_data_addr(map->image[0].mlx_image,
 			&map->image[0].bpp, &map->image[0].line_bytes, &endian);
+	if (map->image[0].mlx_get_data == NULL)
+		close_program(map, "Can't get image's datas.", 2);
 	map->z_buffer = malloc(sizeof(double) * ((double)map->res_x));
 	if (map->z_buffer == NULL)
 		close_program(map, "Z_buffer allocation failed.\n", 2);
@@ -50,6 +52,9 @@ void	take_screenshot(t_map *map, char *argv)
 		close_program(map, "Screenshot failed, can't create the picture.\n", 2);
 	map->image[0].mlx_get_data = mlx_get_data_addr(map->image[0].mlx_image,
 			&map->image[0].bpp, &map->image[0].line_bytes, &endian);
+	map->z_buffer = malloc(sizeof(double) * ((double)map->res_x));
+	if (map->z_buffer == NULL)
+		close_program(map, "Z_buffer allocation failed.\n", 2);
 	raycast(map);
 	if (map->save == 1)
 		create_bmp(map, argv);

@@ -6,7 +6,7 @@
 /*   By: gchopin <gchopin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/03 17:24:42 by gchopin           #+#    #+#             */
-/*   Updated: 2021/02/03 17:24:48 by gchopin          ###   ########.fr       */
+/*   Updated: 2021/05/10 18:25:46 by gchopin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,18 +22,23 @@ int		ft_open_fd(char *path)
 	{
 		ft_putstr_fd("Error\n", 2);
 		perror("Can't open file");
-		return (-1);
+		exit(EXIT_FAILURE);
 	}
 	return (fd);
 }
 
-int		ft_close_fd(int fd)
+int		ft_close_fd(int fd, t_map *map)
 {
-	if (close(fd) == -1)
+	int	quit;
+
+	quit = close(fd);
+	if (quit == -1 && map != NULL)
+		close_program(map, "Can't close file\n", 2);
+	if (quit == -1)
 	{
 		ft_putstr_fd("Error\n", 2);
 		perror("Can't close file");
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 	return (fd);
 }
@@ -65,7 +70,7 @@ void	display_game(t_map *map, int argc, char *argv, char *result)
 	{
 		init_player(map);
 		if (!(initialization_map_struct(map)))
-			ft_putstr_fd("Error\nMap struct allocation failed.\n", 2);
+			close_program(map, "Map struct allocation failed.\n", 2);
 		else
 		{
 			get_line_fd(map, map->fd);
@@ -89,7 +94,7 @@ int		main(int argc, char *argv[])
 	map.save = 0;
 	map.fd = -1;
 	save = NULL;
-	if (argc == 2 || argc == 3)
+	if ((argc == 2 || argc == 3))
 	{
 		result = ft_strnstr(argv[1], ".cub", ft_strlen(argv[1]));
 		if (argc == 3)
@@ -100,10 +105,10 @@ int		main(int argc, char *argv[])
 		if (result != NULL)
 			display_game(&map, argc, argv[1], result);
 		else
-			ft_putstr_fd("Error\nWrong name format.\n", 2);
-		close_program(&map, "Something with the engine went wrong.", 2);
+			close_program(0, "Wrong name format.\n", 2);
+		close_program(0, "Something went wrong.", 2);
 	}
 	else
-		ft_putstr_fd("Error\nPlease enter a file path.\n", 2);
+		close_program(0, "Please enter a file path.", 2);
 	return (0);
 }

@@ -1,4 +1,4 @@
-R 400 500
+R 500 500
 NO ./textures/colorstone.xpm
 SO textures/bluestone.xpm
 WE ./textures/amethyst_block.xpm

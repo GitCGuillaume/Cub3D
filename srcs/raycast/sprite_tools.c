@@ -46,11 +46,14 @@ void	distance_math(t_map *map, unsigned int nb_sprite, int square_size)
 	while (nb_sprite > 0)
 	{
 		nb_sprite--;
-		map->sprite[nb_sprite].distance =
-			sqrt(pow((double)map->sprite[nb_sprite].y
-					- (square_size * (map->player.pos_y + 1.0)), 2)
-				+ pow((double)map->sprite[nb_sprite].x
-					- (square_size * (map->player.pos_x + 1.0)), 2));
+		if (map->sprite)
+		{
+			map->sprite[nb_sprite].distance =
+				sqrt(pow((double)map->sprite[nb_sprite].y
+						- (square_size * (map->player.pos_y + 1.0)), 2)
+					+ pow((double)map->sprite[nb_sprite].x
+						- (square_size * (map->player.pos_x + 1.0)), 2));
+		}
 	}
 }
 
@@ -69,9 +72,12 @@ void	quicksort_sprite(t_map *map, t_sprite *sprite,
 		j = 0;
 		while (nb_sprite - i - 1 > j)
 		{
-			if (sprite[j].distance > sprite[j + 1].distance)
+			if (sprite)
 			{
-				ft_swap(&sprite[j], &sprite[j + 1]);
+				if (sprite[j].distance > sprite[j + 1].distance)
+				{
+					ft_swap(&sprite[j], &sprite[j + 1]);
+				}
 			}
 			j++;
 		}
@@ -83,15 +89,16 @@ void	sprite_values_check(t_map *map, unsigned int nb_spt)
 {
 	if (cpr_equal(map->sprite[nb_spt].x_sprite, 0.0))
 		map->sprite[nb_spt].x_sprite += 0.000010;
-	if (map->sprite[nb_spt].x_sprite >= 2147483647.0
+	if (map->sprite)
+	{
+		if (map->sprite[nb_spt].x_sprite >= 2147483647.0
 			|| map->sprite[nb_spt].distance >= 2147483647.0)
-	{
-		free(map->z_buffer);
-		close_program(map, "sprite distance wrong.\n", 2);
-	}
-	if (map->sprite[nb_spt].size >= 2147483647.0)
-	{
-		free(map->z_buffer);
-		close_program(map, "size's sprite is wrong.\n", 2);
+		{
+			close_program(map, "sprite distance wrong.\n", 2);
+		}
+		if (map->sprite[nb_spt].size >= 2147483647.0)
+		{
+			close_program(map, "size's sprite is wrong.\n", 2);
+		}
 	}
 }

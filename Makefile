@@ -35,19 +35,19 @@ RM		= rm -f
 		clang -Wall -Wextra -Werror -Iincludes -c $< -o $(<:.c=.o)
 
 $(NAME):	$(OBJS)
-		$(MAKE) all -C srcs/libft/
+		$(MAKE) all -C ./libft/
 		$(MAKE) -C ./minilibx-linux/
-		clang -Wall -Wextra -Werror -L./minilibx-linux -L./includes -o $(NAME) $(OBJS) ./srcs/libft/libft.a -lm -lmlx -lXext -lX11
+		clang -Wall -Wextra -Werror -L./minilibx-linux -L./includes -o $(NAME) $(OBJS) ./libft/libft.a -lm -lmlx -lXext -lX11
 
 all:		$(NAME)
 
 clean:
 		$(RM) $(OBJS)
-		$(MAKE) clean -C ./srcs/libft/
+		$(MAKE) clean -C ./libft/
 		$(MAKE) clean -C ./minilibx-linux/
 
 fclean:		clean
-		$(MAKE) fclean -C ./srcs/libft/
+		$(MAKE) fclean -C ./libft/
 		$(RM) ./$(NAME)
 
 re:		fclean all
