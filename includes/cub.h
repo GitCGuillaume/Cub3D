@@ -13,6 +13,7 @@
 # define KEYRELEASE 3
 # define KEYPRESS_MASK 1L << 0
 # define KEYRELEASE_MASK 1L << 1
+# define PI 3.141592
 
 typedef struct		s_ray
 {
@@ -161,17 +162,18 @@ int		check_validity_map(t_map *map);
 int		check_valid_character(t_map *map);
 
 /* UTILS */
-int	is_other(char c);
-int	is_tab(char c);
+//int	is_other(char c);
+//int	is_tab(char c);
 int	is_space(char c);
 void	ft_swap(t_sprite *a, t_sprite *b);
 int	register_texture(t_map *map);
+void	free_array(char **ptr);
 
 /* CLOSE */
-int	close_program(t_map *map, char *message, int msg_number);
-int	close_program_cross(t_map *map, char *message, int msg_number);
-int	close_program_ok(t_map *map, char *message, int msg_number);
-int	close_program_gnl(t_map *map, char *message, int msg_number);
+int	close_program_cross(t_map *map);
+void	close_program(t_map *map, char *message, int msg_number);
+void	close_program_ok(t_map *map, char *message, int msg_number);
+void	close_program_gnl(t_map *map, char *message, int msg_number);
 
 /* CLEAR PROGRAM */
 void	clear_array(t_map *map);

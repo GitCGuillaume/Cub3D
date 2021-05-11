@@ -6,13 +6,13 @@
 /*   By: gchopin <gchopin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/02 16:43:07 by gchopin           #+#    #+#             */
-/*   Updated: 2020/06/09 14:51:05 by gchopin          ###   ########.fr       */
+/*   Updated: 2021/05/11 16:02:43 by gchopin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int		is_tab(char c)
+int		is_tab(char c)
 {
 	if (c == '\t' || c == '\v')
 		return (1);
@@ -28,7 +28,7 @@ static int		is_jump(char c)
 		return (0);
 }
 
-static int		is_other(char c)
+int		is_other(char c)
 {
 	if (c == '\f' || c == ' ')
 		return (1);

@@ -6,7 +6,7 @@
 /*   By: gchopin <gchopin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/04 16:21:08 by gchopin           #+#    #+#             */
-/*   Updated: 2021/05/10 22:54:04 by gchopin          ###   ########.fr       */
+/*   Updated: 2021/05/11 14:49:32 by gchopin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,9 @@ void	init_map_two(t_map *map)
 	while (6 > i)
 	{
 		map->image[i].mlx_get_data = NULL;
+		map->image[i].mlx_image = NULL;
 		i++;
-	}	
+	}
 	map->colour = NULL;
 	map->resolution = NULL;
 	map->sprite = NULL;
@@ -110,6 +111,8 @@ void	get_screen_size(t_map *map)
 	int	x;
 	int	y;
 
+	if (!map->resolution[0] || !map->resolution[1])
+		close_program(map, "Couldn't get resolution", 2);
 	x = ft_atoi(map->resolution[0]);
 	y = ft_atoi(map->resolution[1]);
 	if (!(mlx_get_screen_size(map->mlx_ptr, &map->x_tmp, &map->y_tmp)))

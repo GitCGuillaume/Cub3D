@@ -6,19 +6,22 @@
 /*   By: gchopin <gchopin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/04 12:55:08 by gchopin           #+#    #+#             */
-/*   Updated: 2020/05/05 11:28:36 by gchopin          ###   ########.fr       */
+/*   Updated: 2021/05/11 15:56:19 by gchopin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static size_t	ft_len(char *str)
+size_t	ft_len(char *str)
 {
 	size_t i;
 
 	i = 0;
-	while (str[i] != '\0')
-		i++;
+	if (str)
+	{
+		while (str[i] != '\0')
+			i++;
+	}
 	return (i);
 }
 

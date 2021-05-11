@@ -6,7 +6,7 @@
 /*   By: gchopin <gchopin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/03 17:25:16 by gchopin           #+#    #+#             */
-/*   Updated: 2021/05/11 00:32:54 by gchopin          ###   ########.fr       */
+/*   Updated: 2021/05/11 12:29:50 by gchopin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,7 @@ void	create_bmp(t_map *map, char *argv)
 	}
 	fd = ft_close_fd(fd, map);
 	if (fd != -1)
-		close_program_cross(map, "Screenshot taken successfully.\n", 1);
+		close_program_ok(map, "Screenshot taken successfully.\n", 1);
 	else
 		close_program(map, "Can't close the screenshot file\n", 2);
 }

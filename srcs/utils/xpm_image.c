@@ -1,7 +1,26 @@
 #include "../../includes/cub.h"
 
+int	register_texture_three(t_map *map, int endian)
+{
+	if (!map->sprite_path)
+		close_program(map, "Can't find sprite path.", 2);
+	map->image[5].mlx_image = mlx_xpm_file_to_image(map->mlx_ptr,
+			map->sprite_path, &map->image[5].width, &map->image[5].height);
+	if (map->image[5].mlx_image == NULL)
+		return (0);
+	map->image[5].mlx_get_data = mlx_get_data_addr(map->image[5].mlx_image,
+			&map->image[5].bpp, &map->image[5].line_bytes, &endian);
+	if (map->image[5].mlx_get_data == NULL)
+		return (0);
+	return (1);
+}
+
 int	register_texture_two(t_map *map, int endian)
 {
+	int	result;
+
+	if (!map->east_path || !map->south_path)
+		close_program(map, "Can't find east or south path.", 2);
 	map->image[3].mlx_image = mlx_xpm_file_to_image(map->mlx_ptr,
 			map->east_path, &map->image[3].width, &map->image[3].height);
 	if (map->image[3].mlx_image == NULL)
@@ -18,15 +37,8 @@ int	register_texture_two(t_map *map, int endian)
 			&map->image[4].bpp, &map->image[4].line_bytes, &endian);
 	if (map->image[4].mlx_get_data == NULL)
 		return (0);
-	map->image[5].mlx_image = mlx_xpm_file_to_image(map->mlx_ptr,
-			map->sprite_path, &map->image[5].width, &map->image[5].height);
-	if (map->image[5].mlx_image == NULL)
-		return (0);
-	map->image[5].mlx_get_data = mlx_get_data_addr(map->image[5].mlx_image,
-			&map->image[5].bpp, &map->image[5].line_bytes, &endian);
-	if (map->image[5].mlx_get_data == NULL)
-		return (0);
-	return (1);
+	result = register_texture_three(map, endian);
+	return (result);
 }
 
 int	register_texture(t_map *map)
@@ -36,6 +48,8 @@ int	register_texture(t_map *map)
 
 	endian = 0;
 	result = 0;
+	if (!map->north_path || !map->west_path)
+		close_program(map, "Can't find north or west path.", 2);
 	map->image[1].mlx_image = mlx_xpm_file_to_image(map->mlx_ptr,
 			map->north_path, &map->image[1].width, &map->image[1].height);
 	if (map->image[1].mlx_image == NULL)

@@ -6,7 +6,7 @@
 /*   By: gchopin <gchopin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/02 16:54:47 by gchopin           #+#    #+#             */
-/*   Updated: 2020/05/13 18:00:29 by gchopin          ###   ########.fr       */
+/*   Updated: 2021/05/11 16:23:10 by gchopin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ int				ft_strncmp(const char *s, const char *s2, size_t n);
 size_t			ft_strlcpy(char *dst, const char *src, size_t dstsize);
 size_t			ft_strlcat(char *dst, const char *src, size_t dstsize);
 char			*ft_strnstr(const char *string, const char *needle, size_t len);
+int				is_tab(char c);
+int				is_other(char c);
 int				ft_atoi(const char *str);
 void			*ft_calloc(size_t count, size_t size);
 char			*ft_strdup(const char	*s1);

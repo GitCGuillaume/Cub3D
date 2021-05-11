@@ -36,12 +36,12 @@ int	start_ray_direction(t_map *map)
 
 double	radian_to_degree(double radian)
 {
-	return (radian * 180.0 / M_PI);
+	return (radian * 180.0 / PI);
 }
 
 double	degree_to_radian(double degree)
 {
-	return ((degree * M_PI) / 180.0);
+	return ((degree * PI) / 180.0);
 }
 
 double	max_case(char *line)

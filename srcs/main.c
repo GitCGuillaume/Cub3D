@@ -6,7 +6,7 @@
 /*   By: gchopin <gchopin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/03 17:24:42 by gchopin           #+#    #+#             */
-/*   Updated: 2021/05/10 18:25:46 by gchopin          ###   ########.fr       */
+/*   Updated: 2021/05/11 10:51:34 by gchopin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,9 @@ int		ft_close_fd(int fd, t_map *map)
 {
 	int	quit;
 
-	quit = close(fd);
+	quit = -1;
+	if (fd != -1)
+		quit = close(fd);
 	if (quit == -1 && map != NULL)
 		close_program(map, "Can't close file\n", 2);
 	if (quit == -1)

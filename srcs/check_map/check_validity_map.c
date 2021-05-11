@@ -6,7 +6,7 @@
 /*   By: gchopin <gchopin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/03 17:27:02 by gchopin           #+#    #+#             */
-/*   Updated: 2021/02/03 17:45:12 by gchopin          ###   ########.fr       */
+/*   Updated: 2021/05/11 21:02:18 by gchopin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,15 @@ static void	check_case_around(t_map *map, int x, int y)
 	init_flood_fill(array);
 	while (i != 8)
 	{
-		if (y - 1 >= 0)
+		if (y - 1 >= 0 && map->lines_copy)
 		{
-			if (!map->lines_copy[y][x] || !map->lines_copy[y + 1]
-					|| !map->lines_copy[y - 1]
-					|| !map->lines_copy[y + array[i][0]][x + array[i][1]])
-				close_program_gnl(map, "Map case invalid.\n", 2);
+			if (map->lines_copy)
+			{
+				if (!map->lines_copy[y][x] || !map->lines_copy[y + 1]
+						|| !map->lines_copy[y - 1]
+						|| !map->lines_copy[y + array[i][0]][x + array[i][1]])
+					close_program_gnl(map, "Map case invalid.\n", 2);
+			}
 		}
 		else
 			close_program_gnl(map, "Map case invalid.\n", 2);
@@ -119,7 +122,7 @@ int			check_validity_map(t_map *map)
 		i++;
 	}
 	assignate_array(&is_valid_array[0], map);
-	if (check_valid_character(map) == 0)
+	if (check_valid_character(map) == 0 && map->lines && map->lines_copy)
 	{
 		is_valid_array[7] = search_player(map, map->lines_copy, 0);
 		map->player.start_position =

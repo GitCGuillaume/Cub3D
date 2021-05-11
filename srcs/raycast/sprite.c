@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   sprite.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gchopin <gchopin@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/05/11 14:10:12 by gchopin           #+#    #+#             */
+/*   Updated: 2021/05/11 14:10:14 by gchopin          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/cub.h"
 
 void	print_sprite(t_map *map, int pixel, int nb_sprite, int height)
@@ -12,15 +24,18 @@ void	print_sprite(t_map *map, int pixel, int nb_sprite, int height)
 	v = ((height - (map->res_y + size) / 2)
 			+ size) * map->image[5].height / size;
 	line_bytes = map->image[5].line_bytes;
-	if (map->image[5].mlx_get_data[((v * line_bytes) + (u * 4)) + 0])
-		map->image[0].mlx_get_data[pixel + 0] =
-			map->image[5].mlx_get_data[((v * line_bytes) + (u * 4)) + 0];
-	if (map->image[5].mlx_get_data[((v * line_bytes) + (u * 4)) + 1])
-		map->image[0].mlx_get_data[pixel + 1] =
-			map->image[5].mlx_get_data[((v * line_bytes) + (u * 4)) + 1];
-	if (map->image[5].mlx_get_data[((v * line_bytes) + (u * 4)) + 2])
-		map->image[0].mlx_get_data[pixel + 2] =
-			map->image[5].mlx_get_data[((v * line_bytes) + (u * 4)) + 2];
+	if (map->image[5].mlx_get_data)
+	{
+		if (map->image[5].mlx_get_data[((v * line_bytes) + (u * 4)) + 0])
+			map->image[0].mlx_get_data[pixel + 0] =
+				map->image[5].mlx_get_data[((v * line_bytes) + (u * 4)) + 0];
+		if (map->image[5].mlx_get_data[((v * line_bytes) + (u * 4)) + 1])
+			map->image[0].mlx_get_data[pixel + 1] =
+				map->image[5].mlx_get_data[((v * line_bytes) + (u * 4)) + 1];
+		if (map->image[5].mlx_get_data[((v * line_bytes) + (u * 4)) + 2])
+			map->image[0].mlx_get_data[pixel + 2] =
+				map->image[5].mlx_get_data[((v * line_bytes) + (u * 4)) + 2];
+	}
 }
 
 void	while_height(t_map *map, int bottom, int nb_sprite, int width_left)
@@ -28,17 +43,20 @@ void	while_height(t_map *map, int bottom, int nb_sprite, int width_left)
 	int	height;
 	int	size;
 
-	size = (int)floor(map->sprite[nb_sprite].size);
-	height = (map->res_y / 2) - (size / 2);
-	if (height < 0)
-		height = 0;
-	while (bottom > height && map->sprite[nb_sprite].distance
-			* (map->res_x / 5) < *(map->z_buffer + width_left))
+	if (map->sprite)
 	{
-		print_sprite(map,
-				(height * map->image[0].line_bytes)
-				+ (width_left * 4), nb_sprite, height);
-		height++;
+		size = (int)floor(map->sprite[nb_sprite].size);
+		height = (map->res_y / 2) - (size / 2);
+		if (height < 0)
+			height = 0;
+		while (bottom > height && map->sprite[nb_sprite].distance
+				* (map->res_x / 5) < *(map->z_buffer + width_left))
+		{
+			print_sprite(map,
+					(height * map->image[0].line_bytes)
+					+ (width_left * 4), nb_sprite, height);
+			height++;
+		}
 	}
 }
 
@@ -48,19 +66,22 @@ void	while_width(t_map *map, int nb_sprite, int width, int bottom)
 	int	width_left;
 	int	x_sprite;
 
-	x_sprite = (int)floor(map->sprite[nb_sprite].x_sprite);
-	size = (int)floor(map->sprite[nb_sprite].size);
-	width_left = (map->res_x / 2)
-		+ x_sprite - (size / 2);
-	if (width_left < 0)
-		width_left = 0;
-	while (width > width_left)
+	if (map->sprite)
 	{
-		map->sprite[nb_sprite].u = ((width_left - (map->res_x / 2)
-					- x_sprite
-					+ (size / 2)) + size) * map->image[5].width / size;
-		while_height(map, bottom, nb_sprite, width_left);
-		width_left++;
+		x_sprite = (int)floor(map->sprite[nb_sprite].x_sprite);
+		size = (int)floor(map->sprite[nb_sprite].size);
+		width_left = (map->res_x / 2)
+			+ x_sprite - (size / 2);
+		if (width_left < 0)
+			width_left = 0;
+		while (width > width_left)
+		{
+			map->sprite[nb_sprite].u = ((width_left - (map->res_x / 2)
+				- x_sprite
+				+ (size / 2)) + size) * map->image[5].width / size;
+			while_height(map, bottom, nb_sprite, width_left);
+			width_left++;
+		}
 	}
 }
 
@@ -70,9 +91,14 @@ void	sprite_mapping(t_map *map, unsigned int nb_sprite)
 	int	width;
 	int	size;
 
-	size = (int)floor(map->sprite[nb_sprite].size);
-	width = (map->res_x / 2) + (int)floor(map->sprite[nb_sprite].x_sprite)
-		- (size / 2) + size;
+	size = 0;
+	width = 0;
+	if (map->sprite)
+	{
+		size = (int)floor(map->sprite[nb_sprite].size);
+		width = (map->res_x / 2) + (int)floor(map->sprite[nb_sprite].x_sprite)
+			- (size / 2) + size;
+	}
 	bottom = ((map->res_y - size) / 2) + size;
 	if (bottom > map->res_y)
 		bottom = map->res_y;
@@ -89,6 +115,8 @@ void	sprite_mapping(t_map *map, unsigned int nb_sprite)
 void	display_sprite(t_map *map, int square, unsigned int nb_spt)
 {
 	quicksort_sprite(map, map->sprite, nb_spt, square);
+	if (nb_spt > 0 && map->sprite == NULL)
+		close_program(map, "Engine can't display sprites.", 2);
 	while (nb_spt > 0)
 	{
 		nb_spt--;
@@ -108,7 +136,6 @@ void	display_sprite(t_map *map, int square, unsigned int nb_spt)
 					* (map->sprite[nb_spt].distance));
 		map->sprite[nb_spt].x_sprite = tan(map->sprite[nb_spt].degree)
 			* ((map->res_x / 2) / tan(0.523599));
-		map->sprite[nb_spt].x_sprite = -map->sprite[nb_spt].x_sprite;
 		sprite_values_check(map, nb_spt);
 		sprite_mapping(map, nb_spt);
 	}

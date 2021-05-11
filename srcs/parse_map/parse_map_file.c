@@ -6,13 +6,14 @@
 /*   By: gchopin <gchopin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/03 17:31:43 by gchopin           #+#    #+#             */
-/*   Updated: 2021/02/04 18:30:10 by gchopin          ###   ########.fr       */
+/*   Updated: 2021/05/11 20:25:07 by gchopin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub.h"
+#include <stdio.h>
 
-void		find_which_indicator(t_map *map, char *line)
+void		find_which_indicator(t_map *map, char **line)
 {
 	unsigned int	i;
 	unsigned int	old_i;
@@ -20,20 +21,21 @@ void		find_which_indicator(t_map *map, char *line)
 
 	i = 0;
 	result = 0;
-	while (is_tab(line[i]) || is_other(line[i]))
-		i++;
-	old_i = i;
 	if (line)
 	{
-		if (line[old_i] == 'C' || line[old_i] == 'F')
+		while (is_tab(*line[i]) || is_other(*line[i]))
 			i++;
-		find_texture(line, old_i, map);
-		result = find_resolution(line, &i, map);
-		result = find_colour(line, &i, old_i, map);
+		old_i = i;
+		if (*line[old_i] == 'C' || *line[old_i] == 'F')
+			i++;
+		find_texture(*line, old_i, map);
+		result = find_resolution(*line, &i, map);
+		if (line && *line)
+			result = find_colour(*line, &i, old_i, map);
 	}
 	if (result == 0)
 	{
-		free(line);
+		free(*line);
 		close_program(map, "Resolution or ceiling/floor colour bad format.", 2);
 	}
 }
@@ -45,8 +47,9 @@ char	*gnl_next_ft(t_map *map, char *tmp_line, char *join_str)
 	last_line = NULL;
 	if (check_indicator_full(map) < 8)
 	{
-		find_which_indicator(map, tmp_line);
-		last_line = ft_strjoin(join_str, tmp_line);
+		find_which_indicator(map, &tmp_line);
+		if (tmp_line)
+			last_line = ft_strjoin(join_str, tmp_line);
 		free(join_str);
 		free(tmp_line);
 		if (last_line == NULL)
@@ -59,8 +62,8 @@ char	*gnl_next_ft(t_map *map, char *tmp_line, char *join_str)
 	}
 	else
 	{
-		free(join_str);
-		free(tmp_line);
+		if (tmp_line)
+			free(tmp_line);
 		close_program(map, "Wrong number of parameter in map.\n", 2);
 	}
 	return (last_line);
@@ -85,7 +88,7 @@ void	get_line_fd(t_map *map, int fd)
 		if (ret > 0)
 		{
 			i = 0;
-			while (tmp_line[i] == ' ' || tmp_line[i] == '\t')
+			while (tmp_line && (tmp_line[i] == ' ' || tmp_line[i] == '\t'))
 				i++;
 			map->full_line = gnl_next_ft(map, tmp_line, map->full_line);
 		}
@@ -95,10 +98,8 @@ void	get_line_fd(t_map *map, int fd)
 
 int		parse_line_fd(t_map *map)
 {
-	int	i;
 	short int	is_space_ok;
 
-	i = 0;
 	is_space_ok = 0;
 	is_space_ok = is_full_line_ok(map->full_line);
 	if (is_space_ok > (short int)0)
@@ -113,9 +114,11 @@ int		parse_line_fd(t_map *map)
 		close_program_gnl(map, "Resolution is invalid.\n", 2);
 	if (map->colour_counter != 6)
 		close_program_gnl(map, "Check RGB inputs number.\n", 2);
-	i = 0;
-	while (map->lines[i])
-		i++;
+	if (map->lines == NULL)
+	{
+		free_array(map->lines_copy);
+		close_program(map, "Couldn't register lines.", 2);
+	}
 	check_validity_map(map);
 	return (0);
 }

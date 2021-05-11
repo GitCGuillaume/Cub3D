@@ -6,7 +6,7 @@
 /*   By: gchopin <gchopin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/28 23:35:16 by gchopin           #+#    #+#             */
-/*   Updated: 2021/02/09 18:33:17 by gchopin          ###   ########.fr       */
+/*   Updated: 2021/02/19 17:03:39 by gchopin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ int	len_n(char *str, int *res)
 			i++;
 		if (str[i] == '\n')
 		{
-			*res = 1;
+			if (res)
+				*res = 1;
 			i++;
 		}
 	}
@@ -49,25 +50,27 @@ int	get_last_n(char **line, char **m_ln, int *res)
 {
 	char	*m_tmp;
 
+	if (!m_ln)
+		return (clear_memory(0, line));
 	if (!*m_ln || *m_ln[0] == '\0')
-		m_tmp = ft_substr(*line, 0, ft_len(*line));
+		m_tmp = ft_substr_g(*line, 0, ft_len(*line));
 	else
-		m_tmp = ft_substr(*m_ln, 0, ft_len(*m_ln));
+		m_tmp = ft_substr_g(*m_ln, 0, ft_len(*m_ln));
 	if (m_tmp == NULL)
 		return (clear_memory(line, m_ln));
 	free(*m_ln);
 	*m_ln = m_tmp;
-	m_tmp = ft_strdup(*m_ln);
+	m_tmp = ft_strdup_g(*m_ln);
 	if (m_tmp == NULL)
 		return (clear_memory(line, m_ln));
 	free(*line);
 	*line = m_tmp;
-	m_tmp = ft_substr(*m_ln, len_n(*m_ln, res), ft_len(*m_ln));
+	m_tmp = ft_substr_g(*m_ln, len_n(*m_ln, res), ft_len(*m_ln));
 	if (m_tmp == NULL)
 		return (clear_memory(line, m_ln));
 	free(*m_ln);
 	*m_ln = m_tmp;
-	if (*m_ln[0] == 0 || *res == -1 || *res == 0)
+	if (*m_ln == NULL || *m_ln[0] == 0 || *res == -1 || *res == 0)
 		clear_memory(m_ln, 0);
 	return (*res);
 }
@@ -79,7 +82,7 @@ int	read_line(int fd, char **line, char **mem_line)
 	int		ret;
 
 	free(*line);
-	*line = ft_strdup("");
+	*line = ft_strdup_g("");
 	ret = 1;
 	while (ret > 0)
 	{
@@ -124,5 +127,7 @@ int	get_next_line(int fd, char **line)
 		}
 		res = get_last_n(line, &m_line, &res);
 	}
+	if (*line == NULL || res == -1)
+		return (clear_memory(line, &m_line));
 	return (res);
 }

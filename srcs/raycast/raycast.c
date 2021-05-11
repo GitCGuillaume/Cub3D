@@ -30,7 +30,8 @@ t_image	side_distance(t_map *map)
 
 void	math_wall(t_map *map, double correct_degree, int square_size, int x)
 {
-	*(map->z_buffer + x) = map->player.distance_wall;
+	if (map->z_buffer)
+		*(map->z_buffer + x) = map->player.distance_wall;
 	map->player.distance_wall =
 		map->player.distance_wall * cos(degree_to_radian(correct_degree));
 	map->player.slice_height = square_size
@@ -81,6 +82,4 @@ void	raycast(t_map *map)
 		x++;
 	}
 	display_sprite(map, square_size, map->nb_sprite);
-	free(map->z_buffer);
-	map->z_buffer = NULL;
 }

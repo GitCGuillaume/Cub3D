@@ -6,7 +6,7 @@
 /*   By: gchopin <gchopin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/03 17:35:47 by gchopin           #+#    #+#             */
-/*   Updated: 2021/02/03 17:38:28 by gchopin          ###   ########.fr       */
+/*   Updated: 2021/05/11 20:54:03 by gchopin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,48 +19,59 @@ short int		is_full_line_ok(char *line)
 
 	i = 0;
 	is_ok = 1;
-	while (line[i] == '|' && line[i])
+	if (line)
 	{
-		i++;
-		is_ok = 1;
-	}
-	while (line[i])
-	{
-		if (line[i] == '|' && line[i + 1] == '|')
+		while (line[i] == '|' && line[i])
 		{
-			is_ok = 0;
+			i++;
+			is_ok = 1;
 		}
-		i++;
+		while (line[i])
+		{
+			if (line[i] == '|' && line[i + 1] == '|')
+			{
+				is_ok = 0;
+			}
+			i++;
+		}
 	}
 	return (is_ok);
 }
 
 void	is_printable(t_map *map, char *line, unsigned int *i)
 {
-	while (line[*i] != ' ' && line[*i] != '\0')
-		(*i)++;
-	while (line[*i] == ' ' && line[*i] != '\0')
-		(*i)++;
-	if (!ft_isprint(line[*i]))
+	if (line)
 	{
-		free(line);
-		close_program_gnl(map, "An error occured.", 2);
+		while (line[*i] != ' ' && line[*i] != '\0')
+			(*i)++;
+		while (line[*i] == ' ' && line[*i] != '\0')
+			(*i)++;
+		if (!ft_isprint(line[*i]))
+		{
+			free(line);
+			close_program_gnl(map, "An error occured.", 2);
+		}
 	}
 }
 
 void	find_texture_two(char *line, unsigned int i, t_map *map)
 {
-	if (line[i] == 'E' && line[i + 1] == 'A'
+	if (line)
+	{
+		if (line[i] == 'E' && line[i + 1] == 'A'
 			&& line[i + 2] == ' ' && map->is_east == 0)
-	{
-		map->east_path = get_texture(map, i, line);
-		map->is_east++;
-	}
-	if (line[i] == 'S' && line[i + 1] == ' '
-			&& map->is_sprite == 0)
-	{
-		map->sprite_path = get_texture(map, i, line);
-		map->is_sprite++;
+		{
+			map->east_path = get_texture(map, i, line);
+			if (map->east_path)
+				map->is_east++;
+		}
+		if (line[i] == 'S' && line[i + 1] == ' '
+				&& map->is_sprite == 0)
+		{
+			map->sprite_path = get_texture(map, i, line);
+			if (map->sprite_path)
+				map->is_sprite++;
+		}
 	}
 }
 

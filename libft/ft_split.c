@@ -6,7 +6,7 @@
 /*   By: gchopin <gchopin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/05 18:25:11 by gchopin           #+#    #+#             */
-/*   Updated: 2020/06/23 16:23:49 by gchopin          ###   ########.fr       */
+/*   Updated: 2021/05/11 16:24:32 by gchopin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,11 @@ static void			*ft_free(char **ptr, size_t size)
 	while (size != 0)
 	{
 		size--;
-		free(ptr[size]);
+		if (ptr)
+			free(ptr[size]);
 	}
-	free(ptr);
+	if (ptr)
+		free(ptr);
 	return (NULL);
 }
 

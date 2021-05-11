@@ -9,6 +9,11 @@ void	degree_check_divide(t_map *map, int nb_spt)
 			|| cpr_equal(degree, 90.0)
 			|| cpr_equal(degree, 180.0)
 			|| cpr_equal(degree, 270.0))
-		map->sprite[nb_spt].degree =
-			map->sprite[nb_spt].degree + 0.000010;
+	{
+		if (map->sprite)
+		{
+			map->sprite[nb_spt].degree =
+				map->sprite[nb_spt].degree + 0.000010;
+		}
+	}
 }

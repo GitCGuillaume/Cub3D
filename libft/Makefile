@@ -15,7 +15,7 @@ RM		=	rm -f
 NAME	=	libft.a
 
 .c.o:
-			${GCC} ${CFLAGS} -c $< -o ${<:.c=.o}
+			${GCC} ${CFLAGS} -I../includes -c $< -o ${<:.c=.o}
 
 $(NAME):	${OBJS}
 			ar rcs $(NAME) ${OBJS}
