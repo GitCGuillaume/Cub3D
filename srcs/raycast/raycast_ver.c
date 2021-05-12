@@ -86,7 +86,7 @@ void	vertical_detection(t_map *map, int number_lines, int square_size)
 	instanciate_length_ver(map, tang, square_size);
 	length_case_y = map->player.ray_vertical.length_case_y;
 	length_case_x = map->player.ray_vertical.length_case_x;
-	while (map->player.ray_vertical.is_wall == 0)
+	while (map->lines && map->player.ray_vertical.is_wall == 0)
 	{
 		if (length_case_y < 0.0 || length_case_x < 0.0
 				|| (int)floor(length_case_y / square) > number_lines

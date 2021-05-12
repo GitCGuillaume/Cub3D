@@ -85,7 +85,7 @@ void	horizontal_detection(t_map *map, int number_lines, int square_size)
 	instanciate_length_hor(map, tang, square_size);
 	length_case_x = map->player.ray_horizontal.length_case_x;
 	length_case_y = map->player.ray_horizontal.length_case_y;
-	while (map->player.ray_horizontal.is_wall == 0)
+	while (map->lines && map->player.ray_horizontal.is_wall == 0)
 	{
 		if (length_case_y < 0.0 || length_case_x < 0.0
 			|| (int)floor(length_case_y) / square > number_lines

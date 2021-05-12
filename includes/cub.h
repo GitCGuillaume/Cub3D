@@ -13,18 +13,18 @@
 # define KEYRELEASE 3
 # define KEYPRESS_MASK 1L << 0
 # define KEYRELEASE_MASK 1L << 1
-# define PI 3.141592
-
+//# define PI 3.141592
+# define PI 3.1415
 typedef struct		s_ray
 {
+	int		pos_x;
+	int		pos_y;
+	int		is_wall;
 	double		length_case_x;
 	double		length_case_y;
 	double		distance_x;
 	double		distance_y;
 	double		distance_wall;
-	int		pos_x;
-	int		pos_y;
-	int		is_wall;
 }			t_ray;
 
 typedef struct		s_player
@@ -47,13 +47,12 @@ typedef struct		s_player
 
 typedef struct		s_image
 {
-	void		*mlx_image;
-	char		*mlx_get_data;
-	int		width;
 	int		height;
 	int		line_bytes;
+	int		width;
 	int		bpp;
-
+	char		*mlx_get_data;
+	void		*mlx_image;
 }		t_image;
 
 typedef struct s_control
@@ -68,13 +67,13 @@ typedef struct s_control
 
 typedef struct	s_sprite
 {
+	int	x;
+	int	y;
+	int	u;
 	double	x_sprite;
 	double	degree;
 	double	size;
 	double	distance;
-	int	x;
-	int	y;
-	int	u;
 }		t_sprite;
 
 typedef struct	s_map
@@ -85,16 +84,6 @@ typedef struct	s_map
 	unsigned short	is_south;
 	unsigned short	is_sprite;
 	unsigned short	is_resolution;
-	char		*north_path;
-	char		*east_path;
-	char		*west_path;
-	char		*south_path;
-	char		*sprite_path;
-	char		*full_line;
-	char		**colour;
-	char		**resolution;
-	char		**lines;
-	char		**lines_copy;
 	int		fd;
 	int		save;
 	int		colour_counter;
@@ -107,7 +96,17 @@ typedef struct	s_map
 	int	res_y;
 	unsigned int	nb_sprite;
 	void		*mlx_ptr;
+	char		*north_path;
+	char		*east_path;
+	char		*west_path;
+	char		*south_path;
+	char		*sprite_path;
+	char		*full_line;
+	char		**colour;
+	char		**resolution;
+	char		**lines;
 	void		*mlx_window;
+	char		**lines_copy;
 	double			*z_buffer;
 	t_control	control;
 	t_image		image[6];

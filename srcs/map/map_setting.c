@@ -6,7 +6,7 @@
 /*   By: gchopin <gchopin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/04 16:21:08 by gchopin           #+#    #+#             */
-/*   Updated: 2021/05/11 14:49:32 by gchopin          ###   ########.fr       */
+/*   Updated: 2021/05/12 17:12:02 by gchopin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,9 @@ void	get_screen_size(t_map *map)
 	y = ft_atoi(map->resolution[1]);
 	if (!(mlx_get_screen_size(map->mlx_ptr, &map->x_tmp, &map->y_tmp)))
 		close_program(map, "Can't get computer screen size.\n", 2);
-	if ((x < 320 || x > map->x_tmp) || (y < 200 || y > map->y_tmp))
+	if (x <= 0 || y <= 0)
+		close_program(map, "resolution too low.\n", 2);
+	if ((x > map->x_tmp) || y > map->y_tmp)
 	{
 		map->res_x = map->x_tmp;
 		map->res_y = map->y_tmp;
@@ -127,6 +129,4 @@ void	get_screen_size(t_map *map)
 		map->res_x = x;
 		map->res_y = y;
 	}
-	if (map->res_x < 320 || map->res_y < 200)
-		close_program(map, "resolution too low.\n", 2);
 }

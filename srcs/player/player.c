@@ -6,7 +6,7 @@
 /*   By: gchopin <gchopin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/03 17:39:58 by gchopin           #+#    #+#             */
-/*   Updated: 2021/02/04 17:53:32 by gchopin          ###   ########.fr       */
+/*   Updated: 2021/05/12 17:14:53 by gchopin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	close_program_key(int keycode, void *param, char *message, int msg_number)
 
 	i = 0;
 	map = (t_map *)param;
-	if (keycode == 65307)
+	if (keycode == 65307 && message)
 	{
 		close_program_ok(map, message, msg_number);
 		exit(0);
@@ -57,7 +57,7 @@ int		search_player(t_map *map, char **lines, int i)
 {
 	int		j;
 
-	if (lines)
+	if (lines && *lines)
 	{
 		while (lines[i])
 		{
@@ -68,8 +68,8 @@ int		search_player(t_map *map, char **lines, int i)
 					|| lines[i][j] == 'E' || lines[i][j] == 'W')
 				{
 					map->player_exist++;
-					map->player.pos_y = (double)i;
-					map->player.pos_x = (double)j + 0.4;
+					map->player.pos_y = (double)i + 0.5;
+					map->player.pos_x = (double)j + 0.5;
 					map->player.fill_y = i;
 					map->player.fill_x = j;
 				}
