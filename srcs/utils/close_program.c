@@ -78,7 +78,6 @@ void	close_program(t_map *map, char *message, int msg_number)
 	i = 0;
 	if (map == NULL)
 	{
-		map->fd = ft_close_fd(map->fd, 0);
 		ft_putstr_fd("Error\n", 2);
 		ft_putstr_fd(message, msg_number);
 		exit(EXIT_FAILURE);

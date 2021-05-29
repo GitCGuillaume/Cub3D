@@ -6,7 +6,7 @@
 /*   By: gchopin <gchopin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/03 17:24:42 by gchopin           #+#    #+#             */
-/*   Updated: 2021/05/11 10:51:34 by gchopin          ###   ########.fr       */
+/*   Updated: 2021/05/29 13:40:50 by gchopin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,12 +62,9 @@ int		save_check(t_map *map, char *save)
 	return (0);
 }
 
-void	display_game(t_map *map, int argc, char *argv, char *result)
+void	display_game(t_map *map, int argc, char *argv)
 {
-	if (ft_strncmp(result, ".cub", 4) == 0)
-		map->fd = ft_open_fd(argv);
-	else
-		ft_putstr_fd("Error\nWrong name format.\n", 2);
+	map->fd = ft_open_fd(argv);
 	if (map->fd != -1)
 	{
 		init_player(map);
@@ -99,15 +96,17 @@ int		main(int argc, char *argv[])
 	if ((argc == 2 || argc == 3))
 	{
 		result = ft_strnstr(argv[1], ".cub", ft_strlen(argv[1]));
+		if (result == NULL)
+			close_program(0, "Wrong name format.\n", 2);
+		if (ft_strcmp(result, ".cub") != 0)
+			close_program(0, "Wrong name format.\n", 2);
 		if (argc == 3)
 		{
 			save = argv[2];
 			save_check(&map, save);
 		}
 		if (result != NULL)
-			display_game(&map, argc, argv[1], result);
-		else
-			close_program(0, "Wrong name format.\n", 2);
+			display_game(&map, argc, argv[1]);
 		close_program(0, "Something went wrong.", 2);
 	}
 	else
