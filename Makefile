@@ -48,6 +48,7 @@ clean:
 
 fclean:		clean
 		$(MAKE) fclean -C ./libft/
+		$(MAKE) fclean -C ./minilibx-linux/
 		$(RM) ./$(NAME)
 
 re:		fclean all
