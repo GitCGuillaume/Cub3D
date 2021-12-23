@@ -73,12 +73,10 @@ void	vertical_check(t_map *map, double *length_case_x,
 
 void	vertical_detection(t_map *map, int number_lines, double square_size)
 {
-	double	square;
 	double	tang;
 	double	length_case_y;
 	double	length_case_x;
 
-	square = map->res_x / 5;
 	tang = tan(degree_to_radian(map->player.degree));
 	if (cpr_equal(tang, 0.0))
 		tang = tang + 0.000010;
@@ -89,13 +87,13 @@ void	vertical_detection(t_map *map, int number_lines, double square_size)
 	while (map->lines && map->player.ray_vertical.is_wall == 0)
 	{
 		if (length_case_y < 0.0 || length_case_x < 0.0
-				|| (int)floor(length_case_y) / square > number_lines
-				|| cpr_equal((int)floor(length_case_y) / square, number_lines)
-				|| (length_case_x / square)
-				> max_case(map->lines[(int)floor(length_case_y) / (int)square])
-				|| cpr_equal((length_case_x / square),
-					max_case(map->lines[(int)floor(length_case_y) / (int)square])))
+				|| (int)floor(length_case_y) / square_size > number_lines
+				|| cpr_equal((int)floor(length_case_y) / square_size, number_lines)
+				|| (length_case_x / square_size)
+				> max_case(map->lines[(int)floor(length_case_y) / (int)square_size])
+				|| cpr_equal((length_case_x / square_size),
+					max_case(map->lines[(int)floor(length_case_y) / (int)square_size])))
 			map->player.ray_vertical.is_wall = 1;
-		vertical_check(map, &length_case_x, &length_case_y, square);
+		vertical_check(map, &length_case_x, &length_case_y, square_size);
 	}
 }
