@@ -81,4 +81,5 @@ void	raycast(t_map *map)
 		correct_degree += 60.000000 / map->res_x;
 		x++;
 	}
+	display_sprite(map, square_size, map->nb_sprite);
 }

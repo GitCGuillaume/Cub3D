@@ -65,12 +65,24 @@ typedef struct s_control
 	int	t_right;
 }		t_control;
 
+typedef struct	s_sprite
+{
+	int	x;
+	int	y;
+	int	u;
+	double	x_sprite;
+	double	degree;
+	double	size;
+	double	distance;
+}		t_sprite;
+
 typedef struct	s_map
 {
 	unsigned short	is_north;
 	unsigned short	is_east;
 	unsigned short	is_west;
 	unsigned short	is_south;
+	unsigned short	is_sprite;
 	unsigned short	is_resolution;
 	int		fd;
 	int		save;
@@ -82,11 +94,13 @@ typedef struct	s_map
 	int		y_tmp;
 	int		res_x;
 	int		res_y;
+	unsigned int	nb_sprite;
 	void		*mlx_ptr;
 	char		*north_path;
 	char		*east_path;
 	char		*west_path;
 	char		*south_path;
+	char		*sprite_path;
 	char		*full_line;
 	char		**colour;
 	char		**resolution;
@@ -95,8 +109,9 @@ typedef struct	s_map
 	char		**lines_copy;
 	double			*z_buffer;
 	t_control	control;
-	t_image		image[5];
+	t_image		image[6];
 	t_player	player;
+	t_sprite	*sprite;
 
 }		t_map;
 
@@ -149,6 +164,7 @@ int		check_valid_character(t_map *map);
 //int	is_other(char c);
 //int	is_tab(char c);
 int	is_space(char c);
+void	ft_swap(t_sprite *a, t_sprite *b);
 int	register_texture(t_map *map);
 void	free_array(char **ptr);
 
@@ -205,6 +221,19 @@ void check_error_ln_ver(t_map *map, double floor_pos_x);
 void	check_loop_cast_hor(t_map *map);
 void	check_loop_cast_ver(t_map *map);
 void	check_distance(t_map *map);
+
+/** SPRITE **/
+int	find_sprite(t_map *map);
+void	display_sprite(t_map *map, int square_size, unsigned int nb_spt);
+
+/** SPRITE TOOLS **/
+int	init_sprite(t_map *map, int nb_sprite, int i, int j);
+int	find_sprite(t_map *map);
+void	distance_math(t_map *map, unsigned int nb_sprite, int square_size);
+void	quicksort_sprite(t_map *map, t_sprite *sprite,
+		unsigned int nb_sprite, int square_size);
+void	sprite_values_check(t_map *map, unsigned int nb_spt);
+void	degree_check_divide(t_map *map, int nb_spt);
 
 /** BMP **/
 void	create_bmp(t_map *map, char *argv);

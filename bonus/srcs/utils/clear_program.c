@@ -68,6 +68,8 @@ void	clear_image(t_map *map)
 		mlx_destroy_image(map->mlx_ptr, map->image[3].mlx_image);
 	if (map->image[4].mlx_get_data)
 		mlx_destroy_image(map->mlx_ptr, map->image[4].mlx_image);
+	if (map->image[5].mlx_get_data)
+		mlx_destroy_image(map->mlx_ptr, map->image[5].mlx_image);
 	if (map->mlx_ptr)
 		free(map->mlx_ptr);
 }
@@ -82,4 +84,8 @@ void	clear_path(t_map *map)
 		free(map->west_path);
 	if (map->south_path)
 		free(map->south_path);
+	if (map->sprite_path)
+		free(map->sprite_path);
+	if (map->sprite)
+		free(map->sprite);
 }

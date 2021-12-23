@@ -21,7 +21,7 @@ short int		is_full_line_ok(char *line)
 	is_ok = 1;
 	if (line)
 	{
-		while (line[i] && line[i] == '|')
+		while (line[i] == '|' && line[i])
 		{
 			i++;
 			is_ok = 1;
@@ -49,7 +49,7 @@ void	is_printable(t_map *map, char *line, unsigned int *i)
 		if (!ft_isprint(line[*i]))
 		{
 			free(line);
-			close_program_gnl(map, "An error occured.\n", 2);
+			close_program_gnl(map, "An error occured.", 2);
 		}
 	}
 }
@@ -65,28 +65,14 @@ void	find_texture_two(char *line, unsigned int i, t_map *map)
 			if (map->east_path)
 				map->is_east++;
 		}
-	}
-}
-#include "stdio.h"
-int	is_line_wrong(const char *line)
-{
-	unsigned int	i;
-
-	i = 0;
-	if (line)
-	{
-		while (line[i])
+		if (line[i] == 'S' && line[i + 1] == ' '
+				&& map->is_sprite == 0)
 		{
-			if (line[i] != 0 && line[i] != ' ' && line[i] != '1'
-				&& line[i] != '0' && line[i] != 'N' && line[i] != 'S'
-				&& line[i] != 'E' && line[i] != 'W')
-				{
-					return (0);
-				}
-			i++;
+			map->sprite_path = get_texture(map, i, line);
+			if (map->sprite_path)
+				map->is_sprite++;
 		}
 	}
-	return (1);
 }
 
 int	find_colour(char *line, unsigned int *i,
@@ -116,7 +102,5 @@ int	find_colour(char *line, unsigned int *i,
 			return (0);
 		ft_memset(line, 0, ft_strlen(line));
 	}
-	if (!is_line_wrong(line))
-		return (0);
 	return (1);
 }

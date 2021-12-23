@@ -36,9 +36,7 @@ void		find_which_indicator(t_map *map, char **line)
 	if (result == 0)
 	{
 		free(*line);
-		*line = NULL;
-		close_program(map,
-			"Resolution, ceiling/floor colour bad format or line wrong.\n", 2);
+		close_program(map, "Resolution or ceiling/floor colour bad format.", 2);
 	}
 }
 
@@ -47,7 +45,7 @@ char	*gnl_next_ft(t_map *map, char *tmp_line, char *join_str)
 	char	*last_line;
 
 	last_line = NULL;
-	if (check_indicator_full(map) < 7)
+	if (check_indicator_full(map) < 8)
 	{
 		find_which_indicator(map, &tmp_line);
 		if (tmp_line)
@@ -119,7 +117,7 @@ int		parse_line_fd(t_map *map)
 	if (map->lines == NULL)
 	{
 		free_array(map->lines_copy);
-		close_program(map, "Couldn't register lines.\n", 2);
+		close_program(map, "Couldn't register lines.", 2);
 	}
 	check_validity_map(map);
 	return (0);

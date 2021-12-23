@@ -17,6 +17,11 @@ void	init_map_four(t_map *map)
 	int	textures_exist;
 
 	textures_exist = 0;
+	map->sprite = malloc(sizeof(t_sprite) * map->nb_sprite);
+	if (map->sprite == NULL)
+		close_program(map, "Sprite memory allocation failed.\n", 2);
+	if (map->nb_sprite > 0)
+		find_sprite(map);
 	textures_exist = register_texture(map);
 	if (textures_exist == 0)
 		close_program(map, "Can't create textures image.\n", 2);
@@ -65,10 +70,12 @@ void	init_map_two(t_map *map)
 	}
 	map->colour = NULL;
 	map->resolution = NULL;
+	map->sprite = NULL;
 	map->is_north = 0;
 	map->is_east = 0;
 	map->is_west = 0;
 	map->is_south = 0;
+	map->is_sprite = 0;
 	map->ceiling_colour = -1;
 	map->floor_colour = -1;
 }
@@ -85,10 +92,13 @@ int	initialization_map_struct(t_map *map)
 	map->east_path = NULL;
 	map->west_path = NULL;
 	map->south_path = NULL;
+	map->sprite_path = NULL;
 	map->full_line = NULL;
 	map->lines = NULL;
 	map->lines_copy = NULL;
 	map->player_exist = 0;
+	map->nb_sprite = 0;
+	map->sprite = 0;
 	init = init_map_three(map);
 	map->z_buffer = NULL;
 	if (init == 0)
@@ -102,7 +112,7 @@ void	get_screen_size(t_map *map)
 	int	y;
 
 	if (!map->resolution[0] || !map->resolution[1])
-		close_program(map, "Couldn't get resolution\n", 2);
+		close_program(map, "Couldn't get resolution", 2);
 	x = ft_atoi(map->resolution[0]);
 	y = ft_atoi(map->resolution[1]);
 	if ((mlx_get_screen_size(map->mlx_ptr, &map->x_tmp, &map->y_tmp)))

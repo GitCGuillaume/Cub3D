@@ -1,29 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   free_array.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gchopin <gchopin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/07/28 23:35:27 by gchopin           #+#    #+#             */
-/*   Updated: 2021/12/23 17:44:10 by gchopin          ###   ########.fr       */
+/*   Created: 2021/05/11 16:22:52 by gchopin           #+#    #+#             */
+/*   Updated: 2021/05/11 16:25:33 by gchopin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#include "cub.h"
 
-# ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 1
-# endif
+void	free_array(char **ptr)
+{
+	int	size;
 
-# include <stdlib.h>
-# include <unistd.h>
-# include "libft.h"
+	size = 0;
+	if (ptr)
+	{
+		while (ptr[size] != NULL)
+			size++;
+		while (size != 0)
+		{
+			size--;
+			if (ptr[size])
+				free(ptr[size]);
+		}
+		free(ptr);
+	}
+}
 
-int		get_next_line(int fd, char **line);
-char	*ft_substr_g(char const *s, unsigned int start, size_t len);
-char	*ft_strdup_g(const char *s1);
-size_t	ft_len(char const *str);
-
-#endif

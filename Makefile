@@ -15,15 +15,13 @@ PATH_BMP	= ./srcs/bmp
 PATH_GNL	= ./srcs/gnl
 
 SRCS		= $(PATH_GNL)/get_next_line.c $(PATH_GNL)/get_next_line_utils.c \
-		$(PATH_UTILS)/ft_isspace.c $(PATH_UTILS)/ft_swap.c $(PATH_UTILS)/close_program.c $(PATH_UTILS)/clear_program.c \
+		$(PATH_UTILS)/ft_isspace.c $(PATH_UTILS)/close_program.c $(PATH_UTILS)/clear_program.c \
 		$(PATH_UTILS)/free_array.c $(PATH_UTILS)/colour.c $(PATH_UTILS)/xpm_image.c $(PATH_UTILS)/raycast_tools.c $(PATH_UTILS)/raycast_tools_two.c \
 		$(PATH_PARSE)/parse_map_file.c $(PATH_PARSE)/parse_map_file_two.c $(PATH_PARSE)/parse_map_file_three.c \
 		srcs/main.c $(PATH_CHECK)/check_validity_map.c $(PATH_CHECK)/check_validity_map_two.c \
 		$(PATH_PLAYER)/player.c $(PATH_PLAYER)/control_player.c \
 		$(PATH_MAP)/map.c $(PATH_MAP)/map_setting.c \
-		$(PATH_RAYCAST)/raycast.c $(PATH_RAYCAST)/raycast_hor.c $(PATH_RAYCAST)/raycast_ver.c $(PATH_RAYCAST)/raycast_free.c \
-		$(PATH_RAYCAST)/raycast_tex.c $(PATH_RAYCAST)/sprite.c $(PATH_RAYCAST)/sprite_tools.c $(PATH_RAYCAST)/sprite_tools_two.c \
-		$(PATH_BMP)/bmp.c
+		$(PATH_RAYCAST)/raycast.c $(PATH_RAYCAST)/raycast_hor.c $(PATH_RAYCAST)/raycast_ver.c $(PATH_RAYCAST)/raycast_free.c $(PATH_RAYCAST)/raycast_tex.c $(PATH_BMP)/bmp.c
 
 OBJS		= $(SRCS:.c=.o)
 

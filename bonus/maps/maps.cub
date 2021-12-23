@@ -1,0 +1,9 @@
+Sd sprite_path
+F 255,0 10
+ NO ./
+	R 304 205	
+SO ah
+
+EA ./
+C 100, 0, 0
+WE ./
