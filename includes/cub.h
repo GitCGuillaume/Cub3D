@@ -90,10 +90,10 @@ typedef struct	s_map
 	int		player_exist;
 	int		ceiling_colour;
 	int		floor_colour;
-	int	x_tmp;
-	int	y_tmp;
-	int	res_x;
-	int	res_y;
+	int		x_tmp;
+	int		y_tmp;
+	int		res_x;
+	int		res_y;
 	unsigned int	nb_sprite;
 	void		*mlx_ptr;
 	char		*north_path;

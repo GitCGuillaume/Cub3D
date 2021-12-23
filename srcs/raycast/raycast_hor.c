@@ -4,14 +4,14 @@ void	instanciate_pos_hor(t_map *map, double square_size)
 {
 	map->player.ray_horizontal.is_wall = 0;
 	map->player.ray_horizontal.distance_y = square_size;
-	map->player.ray_horizontal.pos_y = square_size * (map->player.pos_y + 1.0);
-	map->player.ray_horizontal.pos_x = (map->player.pos_x + 1.0) * square_size;
-	map->player.ray_horizontal.pos_y -= square_size - 1.0;
-	map->player.ray_horizontal.pos_x -= square_size - 1.0;
-	if (map->player.ray_horizontal.distance_y <= 0)
+	map->player.ray_horizontal.pos_y = square_size * (map->player.pos_y + 1.000000);
+	map->player.ray_horizontal.pos_x = (map->player.pos_x + 1.000000) * square_size;
+	map->player.ray_horizontal.pos_y -= square_size - 1.000000;
+	map->player.ray_horizontal.pos_x -= square_size - 1.000000;
+	if (map->player.ray_horizontal.distance_y <= 0.000000)
 		close_program(map, "horizontal distance y is wrong.\n", 2);
-	if (map->player.ray_horizontal.pos_x < 0
-		|| map->player.ray_horizontal.pos_y < 0)
+	if (map->player.ray_horizontal.pos_x < 0.000000
+		|| map->player.ray_horizontal.pos_y < 0.000000)
 	{
 		close_program(map, "player position is wrong.\n", 2);
 	}
@@ -22,7 +22,7 @@ void	instanciate_length_hor(t_map *map, double tang, double square_size)
 	double	floor_pos_y;
 
 	floor_pos_y = floor(map->player.ray_horizontal.pos_y / square_size);
-	if (map->player.degree > 0.0 && map->player.degree < 180.0)
+	if (map->player.degree > 0.000000 && map->player.degree < 180.000000)
 		map->player.ray_horizontal.length_case_y
 			= floor_pos_y * square_size - 0.000001;
 	else
@@ -31,7 +31,7 @@ void	instanciate_length_hor(t_map *map, double tang, double square_size)
 	map->player.ray_horizontal.length_case_x = map->player.ray_horizontal.pos_x
 		+ (map->player.ray_horizontal.pos_y
 			- map->player.ray_horizontal.length_case_y) / tang;
-	if (map->player.degree > 0.0 && map->player.degree < 180.0)
+	if (map->player.degree > 0.000000 && map->player.degree < 180.000000)
 		map->player.ray_horizontal.distance_y = -square_size;
 	else
 		map->player.ray_horizontal.distance_y = square_size;
@@ -54,9 +54,9 @@ void	horizontal_check(t_map *map, double *length_case_x,
 	{
 		map->player.ray_horizontal.distance_wall
 			= sqrt(pow(map->player.ray_horizontal.pos_x
-					- *length_case_x, 2)
+					- *length_case_x, 2.000000)
 				+ pow(map->player.ray_horizontal.pos_y
-					- *length_case_y, 2));
+					- *length_case_y, 2.000000));
 		map->player.ray_horizontal.is_wall = 1;
 	}
 	else
@@ -85,7 +85,7 @@ void	horizontal_detection(t_map *map, int number_lines, double square_size)
 	length_case_y = map->player.ray_horizontal.length_case_y;
 	while (map->lines && map->player.ray_horizontal.is_wall == 0)
 	{
-		if (length_case_y < 0.0 || length_case_x < 0.0
+		if (length_case_y < 0.000000 || length_case_x < 0.000000
 			|| (int)floor(length_case_y) / square_size > number_lines
 			|| cpr_equal((int)floor(length_case_y) / square_size, number_lines)
 			|| (length_case_x / square_size)
