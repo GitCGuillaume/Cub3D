@@ -2,11 +2,11 @@
 
 int	text_map_u(t_map *map, t_image *img)
 {
-	int		u;
 	double	pos_u;
+	int		u;
 
 	u = 0;
-	pos_u = 0;
+	pos_u = 0.000000;
 	if (map->player.ray_horizontal.distance_wall
 			< map->player.ray_vertical.distance_wall)
 	{
@@ -28,8 +28,8 @@ int	text_map_u(t_map *map, t_image *img)
 
 int	text_map_v(t_map *map, int height, double zoom)
 {
-	int		v;
 	double	pos_v;
+	int		v;
 
 	if (height >= 2147483647
 			|| map->player.bottom_wall >= 2147483647 || height < 0)
@@ -42,16 +42,16 @@ int	text_map_v(t_map *map, int height, double zoom)
 
 void	texture_mapping(t_map *map, int x, t_image *img)
 {
+	double	zoom;
 	int		height;
 	int		pixel;
 	int		v;
 	int		u;
-	double	zoom;
 
 	height = map->player.height_wall;
 	pixel = 0;
 	v = 0;
-	zoom = (double)img->height / map->player.slice_height;
+	zoom = (double)img->height / (double)map->player.slice_height;
 	u = text_map_u(map, img);
 	if (height > map->player.bottom_wall)
 		close_program(map, "An error occured while rendering.", 2);
