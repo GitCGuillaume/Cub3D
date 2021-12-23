@@ -8,7 +8,7 @@ t_image	side_distance(t_map *map)
 	if (map->player.ray_horizontal.distance_wall
 			< map->player.ray_vertical.distance_wall)
 	{
-		if (map->player.degree > 0.0 && map->player.degree < 180.0)
+		if (map->player.degree > 0.000000 && map->player.degree < 180.000000)
 			img = map->image[1];
 		else
 			img = map->image[4];
@@ -16,14 +16,14 @@ t_image	side_distance(t_map *map)
 	}
 	else
 	{
-		if (map->player.degree > 90.0 && map->player.degree < 270.0)
+		if (map->player.degree > 90.000000 && map->player.degree < 270.000000)
 			img = map->image[2];
 		else
 			img = map->image[3];
 		map->player.distance_wall = map->player.ray_vertical.distance_wall;
 	}
-	if (map->player.distance_wall < 0.0
-			|| cpr_equal(map->player.distance_wall, 0.0))
+	if (map->player.distance_wall < 0.000000
+			|| cpr_equal(map->player.distance_wall, 0.000000))
 		map->player.distance_wall = 0.000001;
 	return (img);
 }
@@ -46,10 +46,10 @@ void	math_wall(t_map *map, double correct_degree, double square_size, int x)
 
 void	raycast_two(t_map *map, double square_size, t_image *img)
 {
-	if (cpr_equal(map->player.degree, 0.0)
-			|| cpr_equal(map->player.degree, 90.0)
-			|| cpr_equal(map->player.degree, 180.0)
-			|| cpr_equal(map->player.degree, 270.0))
+	if (cpr_equal(map->player.degree, 0.000000)
+			|| cpr_equal(map->player.degree, 90.000000)
+			|| cpr_equal(map->player.degree, 180.000000)
+			|| cpr_equal(map->player.degree, 270.000000))
 		map->player.degree = map->player.degree + 0.000010;
 	map->player.degree = correct_distance(map->player.degree);
 	horizontal_detection(map, max_lines(map), square_size);
@@ -65,11 +65,11 @@ void	raycast(t_map *map)
 	t_image img;
 
 	x = 0;
-	square_size = floor((double)map->res_x) / 5;
-	correct_degree = -30.0;
-	map->player.degree = correct_distance(map->player.degree_raycast + 30);
-	map->player.ray_horizontal.distance_wall = 0;
-	map->player.ray_vertical.distance_wall = 0;
+	square_size = floor((double)map->res_x) / 5.000000;
+	correct_degree = -30.000000;
+	map->player.degree = correct_distance(map->player.degree_raycast + 30.000000);
+	map->player.ray_horizontal.distance_wall = 0.000000;
+	map->player.ray_vertical.distance_wall = 0.000000;
 	while (map->res_x > x)
 	{
 		raycast_two(map, square_size, &img);
@@ -77,8 +77,8 @@ void	raycast(t_map *map)
 		ceil_mapping(map, x, manage_bit_colour_ceil(map));
 		texture_mapping(map, x, &img);
 		floor_mapping(map, x, manage_bit_colour_floor(map));
-		map->player.degree -= 60.0 / map->res_x;
-		correct_degree += 60.0 / map->res_x;
+		map->player.degree -= 60.000000 / map->res_x;
+		correct_degree += 60.000000 / map->res_x;
 		x++;
 	}
 	display_sprite(map, square_size, map->nb_sprite);

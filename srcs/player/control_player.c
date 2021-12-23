@@ -11,20 +11,20 @@ void	move_forward(t_map *map, double sin_degree, double cos_degree)
 	{
 		if (map->lines)
 		{
-			if (map->player.degree_raycast > 0.0 && map->player.degree_raycast < 180.0)
+			if (map->player.degree_raycast > 0.000000 && map->player.degree_raycast < 180.000000)
 			{
-				if (map->lines[(int)(check_pos_y - sin_degree * 0.25)]
+				if (map->lines[(int)(check_pos_y - sin_degree * 0.250000)]
 					[(int)check_pos_x] != ' ' && map->lines[(int)(check_pos_y
-						- sin_degree * 0.25)][(int)check_pos_x] != '1')
+						- sin_degree * 0.250000)][(int)check_pos_x] != '1')
 				{
-					map->player.pos_y -= sin_degree * 0.05;
+					map->player.pos_y -= sin_degree * 0.050000;
 				}
 				if (map->lines[(int)check_pos_y][(int)(check_pos_x
-					+ cos_degree * 1.0)] != ' '
+					+ cos_degree * 1.000000)] != ' '
 					&& map->lines[(int)check_pos_y][(int)(check_pos_x
-						+ cos_degree * 1.0)] != '1')
+						+ cos_degree * 1.000000)] != '1')
 				{
-					map->player.pos_x += cos_degree * 0.05;
+					map->player.pos_x += cos_degree * 0.050000;
 				}
 			}
 			else
@@ -33,14 +33,14 @@ void	move_forward(t_map *map, double sin_degree, double cos_degree)
 					[(int)check_pos_x] != ' ' && map->lines[(int)(check_pos_y
 						- sin_degree)][(int)check_pos_x] != '1')
 				{
-					map->player.pos_y -= sin_degree * 0.05;
+					map->player.pos_y -= sin_degree * 0.050000;
 				}
 				if (map->lines[(int)check_pos_y][(int)(check_pos_x
 					+ cos_degree)] != ' '
 					&& map->lines[(int)check_pos_y][(int)(check_pos_x
 						+ cos_degree)] != '1')
 				{
-					map->player.pos_x += cos_degree * 0.05;
+					map->player.pos_x += cos_degree * 0.050000;
 				}
 			}
 		}
@@ -62,14 +62,14 @@ void	move_backward(t_map *map, double sin_degree, double cos_degree)
 					[(int)check_pos_x] != ' ' && map->lines[(int)(check_pos_y
 						+ sin_degree + 0.000001)][(int)check_pos_x] != '1')
 			{
-				map->player.pos_y += sin_degree * 0.05;
+				map->player.pos_y += sin_degree * 0.050000;
 			}
 			if (map->lines[(int)check_pos_y][(int)(check_pos_x
 				- cos_degree + 0.000001)] != ' '
 					&& map->lines[(int)check_pos_y][(int)(check_pos_x
 						- cos_degree + 0.000001)] != '1')
 			{
-				map->player.pos_x -= cos_degree * 0.05;
+				map->player.pos_x -= cos_degree * 0.050000;
 			}
 		}
 	}
@@ -87,18 +87,18 @@ void	move_sidestep_left(t_map *map, double sin_degree, double cos_degree)
 		if (map->lines)
 		{
 			if (map->lines[(int)check_pos_y][(int)(check_pos_x
-				- sin_degree * 0.35)] != ' '
+				- sin_degree * 0.350000)] != ' '
 					&& map->lines[(int)check_pos_y][(int)(check_pos_x
-						- sin_degree * 0.35)] != '1')
+						- sin_degree * 0.350000)] != '1')
 			{
-				map->player.pos_x -= sin_degree * 0.05;
+				map->player.pos_x -= sin_degree * 0.050000;
 			}
-			if (map->lines[(int)(check_pos_y - cos_degree * 0.35)]
+			if (map->lines[(int)(check_pos_y - cos_degree * 0.350000)]
 					[(int)check_pos_x] != ' '
 				&& map->lines[(int)(check_pos_y
-				 - cos_degree * 0.35)][(int)check_pos_x] != '1')
+				 - cos_degree * 0.350000)][(int)check_pos_x] != '1')
 			{
-				map->player.pos_y -= cos_degree * 0.05;
+				map->player.pos_y -= cos_degree * 0.050000;
 			}
 		}
 	}
@@ -116,18 +116,18 @@ void	move_sidestep_right(t_map *map, double sin_degree, double cos_degree)
 		if (map->lines)
 		{
 			if (map->lines[(int)check_pos_y][(int)(check_pos_x
-				+ sin_degree * 0.35)] != ' '
+				+ sin_degree * 0.350000)] != ' '
 					&& map->lines[(int)check_pos_y][(int)(check_pos_x
-						+ sin_degree * 0.35)] != '1')
+						+ sin_degree * 0.350000)] != '1')
 			{
-				map->player.pos_x += sin_degree * 0.05;
+				map->player.pos_x += sin_degree * 0.050000;
 			}
 			if (map->lines[(int)(check_pos_y + cos_degree
-					* 0.35)][(int)check_pos_x] != ' '
+					* 0.350000)][(int)check_pos_x] != ' '
 					&& map->lines[(int)(check_pos_y
-						+ cos_degree * 0.35)][(int)check_pos_x] != '1')
+						+ cos_degree * 0.350000)][(int)check_pos_x] != '1')
 			{
-				map->player.pos_y += cos_degree * 0.05;
+				map->player.pos_y += cos_degree * 0.050000;
 			}
 		}
 	}
@@ -148,9 +148,9 @@ int	control_player(void *param)
 	move_sidestep_right(map, sin_degree, cos_degree);
 	if (map->control.t_left == 1)
 		map->player.degree_raycast
-			= correct_distance(map->player.degree_raycast) + 1.0;
+			= correct_distance(map->player.degree_raycast) + 1.000000;
 	else if (map->control.t_right == 1)
 		map->player.degree_raycast
-			= correct_distance(map->player.degree_raycast) - 1.0;
+			= correct_distance(map->player.degree_raycast) - 1.000000;
 	return (0);
 }

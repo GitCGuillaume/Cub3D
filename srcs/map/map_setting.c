@@ -27,7 +27,7 @@ void	init_map_four(t_map *map)
 		close_program(map, "Can't create textures image.\n", 2);
 	if (!(start_ray_direction(map)))
 		close_program(map, "Can't find direction's player.\n", 2);
-	map->player.degree += 30.0;
+	map->player.degree += 30.000000;
 }
 
 int	init_map_three(t_map *map)

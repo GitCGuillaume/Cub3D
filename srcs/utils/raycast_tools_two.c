@@ -17,9 +17,9 @@ size_t	max_lines(t_map *map)
 
 double	correct_distance(double value)
 {
-	if (value > 359.00)
-		value -= 360.0;
-	else if (value < 0.0)
-		value += 360.0;
+	if (value > 359.000000)
+		value -= 360.000000;
+	else if (value < 0.000000)
+		value += 360.000000;
 	return (value);
 }

@@ -68,8 +68,8 @@ int		search_player(t_map *map, char **lines, int i)
 					|| lines[i][j] == 'E' || lines[i][j] == 'W')
 				{
 					map->player_exist++;
-					map->player.pos_y = (double)i + 0.5;
-					map->player.pos_x = (double)j + 0.5;
+					map->player.pos_y = (double)i + 0.500000;
+					map->player.pos_x = (double)j + 0.500000;
 					map->player.fill_y = i;
 					map->player.fill_x = j;
 				}
