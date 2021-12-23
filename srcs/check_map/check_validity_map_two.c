@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "../../includes/cub.h"
-#include <stdio.h>
+
 int					check_indicator_full(t_map *map)
 {
 	int	i;

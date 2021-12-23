@@ -45,7 +45,7 @@ void	vertical_check(t_map *map, double *length_case_x,
 		double *length_case_y, double square)
 {
 	if (map->lines == NULL)
-		close_program(map, "The engine couldn't read the map.", 2);
+		close_program(map, "The engine couldn't read the map.\n", 2);
 	check_loop_cast_ver(map);
 	if (map->player.ray_vertical.is_wall == 1
 			|| map->lines[(int)floor(*length_case_y) / (int)square]

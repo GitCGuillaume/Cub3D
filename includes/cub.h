@@ -8,13 +8,14 @@
 # include "get_next_line.h"
 # include "libft.h"
 # include "../minilibx-linux/mlx.h"
+# include <stdio.h>
 
 # define KEYPRESS 2
 # define KEYRELEASE 3
 # define KEYPRESS_MASK 1L << 0
 # define KEYRELEASE_MASK 1L << 1
-//# define PI 3.141592
 # define PI 3.1415
+
 typedef struct		s_ray
 {
 	int		pos_x;
@@ -110,8 +111,9 @@ int			search_player(t_map *map, char **lines, int i);
 int			control_press(int keycode, void *param);
 int			control_release(int keycode, void *param);
 int			control_player(void *param);
+
 /* MAP */
-int			initialization_map(t_map *map, char *argv, int argc);
+int			initialization_map(t_map *map);
 int			initialization_map_struct(t_map *map);
 
 /* MAP SETTING */
@@ -146,8 +148,6 @@ int		check_validity_map(t_map *map);
 int		check_valid_character(t_map *map);
 
 /* UTILS */
-//int	is_other(char c);
-//int	is_tab(char c);
 int	is_space(char c);
 int	register_texture(t_map *map);
 void	free_array(char **ptr);
@@ -205,8 +205,5 @@ void check_error_ln_ver(t_map *map, double floor_pos_x);
 void	check_loop_cast_hor(t_map *map);
 void	check_loop_cast_ver(t_map *map);
 void	check_distance(t_map *map);
-
-/** BMP **/
-void	create_bmp(t_map *map, char *argv);
 
 #endif

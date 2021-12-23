@@ -54,7 +54,7 @@ void	texture_mapping(t_map *map, int x, t_image *img)
 	zoom = (double)img->height / (double)map->player.slice_height;
 	u = text_map_u(map, img);
 	if (height > map->player.bottom_wall)
-		close_program(map, "An error occured while rendering.", 2);
+		close_program(map, "An error occured while rendering.\n", 2);
 	while (map->player.bottom_wall > height)
 	{
 		v = text_map_v(map, height, zoom);
@@ -76,7 +76,7 @@ void	ceil_mapping(t_map *map, int x, int ceil_colour)
 
 	y_pix = map->player.height_wall;
 	if (y_pix < 0)
-		close_program(map, "An error occured while rendering.", 2);
+		close_program(map, "An error occured while rendering.\n", 2);
 	if (0 > y_pix)
 	{
 		y_pix = 0;
@@ -103,7 +103,7 @@ void	floor_mapping(t_map *map, int x, int floor_colour)
 	i = map->player.bottom_wall;
 	pixel = 0;
 	if (i > map->res_y)
-		close_program(map, "An error occured while rendering", 2);
+		close_program(map, "An error occured while rendering.\n", 2);
 	if (map->res_y != map->player.bottom_wall)
 	{
 		while (map->res_y > i)

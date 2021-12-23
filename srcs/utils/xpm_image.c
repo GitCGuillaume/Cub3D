@@ -3,7 +3,7 @@
 int	register_texture_two(t_map *map, int endian)
 {
 	if (!map->east_path || !map->south_path)
-		close_program(map, "Can't find east or south path.", 2);
+		close_program(map, "Can't find east or south path.\n", 2);
 	map->image[3].mlx_image = mlx_xpm_file_to_image(map->mlx_ptr,
 			map->east_path, &map->image[3].width, &map->image[3].height);
 	if (map->image[3].mlx_image == NULL)
@@ -31,7 +31,7 @@ int	register_texture(t_map *map)
 	endian = 0;
 	result = 0;
 	if (!map->north_path || !map->west_path)
-		close_program(map, "Can't find north or west path.", 2);
+		close_program(map, "Can't find north or west path.\n", 2);
 	map->image[1].mlx_image = mlx_xpm_file_to_image(map->mlx_ptr,
 			map->north_path, &map->image[1].width, &map->image[1].height);
 	if (map->image[1].mlx_image == NULL)

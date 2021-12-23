@@ -1,5 +1,5 @@
 #include "../../includes/cub.h"
-#include <stdio.h>
+
 void	move_forward(t_map *map, double sin_degree, double cos_degree)
 {
 	double	check_pos_y;

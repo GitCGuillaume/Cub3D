@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "../../includes/cub.h"
-#include <stdio.h>
 
 void		find_which_indicator(t_map *map, char **line)
 {

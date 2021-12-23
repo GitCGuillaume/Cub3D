@@ -10,8 +10,6 @@ PATH_PLAYER	= ./srcs/player
 
 PATH_RAYCAST	= ./srcs/raycast
 
-PATH_BMP	= ./srcs/bmp
-
 PATH_GNL	= ./srcs/gnl
 
 SRCS		= $(PATH_GNL)/get_next_line.c $(PATH_GNL)/get_next_line_utils.c \
@@ -21,7 +19,7 @@ SRCS		= $(PATH_GNL)/get_next_line.c $(PATH_GNL)/get_next_line_utils.c \
 		srcs/main.c $(PATH_CHECK)/check_validity_map.c $(PATH_CHECK)/check_validity_map_two.c \
 		$(PATH_PLAYER)/player.c $(PATH_PLAYER)/control_player.c \
 		$(PATH_MAP)/map.c $(PATH_MAP)/map_setting.c \
-		$(PATH_RAYCAST)/raycast.c $(PATH_RAYCAST)/raycast_hor.c $(PATH_RAYCAST)/raycast_ver.c $(PATH_RAYCAST)/raycast_free.c $(PATH_RAYCAST)/raycast_tex.c $(PATH_BMP)/bmp.c
+		$(PATH_RAYCAST)/raycast.c $(PATH_RAYCAST)/raycast_hor.c $(PATH_RAYCAST)/raycast_ver.c $(PATH_RAYCAST)/raycast_free.c $(PATH_RAYCAST)/raycast_tex.c
 
 OBJS		= $(SRCS:.c=.o)
 
