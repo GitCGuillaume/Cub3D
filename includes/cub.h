@@ -188,18 +188,18 @@ size_t	max_lines(t_map *map);
 double	correct_distance(double value);
 
 /** RAYCASTER VER **/
-void	instanciate_pos_ver(t_map *map, int square_size);
-void	instanciate_length_ver(t_map *map, double tang, int square_size);
+void	instanciate_pos_ver(t_map *map, double square_size);
+void	instanciate_length_ver(t_map *map, double tang, double square_size);
 void	vertical_check(t_map *map, double *length_case_x,
-		double *length_case_y, int square);
-void	vertical_detection(t_map *map, int number_lines, int square_size);
+		double *length_case_y, double square);
+void	vertical_detection(t_map *map, int number_lines, double square_size);
 
 /** RAYCASTER HOR **/
-void	instanciate_pos_hor(t_map *map, int square_size);
-void	instanciate_length_hor(t_map *map, double tang, int square_size);
+void	instanciate_pos_hor(t_map *map, double square_size);
+void	instanciate_length_hor(t_map *map, double tang, double square_size);
 void	horizontal_check(t_map *map, double *length_case_x,
-		double *length_case_y, int square);
-void	horizontal_detection(t_map *map, int number_lines, int square_size);
+		double *length_case_y, double square);
+void	horizontal_detection(t_map *map, int number_lines, double square_size);
 
 /** RAYCASTER TOOLS **/
 int	cpr_equal(double a, double b);

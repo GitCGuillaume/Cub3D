@@ -115,7 +115,7 @@ void	get_screen_size(t_map *map)
 		close_program(map, "Couldn't get resolution", 2);
 	x = ft_atoi(map->resolution[0]);
 	y = ft_atoi(map->resolution[1]);
-	if (!(mlx_get_screen_size(map->mlx_ptr, &map->x_tmp, &map->y_tmp)))
+	if ((mlx_get_screen_size(map->mlx_ptr, &map->x_tmp, &map->y_tmp)))
 		close_program(map, "Can't get computer screen size.\n", 2);
 	if (x <= 0 || y <= 0)
 		close_program(map, "resolution too low.\n", 2);

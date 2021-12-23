@@ -1,6 +1,6 @@
 #include "../../includes/cub.h"
 
-void	instanciate_pos_hor(t_map *map, int square_size)
+void	instanciate_pos_hor(t_map *map, double square_size)
 {
 	map->player.ray_horizontal.is_wall = 0;
 	map->player.ray_horizontal.distance_y = square_size;
@@ -17,7 +17,7 @@ void	instanciate_pos_hor(t_map *map, int square_size)
 	}
 }
 
-void	instanciate_length_hor(t_map *map, double tang, int square_size)
+void	instanciate_length_hor(t_map *map, double tang, double square_size)
 {
 	double	floor_pos_y;
 
@@ -41,16 +41,16 @@ void	instanciate_length_hor(t_map *map, double tang, int square_size)
 }
 
 void	horizontal_check(t_map *map, double *length_case_x,
-		double *length_case_y, int square)
+		double *length_case_y, double square)
 {
 	if (map->lines == NULL)
 		close_program(map, "The engine couldn't read the map.", 2);
 	check_loop_cast_hor(map);
 	if (map->player.ray_horizontal.is_wall == 1
-		|| map->lines[(int)floor(*length_case_y) / square]
-		[(int)floor(*length_case_x) / square] == '1'
-		|| map->lines[(int)floor(*length_case_y) / square]
-		[(int)floor(*length_case_x) / square] == ' ')
+		|| map->lines[(int)floor(*length_case_y) / (int)square]
+		[(int)floor(*length_case_x) / (int)square] == '1'
+		|| map->lines[(int)floor(*length_case_y) / (int)square]
+		[(int)floor(*length_case_x) / (int)square] == ' ')
 	{
 		map->player.ray_horizontal.distance_wall
 			= sqrt(pow(map->player.ray_horizontal.pos_x
@@ -70,9 +70,9 @@ void	horizontal_check(t_map *map, double *length_case_x,
 	}
 }
 
-void	horizontal_detection(t_map *map, int number_lines, int square_size)
+void	horizontal_detection(t_map *map, int number_lines, double square_size)
 {
-	int		square;
+	double	square;
 	double	tang;
 	double	length_case_x;
 	double	length_case_y;
@@ -91,9 +91,9 @@ void	horizontal_detection(t_map *map, int number_lines, int square_size)
 			|| (int)floor(length_case_y) / square > number_lines
 			|| cpr_equal((int)floor(length_case_y) / square, number_lines)
 			|| (length_case_x / square)
-			> max_case(map->lines[(int)floor(length_case_y) / square])
+			> max_case(map->lines[(int)floor(length_case_y) / (int)square])
 			|| cpr_equal((length_case_x / square),
-				max_case(map->lines[(int)floor(length_case_y) / square])))
+				max_case(map->lines[(int)floor(length_case_y) / (int)square])))
 			map->player.ray_horizontal.is_wall = 1;
 		horizontal_check(map, &length_case_x, &length_case_y, square);
 	}

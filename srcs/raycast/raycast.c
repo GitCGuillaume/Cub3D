@@ -28,7 +28,7 @@ t_image	side_distance(t_map *map)
 	return (img);
 }
 
-void	math_wall(t_map *map, double correct_degree, int square_size, int x)
+void	math_wall(t_map *map, double correct_degree, double square_size, int x)
 {
 	if (map->z_buffer)
 		*(map->z_buffer + x) = map->player.distance_wall;
@@ -44,7 +44,7 @@ void	math_wall(t_map *map, double correct_degree, int square_size, int x)
 		map->player.bottom_wall = map->res_y;
 }
 
-void	raycast_two(t_map *map, int square_size, t_image *img)
+void	raycast_two(t_map *map, double square_size, t_image *img)
 {
 	if (cpr_equal(map->player.degree, 0.0)
 			|| cpr_equal(map->player.degree, 90.0)
@@ -59,13 +59,13 @@ void	raycast_two(t_map *map, int square_size, t_image *img)
 
 void	raycast(t_map *map)
 {
-	int		x;
-	int		square_size;
+	double	square_size;
 	double	correct_degree;
+	int		x;
 	t_image img;
 
 	x = 0;
-	square_size = map->res_x / 5;
+	square_size = floor((double)map->res_x) / 5;
 	correct_degree = -30.0;
 	map->player.degree = correct_distance(map->player.degree_raycast + 30);
 	map->player.ray_horizontal.distance_wall = 0;
