@@ -89,12 +89,12 @@ void	vertical_detection(t_map *map, int number_lines, double square_size)
 	while (map->lines && map->player.ray_vertical.is_wall == 0)
 	{
 		if (length_case_y < 0.0 || length_case_x < 0.0
-				|| (int)floor(length_case_y / square) > number_lines
-				|| cpr_equal((int)floor(length_case_y / square), number_lines)
+				|| (int)floor(length_case_y) / square > number_lines
+				|| cpr_equal((int)floor(length_case_y) / square, number_lines)
 				|| (length_case_x / square)
-				> max_case(map->lines[(int)floor(length_case_y / (int)square)])
+				> max_case(map->lines[(int)floor(length_case_y) / (int)square])
 				|| cpr_equal((length_case_x / square),
-					max_case(map->lines[(int)floor(length_case_y / (int)square)])))
+					max_case(map->lines[(int)floor(length_case_y) / (int)square])))
 			map->player.ray_vertical.is_wall = 1;
 		vertical_check(map, &length_case_x, &length_case_y, square);
 	}
