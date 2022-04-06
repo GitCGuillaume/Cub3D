@@ -1,4 +1,4 @@
-#include "../../includes/cub.h"
+#include "cub.h"
 
 int	text_map_u(t_map *map, t_image *img)
 {
@@ -26,6 +26,10 @@ int	text_map_u(t_map *map, t_image *img)
 	return (u);
 }
 
+/*
+	>> 1 == / 2
+*/
+
 int	text_map_v(t_map *map, int height, double zoom)
 {
 	double	pos_v;
@@ -35,10 +39,14 @@ int	text_map_v(t_map *map, int height, double zoom)
 			|| map->player.bottom_wall >= 2147483647 || height < 0)
 		close_program(map,
 				"Size window exceed the limit handled by the engine\n.", 2);
-	pos_v = (height - (map->res_y / 2) + (map->player.slice_height / 2)) * zoom;
+	pos_v = (height - (map->res_y >> 1) + (map->player.slice_height >> 1)) * zoom;
 	v = (int)floor(pos_v);
 	return (v);
 }
+
+/*
+	>> 3 == / 8
+*/
 
 void	texture_mapping(t_map *map, int x, t_image *img)
 {
@@ -58,16 +66,20 @@ void	texture_mapping(t_map *map, int x, t_image *img)
 	while (map->player.bottom_wall > height)
 	{
 		v = text_map_v(map, height, zoom);
-		pixel = (height * map->image[0].line_bytes) + (x * 4);
+		pixel = (height * map->image[0].line_bytes) + (x * (map->image[0].bpp >> 3));
 		map->image[0].mlx_get_data[pixel + 0] =
-			img->mlx_get_data[((v * img->line_bytes) + u * 4) + 0];
+			img->mlx_get_data[((v * img->line_bytes) + u * (map->image[0].bpp >> 3)) + 0];
 		map->image[0].mlx_get_data[pixel + 1] =
-			img->mlx_get_data[((v * img->line_bytes) + u * 4) + 1];
+			img->mlx_get_data[((v * img->line_bytes) + u * (map->image[0].bpp >> 3)) + 1];
 		map->image[0].mlx_get_data[pixel + 2] =
-			img->mlx_get_data[((v * img->line_bytes) + u * 4) + 2];
+			img->mlx_get_data[((v * img->line_bytes) + u * (map->image[0].bpp >> 3)) + 2];
 		height++;
 	}
 }
+
+/*
+	>> 3 == / 8
+*/
 
 void	ceil_mapping(t_map *map, int x, int ceil_colour)
 {
@@ -86,7 +98,7 @@ void	ceil_mapping(t_map *map, int x, int ceil_colour)
 		pixel = 0;
 		while (y_pix >= 0)
 		{
-			pixel = (y_pix * map->image[0].line_bytes) + (x * 4);
+			pixel = (y_pix * map->image[0].line_bytes) + (x * (map->image[0].bpp >> 3));
 			map->image[0].mlx_get_data[pixel + 0] = (ceil_colour) & 0xFF;
 			map->image[0].mlx_get_data[pixel + 1] = (ceil_colour >> 8) & 0xFF;
 			map->image[0].mlx_get_data[pixel + 2] = (ceil_colour >> 16) & 0xFF;
@@ -94,6 +106,10 @@ void	ceil_mapping(t_map *map, int x, int ceil_colour)
 		}
 	}
 }
+
+/*
+	>> 3 == / 8
+*/
 
 void	floor_mapping(t_map *map, int x, int floor_colour)
 {
@@ -108,7 +124,7 @@ void	floor_mapping(t_map *map, int x, int floor_colour)
 	{
 		while (map->res_y > i)
 		{
-			pixel = (i * map->image[0].line_bytes) + (x * 4);
+			pixel = (i * map->image[0].line_bytes) + (x * (map->image[0].bpp >> 3));
 			map->image[0].mlx_get_data[pixel + 0] = (floor_colour) & 0xFF;
 			map->image[0].mlx_get_data[pixel + 1] = (floor_colour >> 8) & 0xFF;
 			map->image[0].mlx_get_data[pixel + 2] = (floor_colour >> 16) & 0xFF;
