@@ -46,6 +46,8 @@ int	initialization_map(t_map *map)
 	int	endian;
 
 	endian = 0;
+	if (!map)
+		close_program(map, "No structure detected.\n", 2);
 	map->mlx_ptr = mlx_init();
 	if (map->mlx_ptr == NULL)
 		close_program(map, "initialization mlx failed.\n", 2);

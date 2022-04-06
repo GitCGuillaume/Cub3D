@@ -66,6 +66,8 @@ void	raycast(t_map *map)
 
 	x = 0;
 	square_size = floor((double)map->res_x) / 5.000000;
+	if ((int)floor(square_size) == 0)
+		square_size = 1.000000;
 	correct_degree = -30.000000;
 	map->player.degree = correct_distance(map->player.degree_raycast + 30.000000);
 	map->player.ray_horizontal.distance_wall = 0.000000;
