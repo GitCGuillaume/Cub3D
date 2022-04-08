@@ -6,7 +6,7 @@
 /*   By: gchopin <gchopin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/03 17:24:42 by gchopin           #+#    #+#             */
-/*   Updated: 2022/04/08 11:16:44 by gchopin          ###   ########.fr       */
+/*   Updated: 2022/04/08 11:32:32 by gchopin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int		ft_open_fd(char *path)
 	return (fd);
 }
 
-int		ft_close_fd(int fd, t_map *map)
+int		ft_close_fd(int fd)
 {
 	int	quit;
 

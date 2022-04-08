@@ -95,7 +95,6 @@ typedef struct	s_map
 	char		**lines;
 	void		*mlx_window;
 	char		**lines_copy;
-	double			*z_buffer;
 	t_control	control;
 	t_image		image[5];
 	t_player	player;
@@ -103,7 +102,7 @@ typedef struct	s_map
 }		t_map;
 
 /* MAIN */
-int		ft_close_fd(int fd, t_map *map);
+int		ft_close_fd(int fd);
 
 /* PLAYER */
 void		init_player(t_map *map);

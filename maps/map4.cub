@@ -1,14 +1,14 @@
-R 1000 500
-WE ./textures/pillar.xpm
-C 200, 140,40
+R 1000 1000
+WE ./textures/redbrick.xpm
+C 255, 255, 255
 NO ./textures/purplestone.xpm
-EA ./textures/greenlight.xpm
-F 171,205,239
-SO ./textures/test.png
+EA ./textures/greystone.xpm
+F 0, 0, 0
+SO ./textures/mossy.xpm
 
 000000
 11111111111
- N 001
+ W 001
 100011
  00001
 111111

@@ -4,7 +4,7 @@ t_image	side_distance(t_map *map)
 {
 	t_image img;
 
-	check_distance(map);
+	//check_distance(map);
 	if (map->player.ray_horizontal.distance_wall
 			< map->player.ray_vertical.distance_wall)
 	{
@@ -28,18 +28,16 @@ t_image	side_distance(t_map *map)
 	return (img);
 }
 
-void	math_wall(t_map *map, double correct_degree, double square_size, int x)
+void	math_wall(t_map *map, double correct_degree, double square_size)
 {
-	if (map->z_buffer)
-		*(map->z_buffer + x) = map->player.distance_wall;
 	map->player.distance_wall =
 		map->player.distance_wall * cos(degree_to_radian(correct_degree));
 	map->player.slice_height = square_size
-		/ map->player.distance_wall * ((map->res_x / 2) / tan(0.523599));
-	map->player.height_wall = (map->res_y / 2) - (map->player.slice_height / 2);
+		/ map->player.distance_wall * ((map->res_x >> 1) / tan(0.523599));
+	map->player.height_wall = (map->res_y >> 1) - (map->player.slice_height >> 1);
 	if (map->player.height_wall < 0)
 		map->player.height_wall = 0;
-	map->player.bottom_wall = (map->res_y / 2) + (map->player.slice_height / 2);
+	map->player.bottom_wall = (map->res_y >> 1) + (map->player.slice_height >> 1);
 	if (map->player.bottom_wall > map->res_y)
 		map->player.bottom_wall = map->res_y;
 }
@@ -75,7 +73,7 @@ void	raycast(t_map *map)
 	while (map->res_x > x)
 	{
 		raycast_two(map, square_size, &img);
-		math_wall(map, correct_degree, square_size, x);
+		math_wall(map, correct_degree, square_size);
 		ceil_mapping(map, x, manage_bit_colour_ceil(map));
 		texture_mapping(map, x, &img);
 		floor_mapping(map, x, manage_bit_colour_floor(map));

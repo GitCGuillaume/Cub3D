@@ -1,5 +1,5 @@
 #include "../../includes/cub.h"
-
+/*
 void	check_error_ln_hor(t_map *map, double floor_pos_y)
 {
 	if ((floor_pos_y <= -2147483647.000000 || floor_pos_y >= 2147483647.000000)
@@ -42,7 +42,7 @@ void	check_loop_cast_ver(t_map *map)
 		close_program(map, "vertical ray casting values loop are wrong.\n", 2);
 	}
 }
-
+*/
 void	check_distance(t_map *map)
 {
 	if (map->player.ray_horizontal.distance_wall > 2147483646.000000

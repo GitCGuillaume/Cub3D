@@ -61,19 +61,28 @@ void	texture_mapping(t_map *map, int x, t_image *img)
 	v = 0;
 	zoom = (double)img->height / (double)map->player.slice_height;
 	u = text_map_u(map, img);
-	if (height > map->player.bottom_wall)
-		close_program(map, "An error occured while rendering.\n", 2);
-	while (map->player.bottom_wall > height)
+	//if (height > map->player.bottom_wall)
+	//	close_program(map, "An error occured while rendering.\n", 2);
+	if (map->res_y > height)
 	{
-		v = text_map_v(map, height, zoom);
-		pixel = (height * map->image[0].line_bytes) + (x * (map->image[0].bpp >> 3));
-		map->image[0].mlx_get_data[pixel + 0] =
-			img->mlx_get_data[((v * img->line_bytes) + u * (map->image[0].bpp >> 3)) + 0];
-		map->image[0].mlx_get_data[pixel + 1] =
-			img->mlx_get_data[((v * img->line_bytes) + u * (map->image[0].bpp >> 3)) + 1];
-		map->image[0].mlx_get_data[pixel + 2] =
-			img->mlx_get_data[((v * img->line_bytes) + u * (map->image[0].bpp >> 3)) + 2];
-		height++;
+		while (map->player.bottom_wall > height)
+		{
+			v = text_map_v(map, height, zoom);
+			pixel = (height * map->image[0].line_bytes) + (x * (map->image[0].bpp >> 3));
+			if (img->mlx_get_data[((v * img->line_bytes) + u * (map->image[0].bpp >> 3)) + 0])
+				map->image[0].mlx_get_data[pixel + 0] =
+					img->mlx_get_data[((v * img->line_bytes) + u * (map->image[0].bpp >> 3)) + 0];
+			if (img->mlx_get_data[((v * img->line_bytes) + u * (map->image[0].bpp >> 3)) + 1])
+				map->image[0].mlx_get_data[pixel + 1] =
+					img->mlx_get_data[((v * img->line_bytes) + u * (map->image[0].bpp >> 3)) + 1];
+			if (img->mlx_get_data[((v * img->line_bytes) + u * (map->image[0].bpp >> 3)) + 2])
+				map->image[0].mlx_get_data[pixel + 2] =
+					img->mlx_get_data[((v * img->line_bytes) + u * (map->image[0].bpp >> 3)) + 2];
+			if (img->mlx_get_data[((v * img->line_bytes) + u * (map->image[0].bpp >> 3)) + 3])
+				map->image[0].mlx_get_data[pixel + 3] =
+					img->mlx_get_data[((v * img->line_bytes) + u * (map->image[0].bpp >> 3)) + 3];
+			height++;
+		}
 	}
 }
 
@@ -87,21 +96,23 @@ void	ceil_mapping(t_map *map, int x, int ceil_colour)
 	int	pixel;
 
 	y_pix = map->player.height_wall;
-	if (y_pix < 0)
-		close_program(map, "An error occured while rendering.\n", 2);
-	if (0 > y_pix)
+	//if (y_pix < 0)
+	//	close_program(map, "An error occured while rendering in ceil mapping.\n", 2);
+	pixel = 0;
+	//printf("y_pix_ceil=%d pos_x=%f pos_y=%f\n", y_pix, map->player.pos_x, map->player.pos_y);
+	if (y_pix < map->res_y)
 	{
-		y_pix = 0;
-	}
-	else
-	{
-		pixel = 0;
 		while (y_pix >= 0)
 		{
 			pixel = (y_pix * map->image[0].line_bytes) + (x * (map->image[0].bpp >> 3));
-			map->image[0].mlx_get_data[pixel + 0] = (ceil_colour) & 0xFF;
-			map->image[0].mlx_get_data[pixel + 1] = (ceil_colour >> 8) & 0xFF;
-			map->image[0].mlx_get_data[pixel + 2] = (ceil_colour >> 16) & 0xFF;
+			if (map->image[0].mlx_get_data[pixel + 0] == 0)
+				map->image[0].mlx_get_data[pixel + 0] = (ceil_colour) & 0xFF;
+			if (map->image[0].mlx_get_data[pixel + 1] == 0)
+				map->image[0].mlx_get_data[pixel + 1] = (ceil_colour >> 8) & 0xFF;
+			if (map->image[0].mlx_get_data[pixel + 2] == 0)
+				map->image[0].mlx_get_data[pixel + 2] = (ceil_colour >> 16) & 0xFF;
+			if (map->image[0].mlx_get_data[pixel + 3] == 0)
+				map->image[0].mlx_get_data[pixel + 3] = (ceil_colour >> 24) & 0xFF;
 			y_pix--;
 		}
 	}
@@ -118,9 +129,9 @@ void	floor_mapping(t_map *map, int x, int floor_colour)
 
 	i = map->player.bottom_wall;
 	pixel = 0;
-	if (i > map->res_y)
-		close_program(map, "An error occured while rendering.\n", 2);
-	if (map->res_y != map->player.bottom_wall)
+	//if (i > map->res_y)
+	//	close_program(map, "An error occured while rendering in floor mapping.\n", 2);
+	if (map->res_y != map->player.bottom_wall && map->player.height_wall < map->res_y)
 	{
 		while (map->res_y > i)
 		{
@@ -128,6 +139,7 @@ void	floor_mapping(t_map *map, int x, int floor_colour)
 			map->image[0].mlx_get_data[pixel + 0] = (floor_colour) & 0xFF;
 			map->image[0].mlx_get_data[pixel + 1] = (floor_colour >> 8) & 0xFF;
 			map->image[0].mlx_get_data[pixel + 2] = (floor_colour >> 16) & 0xFF;
+			map->image[0].mlx_get_data[pixel + 3] = (floor_colour >> 24) & 0xFF;
 			i++;
 		}
 	}

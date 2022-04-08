@@ -6,7 +6,7 @@
 /*   By: gchopin <gchopin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/04 16:20:19 by gchopin           #+#    #+#             */
-/*   Updated: 2022/04/08 10:12:00 by gchopin          ###   ########.fr       */
+/*   Updated: 2022/04/08 15:09:10 by gchopin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,9 @@ int	render_map(void *param)
 			&map->image[0].bpp, &map->image[0].line_bytes, &endian);
 	if (map->image[0].mlx_get_data == NULL)
 		close_program(map, "Can't get image datas.\n", 2);
-	map->z_buffer = malloc(sizeof(double) * ((double)map->res_x));
-	if (map->z_buffer == NULL)
-		close_program(map, "Z_buffer allocation failed.\n", 2);
 	raycast(map);
 	mlx_put_image_to_window(map->mlx_ptr,
 			map->mlx_window, map->image->mlx_image, 0, 0);
-	free(map->z_buffer);
-	map->z_buffer = NULL;
 	return (0);
 }
 

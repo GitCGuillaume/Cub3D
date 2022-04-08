@@ -10,11 +10,11 @@ void	instanciate_pos_hor(t_map *map, double square_size)
 	map->player.ray_horizontal.pos_x -= square_size - 1.000000;
 	if (map->player.ray_horizontal.distance_y <= 0.000000)
 		close_program(map, "horizontal distance y is wrong.\n", 2);
-	if (map->player.ray_horizontal.pos_x < 0.000000
+	/*if (map->player.ray_horizontal.pos_x < 0.000000
 		|| map->player.ray_horizontal.pos_y < 0.000000)
 	{
 		close_program(map, "player position is wrong.\n", 2);
-	}
+	}*/
 }
 
 void	instanciate_length_hor(t_map *map, double tang, double square_size)
@@ -37,7 +37,7 @@ void	instanciate_length_hor(t_map *map, double tang, double square_size)
 		map->player.ray_horizontal.distance_y = square_size;
 	map->player.ray_horizontal.distance_x
 		= -map->player.ray_horizontal.distance_y / tang;
-	check_error_ln_hor(map, floor_pos_y);
+	//check_error_ln_hor(map, floor_pos_y);
 }
 
 void	horizontal_check(t_map *map, double *length_case_x,
@@ -45,7 +45,7 @@ void	horizontal_check(t_map *map, double *length_case_x,
 {
 	if (map->lines == NULL)
 		close_program(map, "The engine couldn't read the map.\n", 2);
-	check_loop_cast_hor(map);
+	//check_loop_cast_hor(map);
 	if (map->player.ray_horizontal.is_wall == 1
 		|| map->lines[(int)floor(*length_case_y) / (int)square]
 		[(int)floor(*length_case_x) / (int)square] == '1'

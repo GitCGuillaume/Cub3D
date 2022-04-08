@@ -6,7 +6,7 @@
 /*   By: gchopin <gchopin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/04 16:21:08 by gchopin           #+#    #+#             */
-/*   Updated: 2021/05/12 17:12:02 by gchopin          ###   ########.fr       */
+/*   Updated: 2022/04/08 15:18:23 by gchopin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,6 @@ int	initialization_map_struct(t_map *map)
 {
 	int	init;
 
-	map->z_buffer = NULL;
 	init_map_two(map);
 	map->is_resolution = 0;
 	map->colour_counter = 0;
@@ -90,7 +89,6 @@ int	initialization_map_struct(t_map *map)
 	map->lines_copy = NULL;
 	map->player_exist = 0;
 	init = init_map_three(map);
-	map->z_buffer = NULL;
 	if (init == 0)
 		return (0);
 	return (1);

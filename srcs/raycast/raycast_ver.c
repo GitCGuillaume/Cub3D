@@ -7,11 +7,11 @@ void	instanciate_pos_ver(t_map *map, double square_size)
 	map->player.ray_vertical.pos_x = (map->player.pos_x + 1.000000) * square_size;
 	map->player.ray_vertical.pos_y -= square_size - 1.000000;
 	map->player.ray_vertical.pos_x -= square_size - 1.000000;
-	if (map->player.ray_vertical.pos_x < 0.000000
+	/*if (map->player.ray_vertical.pos_x < 0.000000
 			|| map->player.ray_vertical.pos_y < 0.000000)
 	{
 		close_program(map, "player position is wrong.\n", 2);
-	}
+	}*/
 }
 
 void	instanciate_length_ver(t_map *map, double tang, double square_size)
@@ -38,7 +38,7 @@ void	instanciate_length_ver(t_map *map, double tang, double square_size)
 		map->player.ray_vertical.distance_x * tang;
 	map->player.ray_vertical.distance_y =
 		-map->player.ray_vertical.distance_y;
-	check_error_ln_ver(map, floor_pos_x);
+	//check_error_ln_ver(map, floor_pos_x);
 }
 
 void	vertical_check(t_map *map, double *length_case_x,
@@ -46,7 +46,7 @@ void	vertical_check(t_map *map, double *length_case_x,
 {
 	if (map->lines == NULL)
 		close_program(map, "The engine couldn't read the map.\n", 2);
-	check_loop_cast_ver(map);
+	//check_loop_cast_ver(map);
 	if (map->player.ray_vertical.is_wall == 1
 			|| map->lines[(int)floor(*length_case_y) / (int)square]
 			[(int)floor(*length_case_x) / (int)square] == '1'
