@@ -6,7 +6,7 @@
 /*   By: gchopin <gchopin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/03 17:24:42 by gchopin           #+#    #+#             */
-/*   Updated: 2021/05/29 13:40:50 by gchopin          ###   ########.fr       */
+/*   Updated: 2022/04/08 11:16:44 by gchopin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int		ft_open_fd(char *path)
 	if (fd == -1)
 	{
 		ft_putstr_fd("Error\n", 2);
-		perror("Can't open file\n");
+		perror("Can't open file ");
 		exit(EXIT_FAILURE);
 	}
 	return (fd);
@@ -33,12 +33,10 @@ int		ft_close_fd(int fd, t_map *map)
 	quit = -1;
 	if (fd != -1)
 		quit = close(fd);
-	if (quit == -1 && map != NULL)
-		close_program(map, "Can't close file\n", 2);
 	if (quit == -1)
 	{
 		ft_putstr_fd("Error\n", 2);
-		perror("Can't close file");
+		perror("Can't close file ");
 		exit(EXIT_FAILURE);
 	}
 	return (fd);
