@@ -58,7 +58,7 @@ static int	ft_lensize(int n)
 	return (i);
 }
 
-char		*ft_itoa(int n)
+char	*ft_itoa(int n)
 {
 	char	*ptr;
 	int		size;
@@ -68,7 +68,8 @@ char		*ft_itoa(int n)
 		return (ft_strdup("0"));
 	if (n == -2147483648)
 		return (ft_strdup("-2147483648"));
-	if (!(ptr = malloc(((sizeof(char) * size + 1) + 1))))
+	ptr = malloc(((sizeof(char) * size + 1) + 1));
+	if (ptr == NULL)
 		return (NULL);
 	if (n > 0)
 	{

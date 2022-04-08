@@ -6,7 +6,7 @@
 /*   By: gchopin <gchopin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/07 10:56:20 by gchopin           #+#    #+#             */
-/*   Updated: 2020/05/07 11:31:23 by gchopin          ###   ########.fr       */
+/*   Updated: 2022/04/08 10:41:19 by gchopin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	ft_putendl_fd(char *s, int fd)
 {
-	char jump;
+	char	jump;
 
 	jump = '\n';
 	if (!s)

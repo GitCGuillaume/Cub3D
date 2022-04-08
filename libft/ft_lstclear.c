@@ -14,7 +14,7 @@
 
 void	ft_lstclear(t_list **lst, void (*del)(void *))
 {
-	t_list *keep_addresses;
+	t_list	*keep_addresses;
 
 	if (!lst || !*lst)
 		return ;

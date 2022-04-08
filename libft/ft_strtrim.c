@@ -6,7 +6,7 @@
 /*   By: gchopin <gchopin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/04 15:10:42 by gchopin           #+#    #+#             */
-/*   Updated: 2020/05/22 19:30:38 by gchopin          ###   ########.fr       */
+/*   Updated: 2022/04/08 10:33:28 by gchopin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static	int	ft_searching_s(char const *s1, char const *s, unsigned int sta)
 	return (sta);
 }
 
-char		*ft_strtrim(char const *s1, char const *set)
+char	*ft_strtrim(char const *s1, char const *set)
 {
 	char			*ptr;
 	unsigned int	i;
@@ -71,7 +71,8 @@ char		*ft_strtrim(char const *s1, char const *set)
 			end = ft_searching_e(s1, set, end);
 		i++;
 	}
-	if (!(ptr = ft_substr(s1, start, (end - start) + 1)))
+	ptr = ft_substr(s1, start, (end - start) + 1);
+	if (ptr == NULL)
 		return (NULL);
 	return (ptr);
 }

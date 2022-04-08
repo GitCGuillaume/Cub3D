@@ -6,7 +6,7 @@
 /*   By: gchopin <gchopin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/04 16:20:19 by gchopin           #+#    #+#             */
-/*   Updated: 2021/05/11 14:43:03 by gchopin          ###   ########.fr       */
+/*   Updated: 2022/04/08 10:12:00 by gchopin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int	initialization_map(t_map *map)
 	mlx_hook(map->mlx_window,
 			KEYRELEASE, KEYRELEASE_MASK, control_release, (void *)map);
 	mlx_loop_hook(map->mlx_ptr, &render_map, (void *)map);
-	mlx_hook(map->mlx_window, 33, 1L << 17, close_program_cross, (void *)map);
+	mlx_hook(map->mlx_window, 33, STRUCTURENOTIFYMASK, close_program_cross, (void *)map);
 	mlx_loop(map->mlx_ptr);
 	return (0);
 }

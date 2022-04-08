@@ -14,6 +14,7 @@
 # define KEYRELEASE 3
 # define KEYPRESS_MASK 1L << 0
 # define KEYRELEASE_MASK 1L << 1
+# define STRUCTURENOTIFYMASK 1L << 17
 # define PI 3.1415
 
 typedef struct		s_ray

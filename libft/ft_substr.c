@@ -6,7 +6,7 @@
 /*   By: gchopin <gchopin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/04 12:08:12 by gchopin           #+#    #+#             */
-/*   Updated: 2020/05/07 19:36:21 by gchopin          ###   ########.fr       */
+/*   Updated: 2022/04/08 10:32:38 by gchopin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	i = 0;
 	if (!s)
 		return (NULL);
-	if (!(ptr = malloc((sizeof(char) * len) + 1)))
+	ptr = malloc((sizeof(char) * len) + 1);
+	if (ptr == NULL)
 		return (NULL);
 	if (ft_strlen(s) < start)
 	{

@@ -6,13 +6,13 @@
 /*   By: gchopin <gchopin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/02 16:43:07 by gchopin           #+#    #+#             */
-/*   Updated: 2021/05/11 16:02:43 by gchopin          ###   ########.fr       */
+/*   Updated: 2022/04/08 10:46:37 by gchopin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int		is_tab(char c)
+int	is_tab(char c)
 {
 	if (c == '\t' || c == '\v')
 		return (1);
@@ -20,7 +20,7 @@ int		is_tab(char c)
 		return (0);
 }
 
-static int		is_jump(char c)
+static int	is_jump(char c)
 {
 	if (c == '\n' || c == '\r')
 		return (1);
@@ -28,7 +28,7 @@ static int		is_jump(char c)
 		return (0);
 }
 
-int		is_other(char c)
+int	is_other(char c)
 {
 	if (c == '\f' || c == ' ')
 		return (1);
@@ -36,11 +36,11 @@ int		is_other(char c)
 		return (0);
 }
 
-int				ft_atoi(const char *str)
+int	ft_atoi(const char *str)
 {
 	int	i;
-	int result;
-	int symbol;
+	int	result;
+	int	symbol;
 
 	i = 0;
 	result = 0;

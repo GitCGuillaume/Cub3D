@@ -1,9 +1,9 @@
- R 1000 500
- WE ./
+R 1000 500
+WE ./
 C 200, 140,40
 NO ./textures/purplestone.xpm
-	EA ./
- 		F 171,205,239
+EA ./
+F 171,205,239
 SO ./
 S ./
 

@@ -6,7 +6,7 @@
 /*   By: gchopin <gchopin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/02 17:04:26 by gchopin           #+#    #+#             */
-/*   Updated: 2021/05/10 17:45:06 by gchopin          ###   ########.fr       */
+/*   Updated: 2020/05/08 17:36:31 by gchopin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,6 @@ char	*ft_strnstr(const char *string, const char *needle, size_t len)
 
 	i = 0;
 	j = 0;
-
-	if (string == NULL || needle == NULL)
-		return (0);
 	if (needle[0] == '\0')
 		return ((char *)string);
 	while (string[i] != '\0' && len > i)
@@ -30,7 +27,7 @@ char	*ft_strnstr(const char *string, const char *needle, size_t len)
 		if (string[i] == needle[j])
 		{
 			while (needle[j] == string[i + j]
-					&& needle[j] != '\0' && len > i + j)
+				&& needle[j] != '\0' && len > i + j)
 			{
 				if (needle[j + 1] == '\0')
 					return ((char *)&string[i]);

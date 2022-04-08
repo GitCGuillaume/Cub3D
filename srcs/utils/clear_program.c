@@ -56,8 +56,6 @@ void	clear_array_two(t_map *map)
 
 void	clear_image(t_map *map)
 {
-	if (map->mlx_window)
-		mlx_destroy_window(map->mlx_ptr, map->mlx_window);
 	if (map->image[0].mlx_get_data)
 		mlx_destroy_image(map->mlx_ptr, map->image[0].mlx_image);
 	if (map->image[1].mlx_get_data)
@@ -68,6 +66,10 @@ void	clear_image(t_map *map)
 		mlx_destroy_image(map->mlx_ptr, map->image[3].mlx_image);
 	if (map->image[4].mlx_get_data)
 		mlx_destroy_image(map->mlx_ptr, map->image[4].mlx_image);
+	if (map->mlx_window)
+		mlx_destroy_window(map->mlx_ptr, map->mlx_window);
+	if (map->mlx_ptr)
+		mlx_destroy_display(map->mlx_ptr);	
 	if (map->mlx_ptr)
 		free(map->mlx_ptr);
 }
