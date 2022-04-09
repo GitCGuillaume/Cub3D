@@ -44,7 +44,7 @@ int	close_program_key(int keycode, void *param, char *message, int msg_number)
 
 	i = 0;
 	map = (t_map *)param;
-	if ((keycode == 65307 || keycode == 99) && message)
+	if ((keycode == 65307) && message)
 	{
 		close_program_ok(map, message, msg_number);
 		exit(0);
@@ -87,7 +87,6 @@ int		control_press(int keycode, void *param)
 	t_map	*map;
 
 	map = (t_map *)param;
-	printf("keycode=%d\n", keycode);
 	if (keycode == 'w')
 		map->control.forward = 1;
 	if (keycode == 115)
@@ -101,8 +100,6 @@ int		control_press(int keycode, void *param)
 	if (keycode == 65363)
 		map->control.t_right = 1;
 	if (keycode == 65307)
-		close_program_key(keycode, map, "Closed OK.\n", 1);
-	if (keycode == 99)
 		close_program_key(keycode, map, "Closed OK.\n", 1);
 	return (0);
 }
