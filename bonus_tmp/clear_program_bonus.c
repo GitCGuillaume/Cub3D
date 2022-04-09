@@ -1,4 +1,4 @@
-#include "../../includes/cub.h"
+#include "cub_bonus.h"
 
 void	clear_array(t_map *map)
 {
@@ -74,6 +74,8 @@ void	clear_image(t_map *map)
 		mlx_destroy_display(map->mlx_ptr);	
 	if (map->mlx_ptr)
 		free(map->mlx_ptr);
+	if (map->sprite)
+		free(map->sprite);
 }
 
 void	clear_path(t_map *map)
@@ -86,4 +88,6 @@ void	clear_path(t_map *map)
 		free(map->west_path);
 	if (map->south_path)
 		free(map->south_path);
+	if (map->sprite_path)
+		free(map->sprite_path);
 }

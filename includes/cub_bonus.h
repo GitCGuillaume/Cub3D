@@ -8,13 +8,15 @@
 # include "get_next_line.h"
 # include "libft.h"
 # include "../minilibx-linux/mlx.h"
+# include <stdio.h>
 
 # define KEYPRESS 2
 # define KEYRELEASE 3
 # define KEYPRESS_MASK 1L << 0
 # define KEYRELEASE_MASK 1L << 1
-//# define PI 3.141592
+# define STRUCTURENOTIFYMASK 1L << 17
 # define PI 3.1415
+
 typedef struct		s_ray
 {
 	int		pos_x;
@@ -65,16 +67,16 @@ typedef struct s_control
 	int	t_right;
 }		t_control;
 
-typedef struct	s_sprite
+typedef struct  s_sprite
 {
-	int	x;
-	int	y;
-	int	u;
-	double	x_sprite;
-	double	degree;
-	double	size;
-	double	distance;
-}		t_sprite;
+        int     x;
+        int     y;
+        int     u;
+        double  x_sprite;
+        double  degree;
+        double  size;
+        double  distance;
+}               t_sprite;
 
 typedef struct	s_map
 {
@@ -82,8 +84,9 @@ typedef struct	s_map
 	unsigned short	is_east;
 	unsigned short	is_west;
 	unsigned short	is_south;
-	unsigned short	is_sprite;
 	unsigned short	is_resolution;
+	unsigned short	is_sprite;
+	unsigned int	nb_sprite;
 	int		fd;
 	int		save;
 	int		colour_counter;
@@ -94,29 +97,27 @@ typedef struct	s_map
 	int		y_tmp;
 	int		res_x;
 	int		res_y;
-	unsigned int	nb_sprite;
 	void		*mlx_ptr;
 	char		*north_path;
 	char		*east_path;
 	char		*west_path;
 	char		*south_path;
-	char		*sprite_path;
 	char		*full_line;
+	char		*sprite_path;
 	char		**colour;
 	char		**resolution;
 	char		**lines;
 	void		*mlx_window;
 	char		**lines_copy;
-	double			*z_buffer;
+	double		*z_buffer;
 	t_control	control;
 	t_image		image[6];
 	t_player	player;
 	t_sprite	*sprite;
-
 }		t_map;
 
 /* MAIN */
-int		ft_close_fd(int fd, t_map *map);
+int		ft_close_fd(int fd);
 
 /* PLAYER */
 void		init_player(t_map *map);
@@ -125,8 +126,9 @@ int			search_player(t_map *map, char **lines, int i);
 int			control_press(int keycode, void *param);
 int			control_release(int keycode, void *param);
 int			control_player(void *param);
+
 /* MAP */
-int			initialization_map(t_map *map, char *argv, int argc);
+int			initialization_map(t_map *map);
 int			initialization_map_struct(t_map *map);
 
 /* MAP SETTING */
@@ -161,10 +163,7 @@ int		check_validity_map(t_map *map);
 int		check_valid_character(t_map *map);
 
 /* UTILS */
-//int	is_other(char c);
-//int	is_tab(char c);
 int	is_space(char c);
-void	ft_swap(t_sprite *a, t_sprite *b);
 int	register_texture(t_map *map);
 void	free_array(char **ptr);
 
@@ -222,20 +221,13 @@ void	check_loop_cast_hor(t_map *map);
 void	check_loop_cast_ver(t_map *map);
 void	check_distance(t_map *map);
 
-/** SPRITE **/
-int	find_sprite(t_map *map);
-void	display_sprite(t_map *map, int square_size, unsigned int nb_spt);
-
-/** SPRITE TOOLS **/
-int	init_sprite(t_map *map, int nb_sprite, int i, int j);
-int	find_sprite(t_map *map);
-void	distance_math(t_map *map, unsigned int nb_sprite, int square_size);
-void	quicksort_sprite(t_map *map, t_sprite *sprite,
-		unsigned int nb_sprite, int square_size);
-void	sprite_values_check(t_map *map, unsigned int nb_spt);
-void	degree_check_divide(t_map *map, int nb_spt);
-
-/** BMP **/
-void	create_bmp(t_map *map, char *argv);
+/** BONUS **/
+int     find_sprite(t_map *map);
+void    display_sprite(t_map *map, int square, unsigned int nb_spt);
+void    quicksort_sprite(t_map *map, t_sprite *sprite,
+                unsigned int nb_sprite, int square_size);
+void    sprite_values_check(t_map *map, unsigned int nb_spt);
+void    degree_check_divide(t_map *map, int nb_spt);
+void    ft_swap(t_sprite *a, t_sprite *b);
 
 #endif

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/cub.h"
+#include "cub_bonus.h"
 
 short int		is_full_line_ok(char *line)
 {
@@ -65,6 +65,13 @@ void	find_texture_two(char *line, unsigned int i, t_map *map)
 			if (map->east_path)
 				map->is_east++;
 		}
+		if (line[i] == 'S' && line[i + 1] == ' '
+                                && map->is_sprite == 0)
+                {
+                        map->sprite_path = get_texture(map, i, line);
+                        if (map->sprite_path)
+                                map->is_sprite++;
+                }
 	}
 }
 
@@ -79,7 +86,8 @@ int	is_line_wrong(const char *line)
 		{
 			if (line[i] != 0 && line[i] != ' ' && line[i] != '1'
 				&& line[i] != '0' && line[i] != 'N' && line[i] != 'S'
-				&& line[i] != 'E' && line[i] != 'W')
+				&& line[i] != 'E' && line[i] != 'W'
+				&& line[i] != '2')
 				{
 					return (0);
 				}

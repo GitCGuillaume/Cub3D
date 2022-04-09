@@ -1,4 +1,4 @@
-#include "../../includes/cub.h"
+#include "cub_bonus.h"
 
 t_image	side_distance(t_map *map)
 {
@@ -28,8 +28,10 @@ t_image	side_distance(t_map *map)
 	return (img);
 }
 
-void	math_wall(t_map *map, double correct_degree, double square_size)
+void	math_wall(t_map *map, double correct_degree, double square_size, int x)
 {
+	if (map->z_buffer)
+                *(map->z_buffer + x) = map->player.distance_wall;
 	map->player.distance_wall =
 		map->player.distance_wall * cos(degree_to_radian(correct_degree));
 	map->player.slice_height = square_size
@@ -73,7 +75,7 @@ void	raycast(t_map *map)
 	while (map->res_x > x)
 	{
 		raycast_two(map, square_size, &img);
-		math_wall(map, correct_degree, square_size);
+		math_wall(map, correct_degree, square_size, x);
 		ceil_mapping(map, x, manage_bit_colour_ceil(map));
 		texture_mapping(map, x, &img);
 		floor_mapping(map, x, manage_bit_colour_floor(map));
@@ -81,4 +83,5 @@ void	raycast(t_map *map)
 		correct_degree += 60.000000 / map->res_x;
 		x++;
 	}
+	display_sprite(map, square_size, map->nb_sprite);
 }

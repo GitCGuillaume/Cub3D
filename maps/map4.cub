@@ -5,10 +5,11 @@ NO ./textures/purplestone.xpm
 EA ./textures/greystone.xpm
 F 0, 0, 0
 SO ./textures/mossy.xpm
+S textures/amethyst_cluster.xpm
 
 000000
 11111111111
- W 001
+ S 001
 100011
- 00001
+ 02001
 111111

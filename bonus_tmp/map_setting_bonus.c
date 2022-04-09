@@ -10,13 +10,18 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/cub.h"
+#include "cub_bonus.h"
 
 void	init_map_four(t_map *map)
 {
 	int	textures_exist;
 
 	textures_exist = 0;
+	map->sprite = malloc(sizeof(t_sprite) * map->nb_sprite);
+        if (map->sprite == NULL)
+                close_program(map, "Sprite memory allocation failed.\n", 2);
+	if (map->nb_sprite > 0)
+                find_sprite(map);
 	textures_exist = register_texture(map);
 	if (textures_exist == 0)
 		close_program(map, "Can't create textures image.\n", 2);
@@ -63,6 +68,8 @@ void	init_map_two(t_map *map)
 		map->image[i].mlx_image = NULL;
 		i++;
 	}
+	map->sprite = NULL;
+	map->is_sprite = 0;
 	map->colour = NULL;
 	map->resolution = NULL;
 	map->is_north = 0;
@@ -77,6 +84,10 @@ int	initialization_map_struct(t_map *map)
 {
 	int	init;
 
+	map->z_buffer = NULL;
+	map->sprite_path = NULL;
+	map->nb_sprite = 0;
+	map->sprite = 0;
 	init_map_two(map);
 	map->is_resolution = 0;
 	map->colour_counter = 0;

@@ -67,6 +67,17 @@ typedef struct s_control
 	int	t_right;
 }		t_control;
 
+typedef struct  s_sprite
+{
+        int     x;
+        int     y;
+        int     u;
+        double  x_sprite;
+        double  degree;
+        double  size;
+        double  distance;
+}               t_sprite;
+
 typedef struct	s_map
 {
 	unsigned short	is_north;
@@ -74,6 +85,8 @@ typedef struct	s_map
 	unsigned short	is_west;
 	unsigned short	is_south;
 	unsigned short	is_resolution;
+	unsigned short	is_sprite;
+	unsigned int	nb_sprite;
 	int		fd;
 	int		save;
 	int		colour_counter;
@@ -90,15 +103,17 @@ typedef struct	s_map
 	char		*west_path;
 	char		*south_path;
 	char		*full_line;
+	char		*sprite_path;
 	char		**colour;
 	char		**resolution;
 	char		**lines;
 	void		*mlx_window;
 	char		**lines_copy;
+	double		*z_buffer;
 	t_control	control;
-	t_image		image[5];
+	t_image		image[6];
 	t_player	player;
-
+	t_sprite	*sprite;
 }		t_map;
 
 /* MAIN */
