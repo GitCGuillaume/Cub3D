@@ -11,12 +11,8 @@ void	move_forward(t_map *map, double sin_degree, double cos_degree)
 	{
 		if (map->lines)
 		{
-			if (map->player.degree_raycast > 0.000000
-				&& map->player.degree_raycast < 180.000000)
-			{
-				map->player.pos_y -= sin_degree * 0.045000;
-				map->player.pos_x += cos_degree * 0.045000;
-			}
+			map->player.pos_y -= sin_degree * 0.045000;
+			map->player.pos_x += cos_degree * 0.045000;
 		}
 	}
 }

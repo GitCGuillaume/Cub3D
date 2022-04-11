@@ -6,7 +6,7 @@
 /*   By: gchopin <gchopin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/04 16:20:19 by gchopin           #+#    #+#             */
-/*   Updated: 2022/04/11 09:18:38 by gchopin          ###   ########.fr       */
+/*   Updated: 2022/04/11 13:32:09 by gchopin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,12 @@ int	render_map(void *param)
 	return (0);
 }
 
+/*
+	Keypress_mask : 1L << 0
+	Keypress_release : 1L << 1
+	StructureNotifyMask : 1L << 17
+*/
+
 int	initialization_map(t_map *map)
 {
 	int	endian;
@@ -55,12 +61,12 @@ int	initialization_map(t_map *map)
 	if (map->mlx_window == NULL)
 		close_program(map, "Can't create game window.\n", 2);
 	mlx_hook(map->mlx_window,
-		KEYPRESS, KEYPRESS_MASK, control_press, (void *)map);
+		KEYPRESS, 1L << 0, control_press, (void *)map);
 	mlx_hook(map->mlx_window,
-		KEYRELEASE, KEYRELEASE_MASK, control_release, (void *)map);
+		KEYRELEASE, 1L << 1, control_release, (void *)map);
 	mlx_loop_hook(map->mlx_ptr, &render_map, (void *)map);
 	mlx_hook(map->mlx_window, 33,
-		STRUCTURENOTIFYMASK, close_program_cross, (void *)map);
+		1L << 17, close_program_cross, (void *)map);
 	mlx_loop(map->mlx_ptr);
 	return (0);
 }
