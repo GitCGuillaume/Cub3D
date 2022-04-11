@@ -29,7 +29,7 @@ SRCS_BONUS	= $(PATH_GNL)/get_next_line.c $(PATH_GNL)/get_next_line_utils.c \
 		$(PATH_UTILS)/free_array.c $(PATH_UTILS)/colour.c $(PATH_BONUS)/xpm_image_bonus.c $(PATH_UTILS)/raycast_tools.c $(PATH_UTILS)/raycast_tools_two.c $(PATH_BONUS)/ft_swap_bonus.c \
 		$(PATH_BONUS)/parse_map_file_bonus.c $(PATH_PARSE)/parse_map_file_two.c $(PATH_BONUS)/parse_map_file_three_bonus.c \
 		srcs/main.c $(PATH_BONUS)/check_validity_map_bonus.c $(PATH_BONUS)/check_validity_map_two_bonus.c \
-		$(PATH_PLAYER)/player.c $(PATH_PLAYER)/control_player.c \
+		$(PATH_PLAYER)/player.c $(PATH_BONUS)/control_player_bonus.c \
 		$(PATH_BONUS)/map_bonus.c $(PATH_BONUS)/map_setting_bonus.c \
 		$(PATH_BONUS)/raycast_bonus.c $(PATH_RAYCAST)/raycast_hor.c $(PATH_RAYCAST)/raycast_ver.c $(PATH_RAYCAST)/raycast_free.c \
 		$(PATH_RAYCAST)/raycast_tex.c $(PATH_BONUS)/sprite_bonus.c $(PATH_BONUS)/sprite_tools_bonus.c $(PATH_BONUS)/sprite_tools_two_bonus.c
