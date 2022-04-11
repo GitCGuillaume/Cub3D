@@ -6,7 +6,7 @@
 /*   By: gchopin <gchopin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/11 14:10:12 by gchopin           #+#    #+#             */
-/*   Updated: 2022/04/11 12:05:30 by gchopin          ###   ########.fr       */
+/*   Updated: 2022/04/11 12:35:35 by gchopin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,25 +115,24 @@ void	sprite_mapping(t_map *map, unsigned int nb_sprite)
 void	display_sprite(t_map *map, int square, unsigned int nb_spt)
 {
 	quicksort_sprite(map, map->sprite, nb_spt, square);
-	if (nb_spt > 0 && map->sprite == NULL)
-		close_program(map, "Engine can't display sprites.", 2);
 	while (nb_spt > 0)
 	{
 		nb_spt--;
 		map->sprite[nb_spt].distance = map->sprite[nb_spt].distance / square;
 		map->sprite[nb_spt].degree = atan2(map->sprite[nb_spt].y
 				- (square * (map->player.pos_y + 1.000000)),
-				map->sprite[nb_spt].x - (square * (map->player.pos_x + 1.000000)));
+				map->sprite[nb_spt].x
+				- (square * (map->player.pos_x + 1.000000)));
 		map->sprite[nb_spt].degree = (-map->sprite[nb_spt].degree)
 			- degree_to_radian(map->player.degree_raycast);
-		map->sprite[nb_spt].degree =
-			correct_distance(radian_to_degree(map->sprite[nb_spt].degree));
+		map->sprite[nb_spt].degree
+			= correct_distance(radian_to_degree(map->sprite[nb_spt].degree));
 		degree_check_divide(map, nb_spt);
-		map->sprite[nb_spt].degree =
-			degree_to_radian(map->sprite[nb_spt].degree);
+		map->sprite[nb_spt].degree
+			= degree_to_radian(map->sprite[nb_spt].degree);
 		map->sprite[nb_spt].size = ((map->res_x >> 1) / tan(0.523599))
 			/ (cos(map->sprite[nb_spt].degree)
-					* (map->sprite[nb_spt].distance));
+				* (map->sprite[nb_spt].distance));
 		map->sprite[nb_spt].x_sprite = tan(map->sprite[nb_spt].degree)
 			* ((map->res_x >> 1) / tan(0.523599));
 		sprite_values_check(map, nb_spt);

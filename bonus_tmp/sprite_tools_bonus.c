@@ -68,6 +68,8 @@ void	quicksort_sprite(t_map *map, t_sprite *sprite,
 
 	i = 0;
 	j = 0;
+	if (map->sprite == NULL)
+		close_program(map, "Engine can't display sprites.", 2);
 	distance_math(map, nb_sprite, square_size);
 	nb_sprite = map->nb_sprite;
 	if (sprite)

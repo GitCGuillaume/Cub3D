@@ -17,19 +17,19 @@
 # define STRUCTURENOTIFYMASK 1L << 17
 # define PI 3.1415
 
-typedef struct		s_ray
+typedef struct s_ray
 {
 	int		pos_x;
 	int		pos_y;
 	int		is_wall;
-	double		length_case_x;
-	double		length_case_y;
-	double		distance_x;
-	double		distance_y;
-	double		distance_wall;
+	double	length_case_x;
+	double	length_case_y;
+	double	distance_x;
+	double	distance_y;
+	double	distance_wall;
 }			t_ray;
 
-typedef struct		s_player
+typedef struct s_player
 {
 	char		start_position;
 	int		fill_x;
@@ -38,16 +38,16 @@ typedef struct		s_player
 	int		is_wall;
 	int		height_wall;
 	int		bottom_wall;
-	double		pos_x;
-	double		pos_y;
-	double		distance_wall;
-	double		degree;
-	double		degree_raycast;
+	double	pos_x;
+	double	pos_y;
+	double	distance_wall;
+	double	degree;
+	double	degree_raycast;
 	t_ray		ray_horizontal;
 	t_ray		ray_vertical;
 }		t_player;
 
-typedef struct		s_image
+typedef struct s_image
 {
 	int		height;
 	int		line_bytes;
@@ -67,7 +67,7 @@ typedef struct s_control
 	int	t_right;
 }		t_control;
 
-typedef struct  s_sprite
+typedef struct s_sprite
 {
         int     x;
         int     y;
@@ -78,7 +78,7 @@ typedef struct  s_sprite
         double  distance;
 }               t_sprite;
 
-typedef struct	s_map
+typedef struct s_map
 {
 	unsigned short	is_north;
 	unsigned short	is_east;

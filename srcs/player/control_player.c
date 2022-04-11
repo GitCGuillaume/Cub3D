@@ -17,11 +17,6 @@ void	move_forward(t_map *map, double sin_degree, double cos_degree)
 				map->player.pos_y -= sin_degree * 0.045000;
 				map->player.pos_x += cos_degree * 0.045000;
 			}
-			else
-			{
-				map->player.pos_y -= sin_degree * 0.045000;
-				map->player.pos_x += cos_degree * 0.045000;
-			}
 		}
 	}
 }

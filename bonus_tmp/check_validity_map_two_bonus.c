@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_validity_map_two.c                           :+:      :+:    :+:   */
+/*   check_validity_map_two_bonus.c                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gchopin <gchopin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/03 17:27:42 by gchopin           #+#    #+#             */
-/*   Updated: 2021/05/11 21:03:31 by gchopin          ###   ########.fr       */
+/*   Updated: 2022/04/11 12:40:48 by gchopin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub_bonus.h"
 
-int					check_indicator_full(t_map *map)
+int	check_indicator_full(t_map *map)
 {
 	int	i;
 
@@ -26,7 +26,7 @@ int					check_indicator_full(t_map *map)
 	if (map->is_west == 1)
 		i++;
 	if (map->is_sprite == 1)
-                i++;
+		i++;
 	if (map->colour_counter == 6)
 		i++;
 	if (map->is_resolution == 2)
@@ -34,7 +34,7 @@ int					check_indicator_full(t_map *map)
 	return (i);
 }
 
-unsigned int		check_first_character(t_map *map)
+unsigned int	check_first_character(t_map *map)
 {
 	unsigned int	i;
 
@@ -42,34 +42,34 @@ unsigned int		check_first_character(t_map *map)
 	if (map->lines)
 	{
 		while (map->lines[i] && (map->lines[i][0] != '0'
-                        && map->lines[i][0] != '1'
-                        && map->lines[i][0] != '2' && map->lines[i][0] != 'N'
-                        && map->lines[i][0] != 'S' && map->lines[i][0] != 'E'
-                        && map->lines[i][0] != 'W' && map->lines[i][0] != ' '))
-                {
-                        i++;
-                }
-                if (map->lines[i] && (map->lines[i][0] == '0' || map->lines[i][0] == '1'
-                        || map->lines[i][0] == '2' || map->lines[i][0] == 'N'
-                        || map->lines[i][0] == 'S' || map->lines[i][0] == 'E'
-                        || map->lines[i][0] == 'W' || map->lines[i][0] == ' '))
-                        return (i);
+			&& map->lines[i][0] != '1'
+			&& map->lines[i][0] != '2' && map->lines[i][0] != 'N'
+			&& map->lines[i][0] != 'S' && map->lines[i][0] != 'E'
+			&& map->lines[i][0] != 'W' && map->lines[i][0] != ' '))
+		{
+			i++;
+		}
+		if (map->lines[i] && (map->lines[i][0] == '0' || map->lines[i][0] == '1'
+			|| map->lines[i][0] == '2' || map->lines[i][0] == 'N'
+			|| map->lines[i][0] == 'S' || map->lines[i][0] == 'E'
+			|| map->lines[i][0] == 'W' || map->lines[i][0] == ' '))
+			return (i);
 	}
 	return (0);
 }
 
-static int			case_is_false(char *line, unsigned int j)
+static int	case_is_false(char *line, unsigned int j)
 {
 	if (line)
 	{
 		if (line[j] != '\0' && (line[j] != '1'
-                        && line[j] != '2' && line[j] != 'N'
-                        && line[j] != 'S' && line[j] != 'E'
-                        && line[j] != 'W' && line[j] != '0'
-                        && line[j] != ' '))
-                {
-                        return (1);
-                }
+				&& line[j] != '2' && line[j] != 'N'
+				&& line[j] != 'S' && line[j] != 'E'
+				&& line[j] != 'W' && line[j] != '0'
+				&& line[j] != ' '))
+		{
+			return (1);
+		}
 	}
 	return (0);
 }
@@ -81,22 +81,22 @@ static unsigned int	check_character(char *character, t_map *map)
 	j = 0;
 	if (character && map)
 	{
-		while (character[j] != '\0' &&
-                                (character[j] == '0' || character[j] == '1'
-                                || character[j] == '2' || character[j] == 'N'
-                                || character[j] == 'S' || character[j] == 'E'
-                                || character[j] == 'W' || is_space(character[j])
-                                || character[j] == ' '))
-                {
-                        if (character[j] == '2')
-                                map->nb_sprite = map->nb_sprite + 1;
-                        j++;
-                }
+		while (character[j] != '\0'
+			&& (character[j] == '0' || character[j] == '1'
+				|| character[j] == '2' || character[j] == 'N'
+				|| character[j] == 'S' || character[j] == 'E'
+				|| character[j] == 'W' || is_space(character[j])
+				|| character[j] == ' '))
+		{
+			if (character[j] == '2')
+				map->nb_sprite = map->nb_sprite + 1;
+			j++;
+		}
 	}
 	return (j);
 }
 
-int					check_valid_character(t_map *map)
+int	check_valid_character(t_map *map)
 {
 	unsigned int	i;
 	unsigned int	j;
