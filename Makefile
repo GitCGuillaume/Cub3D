@@ -12,7 +12,7 @@ PATH_RAYCAST	= ./srcs/raycast
 
 PATH_GNL	= ./srcs/gnl
 
-PATH_BONUS	= ./bonus_tmp
+PATH_BONUS	= ./bonus
 
 SRCS		= $(PATH_GNL)/get_next_line.c $(PATH_GNL)/get_next_line_utils.c \
 		$(PATH_UTILS)/ft_isspace.c $(PATH_UTILS)/close_program.c $(PATH_UTILS)/clear_program.c \

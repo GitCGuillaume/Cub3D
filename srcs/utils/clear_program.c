@@ -31,7 +31,7 @@ void	clear_array_two(t_map *map)
 	int	i;
 
 	i = 0;
-	if (map->resolution)
+	/*if (map->resolution)
 	{
 		while (i < 2)
 		{
@@ -40,7 +40,7 @@ void	clear_array_two(t_map *map)
 			i++;
 		}
 		free(map->resolution);
-	}
+	}*/
 	i = 0;
 	if (map->colour)
 	{

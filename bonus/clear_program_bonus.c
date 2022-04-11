@@ -1,4 +1,4 @@
-#include "../../includes/cub.h"
+#include "cub_bonus.h"
 
 void	clear_array(t_map *map)
 {
@@ -33,7 +33,7 @@ void	clear_array_two(t_map *map)
 	i = 0;
 	if (map->resolution)
 	{
-		while (2 > i)
+		while (i < 2)
 		{
 			if (map->resolution[i] != NULL)
 				free(map->resolution[i]);
@@ -56,8 +56,6 @@ void	clear_array_two(t_map *map)
 
 void	clear_image(t_map *map)
 {
-	if (map->mlx_window)
-		mlx_destroy_window(map->mlx_ptr, map->mlx_window);
 	if (map->image[0].mlx_get_data)
 		mlx_destroy_image(map->mlx_ptr, map->image[0].mlx_image);
 	if (map->image[1].mlx_get_data)
@@ -70,8 +68,16 @@ void	clear_image(t_map *map)
 		mlx_destroy_image(map->mlx_ptr, map->image[4].mlx_image);
 	if (map->image[5].mlx_get_data)
 		mlx_destroy_image(map->mlx_ptr, map->image[5].mlx_image);
+	if (map->image[6].mlx_get_data)
+		mlx_destroy_image(map->mlx_ptr, map->image[6].mlx_image);
+	if (map->mlx_window)
+		mlx_destroy_window(map->mlx_ptr, map->mlx_window);
+	if (map->mlx_ptr)
+		mlx_destroy_display(map->mlx_ptr);
 	if (map->mlx_ptr)
 		free(map->mlx_ptr);
+	if (map->sprite)
+		free(map->sprite);
 }
 
 void	clear_path(t_map *map)
@@ -86,6 +92,6 @@ void	clear_path(t_map *map)
 		free(map->south_path);
 	if (map->sprite_path)
 		free(map->sprite_path);
-	if (map->sprite)
-		free(map->sprite);
+	if (map->sprite_path_2)
+		free(map->sprite_path_2);
 }

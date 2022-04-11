@@ -6,35 +6,25 @@
 /*   By: gchopin <gchopin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/11 14:10:12 by gchopin           #+#    #+#             */
-/*   Updated: 2022/04/11 12:35:35 by gchopin          ###   ########.fr       */
+/*   Updated: 2022/04/11 16:56:40 by gchopin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub_bonus.h"
 
-void	print_sprite(t_map *map, int pixel, int nb_sprite, int height)
+void	print_sprite_2(t_map *map, int pixel, int nb_sprite, int height)
 {
-	int	v;
 	int	u;
+	int	v;
 	int	size;
-	int	line_bytes;
 
 	u = map->sprite[nb_sprite].u;
 	size = (int)floor(map->sprite[nb_sprite].size);
 	v = ((height - (map->res_y + size) / 2)
-			+ size) * map->image[5].height / size;
-	line_bytes = map->image[5].line_bytes;
-	if (map->image[5].mlx_get_data)
+			+ size) * map->image[6].height / size;
+	if (map->image[6].mlx_get_data)
 	{
-		if (map->image[5].mlx_get_data[((v * line_bytes) + (u * 4)) + 0])
-			map->image[0].mlx_get_data[pixel + 0]
-				= map->image[5].mlx_get_data[((v * line_bytes) + (u * 4)) + 0];
-		if (map->image[5].mlx_get_data[((v * line_bytes) + (u * 4)) + 1])
-			map->image[0].mlx_get_data[pixel + 1]
-				= map->image[5].mlx_get_data[((v * line_bytes) + (u * 4)) + 1];
-		if (map->image[5].mlx_get_data[((v * line_bytes) + (u * 4)) + 2])
-			map->image[0].mlx_get_data[pixel + 2]
-				= map->image[5].mlx_get_data[((v * line_bytes) + (u * 4)) + 2];
+		write_in_image_two(map, u, v, pixel);
 	}
 }
 
@@ -49,12 +39,18 @@ void	while_height(t_map *map, int bottom, int nb_sprite, int width_left)
 		height = (map->res_y >> 1) - (size >> 1);
 		if (height < 0)
 			height = 0;
-		while (bottom > height && map->sprite[nb_sprite].distance
+		while (width_left < map->res_x
+			&& bottom > height && map->sprite[nb_sprite].distance
 			* (map->res_x / 5) < *(map->z_buffer + width_left))
 		{
-			print_sprite(map,
-				(height * map->image[0].line_bytes)
-				+ (width_left * 4), nb_sprite, height);
+			if (map->tick <= 30)
+				print_sprite(map,
+					(height * map->image[0].line_bytes)
+					+ (width_left * 4), nb_sprite, height);
+			else
+				print_sprite_2(map,
+					(height * map->image[0].line_bytes)
+					+ (width_left * 4), nb_sprite, height);
 			height++;
 		}
 	}
@@ -70,15 +66,19 @@ void	while_width(t_map *map, int nb_sprite, int width, int bottom)
 	{
 		x_sprite = (int)floor(map->sprite[nb_sprite].x_sprite);
 		size = (int)floor(map->sprite[nb_sprite].size);
-		width_left = (map->res_x >> 1)
-			+ x_sprite - (size >> 1);
+		width_left = (map->res_x >> 1) + x_sprite - (size >> 1);
 		if (width_left < 0)
 			width_left = 0;
 		while (width > width_left)
 		{
-			map->sprite[nb_sprite].u = ((width_left - (map->res_x >> 1)
-						- x_sprite
-						+ (size >> 1)) + size) * map->image[5].width / size;
+			if (map->tick <= 30)
+				map->sprite[nb_sprite].u = ((width_left - (map->res_x >> 1)
+							- x_sprite
+							+ (size >> 1)) + size) * map->image[5].width / size;
+			else
+				map->sprite[nb_sprite].u = ((width_left - (map->res_x >> 1)
+							- x_sprite
+							+ (size >> 1)) + size) * map->image[6].width / size;
 			while_height(map, bottom, nb_sprite, width_left);
 			width_left++;
 		}
@@ -138,4 +138,5 @@ void	display_sprite(t_map *map, int square, unsigned int nb_spt)
 		sprite_values_check(map, nb_spt);
 		sprite_mapping(map, nb_spt);
 	}
+	tick_handler(map);
 }

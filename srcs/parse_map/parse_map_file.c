@@ -6,7 +6,7 @@
 /*   By: gchopin <gchopin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/03 17:31:43 by gchopin           #+#    #+#             */
-/*   Updated: 2022/04/11 09:21:51 by gchopin          ###   ########.fr       */
+/*   Updated: 2022/04/11 17:49:50 by gchopin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	find_which_indicator(t_map *map, char **line)
 		if (*line[old_i] == 'C' || *line[old_i] == 'F')
 			i++;
 		find_texture(*line, old_i, map);
-		result = find_resolution(*line, &i, map);
+		//result = find_resolution(*line, &i, map);
 		if (line && *line)
 			result = find_colour(*line, &i, old_i, map);
 	}
@@ -37,7 +37,7 @@ void	find_which_indicator(t_map *map, char **line)
 		free(*line);
 		*line = NULL;
 		close_program(map,
-			"Resolution, ceiling/floor colour bad format or line wrong.\n", 2);
+			"Ceiling/floor colour bad format or line wrong.\n", 2);
 	}
 }
 
@@ -46,7 +46,7 @@ char	*gnl_next_ft(t_map *map, char *tmp_line, char *join_str)
 	char	*last_line;
 
 	last_line = NULL;
-	if (check_indicator_full(map) < 7)
+	if (check_indicator_full(map) < 6)
 	{
 		find_which_indicator(map, &tmp_line);
 		if (tmp_line)
@@ -111,8 +111,6 @@ int	parse_line_fd(t_map *map)
 	else
 		close_program_gnl(map,
 			"Map parameters wrongs, or remove space in map fields.\n", 2);
-	if (map->is_resolution != 2)
-		close_program_gnl(map, "Resolution is invalid.\n", 2);
 	if (map->colour_counter != 6)
 		close_program_gnl(map, "Check RGB inputs number.\n", 2);
 	if (map->lines == NULL)

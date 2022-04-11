@@ -6,7 +6,7 @@
 /*   By: gchopin <gchopin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/03 17:31:43 by gchopin           #+#    #+#             */
-/*   Updated: 2022/04/11 11:57:09 by gchopin          ###   ########.fr       */
+/*   Updated: 2022/04/11 17:53:56 by gchopin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	find_which_indicator(t_map *map, char **line)
 		if (*line[old_i] == 'C' || *line[old_i] == 'F')
 			i++;
 		find_texture(*line, old_i, map);
-		result = find_resolution(*line, &i, map);
+		//result = find_resolution(*line, &i, map);
 		if (line && *line)
 			result = find_colour(*line, &i, old_i, map);
 	}
@@ -111,8 +111,8 @@ int	parse_line_fd(t_map *map)
 	else
 		close_program_gnl(map,
 			"Map parameters wrongs, or remove space in map fields.\n", 2);
-	if (map->is_resolution != 2)
-		close_program_gnl(map, "Resolution is invalid.\n", 2);
+	//if (map->is_resolution != 2)
+	//	close_program_gnl(map, "Resolution is invalid.\n", 2);
 	if (map->colour_counter != 6)
 		close_program_gnl(map, "Check RGB inputs number.\n", 2);
 	if (map->lines == NULL)

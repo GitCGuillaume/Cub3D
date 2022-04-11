@@ -97,14 +97,5 @@ void	sprite_values_check(t_map *map, unsigned int nb_spt)
 		map->sprite[nb_spt].x_sprite = -map->sprite[nb_spt].x_sprite;
 		if (cpr_equal(map->sprite[nb_spt].x_sprite, 0.000000))
 			map->sprite[nb_spt].x_sprite += 0.000010;
-		if (map->sprite[nb_spt].x_sprite >= 2147483647.000000
-			|| map->sprite[nb_spt].distance >= 2147483647.000000)
-		{
-			close_program(map, "sprite distance wrong.\n", 2);
-		}
-		if (map->sprite[nb_spt].size >= 2147483647.0)
-		{
-			close_program(map, "size's sprite is wrong.\n", 2);
-		}
 	}
 }

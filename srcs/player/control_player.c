@@ -11,8 +11,8 @@ void	move_forward(t_map *map, double sin_degree, double cos_degree)
 	{
 		if (map->lines)
 		{
-			map->player.pos_y -= sin_degree * 0.045000;
-			map->player.pos_x += cos_degree * 0.045000;
+			map->player.pos_y -= sin_degree * 0.050000;
+			map->player.pos_x += cos_degree * 0.050000;
 		}
 	}
 }
@@ -85,9 +85,9 @@ int	control_player(void *param)
 	move_sidestep_right(map, sin_degree, cos_degree);
 	if (map->control.t_left == 1)
 		map->player.degree_raycast
-			= correct_distance(map->player.degree_raycast) + 1.000000;
+			= correct_distance(map->player.degree_raycast) + 3.000000;
 	else if (map->control.t_right == 1)
 		map->player.degree_raycast
-			= correct_distance(map->player.degree_raycast) - 1.000000;
+			= correct_distance(map->player.degree_raycast) - 3.000000;
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: gchopin <gchopin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/03 17:35:47 by gchopin           #+#    #+#             */
-/*   Updated: 2022/04/11 11:55:13 by gchopin          ###   ########.fr       */
+/*   Updated: 2022/04/11 15:09:08 by gchopin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,11 +65,18 @@ void	find_texture_two(char *line, unsigned int i, t_map *map)
 			if (map->east_path)
 				map->is_east++;
 		}
-		if (line[i] == 'S' && line[i + 1] == ' '
-			&& map->is_sprite == 0)
+		if (line[i] == 'S' && line[i + 1] == '1'
+			&& map->is_sprite < 2)
 		{
 			map->sprite_path = get_texture(map, i, line);
 			if (map->sprite_path)
+				map->is_sprite++;
+		}
+		if (line[i] == 'S' && line[i + 1] == '2'
+			&& map->is_sprite < 2)
+		{
+			map->sprite_path_2 = get_texture(map, i, line);
+			if (map->sprite_path_2)
 				map->is_sprite++;
 		}
 	}

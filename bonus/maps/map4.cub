@@ -1,15 +1,15 @@
-R 1000 1000
+R 3000 3000
 WE ./textures/redbrick.xpm
 C 255, 255, 255
 NO ./textures/amethyst_block.xpm
 EA ./textures/greystone.xpm
-F 0, 0, 0
+F 100, 100, 100
 SO ./textures/mossy.xpm
-S textures/amethyst_cluster.xpm
+S2 textures/barrel.xpm
+S1 textures/amethyst_cluster.xpm
 
-000000
 11111111111
- S 001
+ 0 001
 100011
- 00001
+ 222E1
 111111

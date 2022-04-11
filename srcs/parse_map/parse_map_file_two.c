@@ -6,7 +6,7 @@
 /*   By: gchopin <gchopin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/03 17:32:41 by gchopin           #+#    #+#             */
-/*   Updated: 2022/04/11 09:52:00 by gchopin          ###   ########.fr       */
+/*   Updated: 2022/04/11 17:30:18 by gchopin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ char	*get_texture(t_map *map, unsigned int i, char *line)
 	}
 	return (value);
 }
-
+/*
 int	find_resolution(char *line, unsigned int *i, t_map *map)
 {
 	if (line)
@@ -105,7 +105,7 @@ int	find_resolution(char *line, unsigned int *i, t_map *map)
 	}
 	return (1);
 }
-
+*/
 void	find_texture(char *line, unsigned int i, t_map *map)
 {
 	if (line)

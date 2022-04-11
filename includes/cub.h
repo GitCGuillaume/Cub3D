@@ -6,7 +6,7 @@
 /*   By: gchopin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 13:41:45 by gchopin           #+#    #+#             */
-/*   Updated: 2022/04/11 13:41:46 by gchopin          ###   ########.fr       */
+/*   Updated: 2022/04/11 17:58:08 by gchopin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,6 @@ typedef struct s_map
 	unsigned short	is_east;
 	unsigned short	is_west;
 	unsigned short	is_south;
-	unsigned short	is_resolution;
 	unsigned short	is_sprite;
 	unsigned int	nb_sprite;
 	int				fd;
@@ -105,6 +104,7 @@ typedef struct s_map
 	int				y_tmp;
 	int				res_x;
 	int				res_y;
+	int				tick;
 	void			*mlx_ptr;
 	char			*north_path;
 	char			*east_path;
@@ -112,14 +112,15 @@ typedef struct s_map
 	char			*south_path;
 	char			*full_line;
 	char			*sprite_path;
+	char			*sprite_path_2;
 	char			**colour;
-	char			**resolution;
+	char			a;
 	char			**lines;
 	void			*mlx_window;
 	char			**lines_copy;
 	double			*z_buffer;
 	t_control		control;
-	t_image			image[6];
+	t_image			image[7];
 	t_player		player;
 	t_sprite		*sprite;
 	t_image			*img;
@@ -161,7 +162,6 @@ char			*get_number(unsigned int *i, char *line);
 char			*get_number_two(t_map *map, unsigned int *i, char *line);
 char			*get_texture(t_map *map, unsigned int i, char *line);
 void			find_texture(char *line, unsigned int i, t_map *map);
-int				find_resolution(char *line, unsigned int *i, t_map *map);
 int				find_colour(char *line, unsigned int *i,
 					unsigned int old_i, t_map *map);
 int				is_line_wrong(const char *line);
@@ -231,10 +231,6 @@ void			floor_mapping(t_map *map, int x, int floor_colour);
 void			texture_mapping_two(t_map *map, int v, int u, int pixel);
 
 /** RAYCASTER ERRORS OR FREE **/
-void			check_error_ln_hor(t_map *map, double floor_pos_y);
-void			check_error_ln_ver(t_map *map, double floor_pos_x);
-void			check_loop_cast_hor(t_map *map);
-void			check_loop_cast_ver(t_map *map);
 void			check_distance(t_map *map);
 
 #endif

@@ -3,7 +3,7 @@
 int	register_texture_three(t_map *map, int endian)
 {
 	if (!map->sprite_path)
-		close_program(map, "Can't find sprite path.", 2);
+		close_program(map, "Can't find sprite path.\n", 2);
 	map->image[5].mlx_image = mlx_xpm_file_to_image(map->mlx_ptr,
 			map->sprite_path, &map->image[5].width, &map->image[5].height);
 	if (map->image[5].mlx_image == NULL)
@@ -11,6 +11,16 @@ int	register_texture_three(t_map *map, int endian)
 	map->image[5].mlx_get_data = mlx_get_data_addr(map->image[5].mlx_image,
 			&map->image[5].bpp, &map->image[5].line_bytes, &endian);
 	if (map->image[5].mlx_get_data == NULL)
+		return (0);
+	if (!map->sprite_path_2)
+		close_program(map, "Can't find sprite path.\n", 2);
+	map->image[6].mlx_image = mlx_xpm_file_to_image(map->mlx_ptr,
+			map->sprite_path_2, &map->image[6].width, &map->image[6].height);
+	if (map->image[6].mlx_image == NULL)
+		return (0);
+	map->image[6].mlx_get_data = mlx_get_data_addr(map->image[6].mlx_image,
+			&map->image[6].bpp, &map->image[6].line_bytes, &endian);
+	if (map->image[6].mlx_get_data == NULL)
 		return (0);
 	return (1);
 }
