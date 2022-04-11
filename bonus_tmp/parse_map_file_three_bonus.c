@@ -1,21 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_map_file_three.c                             :+:      :+:    :+:   */
+/*   parse_map_file_three_bonus.c                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gchopin <gchopin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/03 17:35:47 by gchopin           #+#    #+#             */
-/*   Updated: 2021/05/11 20:54:03 by gchopin          ###   ########.fr       */
+/*   Updated: 2022/04/11 11:55:13 by gchopin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub_bonus.h"
 
-short int		is_full_line_ok(char *line)
+short int	is_full_line_ok(char *line)
 {
 	short int	is_ok;
-	int	i;
+	int			i;
 
 	i = 0;
 	is_ok = 1;
@@ -66,33 +66,29 @@ void	find_texture_two(char *line, unsigned int i, t_map *map)
 				map->is_east++;
 		}
 		if (line[i] == 'S' && line[i + 1] == ' '
-                                && map->is_sprite == 0)
-                {
-                        map->sprite_path = get_texture(map, i, line);
-                        if (map->sprite_path)
-                                map->is_sprite++;
-                }
+			&& map->is_sprite == 0)
+		{
+			map->sprite_path = get_texture(map, i, line);
+			if (map->sprite_path)
+				map->is_sprite++;
+		}
 	}
 }
 
-int	is_line_wrong(const char *line)
+int	find_colour_two(char *line, unsigned int *i,
+	unsigned int old_i, t_map *map)
 {
-	unsigned int	i;
-
-	i = 0;
-	if (line)
+	if (line[old_i] == 'C' && line[old_i + 1] == ' ')
 	{
-		while (line[i])
-		{
-			if (line[i] != 0 && line[i] != ' ' && line[i] != '1'
-				&& line[i] != '0' && line[i] != 'N' && line[i] != 'S'
-				&& line[i] != 'E' && line[i] != 'W'
-				&& line[i] != '2')
-				{
-					return (0);
-				}
-			i++;
-		}
+		map->colour[3] = get_number_two(map, i, line);
+		if (line[*i] == ',')
+			map->colour[4] = get_number_two(map, i, line);
+		if (line[*i] == ',')
+			map->colour[5] = get_number_two(map, i, line);
+		if (line[*i] != '\0'
+			|| !map->colour[3] || !map->colour[4] || !map->colour[5])
+			return (0);
+		ft_memset(line, 0, ft_strlen(line));
 	}
 	return (1);
 }
@@ -107,23 +103,13 @@ int	find_colour(char *line, unsigned int *i,
 			map->colour[1] = get_number_two(map, i, line);
 		if (line[*i] == ',')
 			map->colour[2] = get_number_two(map, i, line);
-		if (line[*i] != '\0' || !map->colour[0] || !map->colour[1]
-				|| !map->colour[2])
+		if (line[*i] != '\0'
+			|| !map->colour[0] || !map->colour[1] || !map->colour[2])
 			return (0);
 		ft_memset(line, 0, ft_strlen(line));
 	}
-	if (line[old_i] == 'C' && line[old_i + 1] == ' ')
-	{
-		map->colour[3] = get_number_two(map, i, line);
-		if (line[*i] == ',')
-			map->colour[4] = get_number_two(map, i, line);
-		if (line[*i] == ',')
-			map->colour[5] = get_number_two(map, i, line);
-		if (line[*i] != '\0' || !map->colour[3]
-				|| !map->colour[4] || !map->colour[5])
-			return (0);
-		ft_memset(line, 0, ft_strlen(line));
-	}
+	if (!find_colour_two(line, i, old_i, map))
+		return (0);
 	if (!is_line_wrong(line))
 		return (0);
 	return (1);

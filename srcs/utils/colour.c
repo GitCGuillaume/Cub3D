@@ -6,7 +6,7 @@
 /*   By: gchopin <gchopin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/03 17:30:08 by gchopin           #+#    #+#             */
-/*   Updated: 2022/04/08 14:58:43 by gchopin          ###   ########.fr       */
+/*   Updated: 2022/04/11 09:57:33 by gchopin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ unsigned int	manage_bit_colour_floor(t_map *map)
 	g = ft_atoi(map->colour[1]);
 	b = ft_atoi(map->colour[2]);
 	if ((r >= 0 && r <= 255) && (g >= 0 && g <= 255)
-			&& (b >= 0 && b <= 255))
+		&& (b >= 0 && b <= 255))
 	{
 		colour = r << 16;
 		colour += g << 8;
@@ -52,7 +52,7 @@ unsigned int	manage_bit_colour_ceil(t_map *map)
 	if (!map->colour[3] || !map->colour[4] || !map->colour[5])
 		close_program(map, "Couldn't get ceils colours from map.\n", 2);
 	if ((r >= 0 && r <= 255) && (g >= 0 && g <= 255)
-			&& (b >= 0 && b <= 255))
+		&& (b >= 0 && b <= 255))
 	{
 		colour = r << 16;
 		colour += g << 8;

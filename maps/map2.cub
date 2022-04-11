@@ -1,7 +1,7 @@
 R 1000 500
 WE ./
 C 200, 140,40
-NO ./textures/purplestone.xpm
+NO ./textures/amethyst_block.xpm
 EA ./
 F 171,205,239
 SO ./

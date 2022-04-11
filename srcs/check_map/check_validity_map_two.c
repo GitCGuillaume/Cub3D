@@ -6,13 +6,13 @@
 /*   By: gchopin <gchopin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/03 17:27:42 by gchopin           #+#    #+#             */
-/*   Updated: 2021/05/11 21:03:31 by gchopin          ###   ########.fr       */
+/*   Updated: 2022/04/11 09:13:33 by gchopin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub.h"
 
-int					check_indicator_full(t_map *map)
+int	check_indicator_full(t_map *map)
 {
 	int	i;
 
@@ -32,7 +32,7 @@ int					check_indicator_full(t_map *map)
 	return (i);
 }
 
-unsigned int		check_first_character(t_map *map)
+unsigned int	check_first_character(t_map *map)
 {
 	unsigned int	i;
 
@@ -56,15 +56,15 @@ unsigned int		check_first_character(t_map *map)
 	return (0);
 }
 
-static int			case_is_false(char *line, unsigned int j)
+static int	case_is_false(char *line, unsigned int j)
 {
 	if (line)
 	{
 		if (line[j] != '\0' && (line[j] != '1'
-			&& line[j] != 'N'
-			&& line[j] != 'S' && line[j] != 'E'
-			&& line[j] != 'W' && line[j] != '0'
-			&& line[j] != ' '))
+				&& line[j] != 'N'
+				&& line[j] != 'S' && line[j] != 'E'
+				&& line[j] != 'W' && line[j] != '0'
+				&& line[j] != ' '))
 		{
 			return (1);
 		}
@@ -79,8 +79,8 @@ static unsigned int	check_character(char *character)
 	j = 0;
 	if (character)
 	{
-		while (character[j] != '\0' &&
-				(character[j] == '0' || character[j] == '1'
+		while (character[j] != '\0'
+			&& (character[j] == '0' || character[j] == '1'
 				|| character[j] == 'N'
 				|| character[j] == 'S' || character[j] == 'E'
 				|| character[j] == 'W' || is_space(character[j])
@@ -92,7 +92,7 @@ static unsigned int	check_character(char *character)
 	return (j);
 }
 
-int					check_valid_character(t_map *map)
+int	check_valid_character(t_map *map)
 {
 	unsigned int	i;
 	unsigned int	j;

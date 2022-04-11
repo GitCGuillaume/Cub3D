@@ -114,6 +114,7 @@ typedef struct	s_map
 	t_image		image[6];
 	t_player	player;
 	t_sprite	*sprite;
+	t_image		*img;
 }		t_map;
 
 /* MAIN */
@@ -154,6 +155,7 @@ void	find_texture(char *line, unsigned int i, t_map *map);
 int	find_resolution(char *line, unsigned int *i, t_map *map);
 int	find_colour(char *line, unsigned int *i,
 	unsigned int old_i, t_map *map);
+int	is_line_wrong(const char *line);
 void	find_texture_two(char *line, unsigned int i, t_map *map);
 
 /* CHECK VALIDITY MAP */
@@ -210,9 +212,10 @@ double	max_case(char *line);
 /** RAYCASTER TEX **/
 int	text_map_u(t_map *map, t_image *img);
 int	text_map_v(t_map *map, int height, double zoom);
-void	texture_mapping(t_map *map, int x, t_image *img);
+void	texture_mapping(t_map *map, int x);//, t_image *img);
 void	ceil_mapping(t_map *map, int x, int ceil_colour);
 void	floor_mapping(t_map *map, int x, int floor_colour);
+void	texture_mapping_two(t_map *map, int v, int u, int pixel);
 
 /** RAYCASTER ERRORS OR FREE **/
 void check_error_ln_hor(t_map *map, double floor_pos_y);

@@ -6,7 +6,7 @@
 /*   By: gchopin <gchopin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/03 17:27:02 by gchopin           #+#    #+#             */
-/*   Updated: 2021/05/11 21:02:18 by gchopin          ###   ########.fr       */
+/*   Updated: 2022/04/11 09:14:30 by gchopin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,12 +103,12 @@ static void	assignate_array(short *is_valid_array, t_map *map)
 	{
 		if (is_valid_array[i] == 0)
 			close_program_gnl(map,
-					"Some setting(s) from the map are wrongs.\n", 2);
+				"Some setting(s) from the map are wrongs.\n", 2);
 		i++;
 	}
 }
 
-int			check_validity_map(t_map *map)
+int	check_validity_map(t_map *map)
 {
 	short	is_valid_array[8];
 	int		i;
@@ -123,10 +123,10 @@ int			check_validity_map(t_map *map)
 	if (check_valid_character(map) == 0 && map->lines && map->lines_copy)
 	{
 		is_valid_array[6] = search_player(map, map->lines_copy, 0);
-		map->player.start_position =
-			map->lines[map->player.fill_y][map->player.fill_x];
+		map->player.start_position
+			= map->lines[map->player.fill_y][map->player.fill_x];
 		flood_fill(map, map->player.pos_x, map->player.pos_y,
-				map->lines_copy[map->player.fill_y][map->player.fill_x]);
+			map->lines_copy[map->player.fill_y][map->player.fill_x]);
 		is_valid_array[7] = 1;
 	}
 	if (is_valid_array[6] != 1)

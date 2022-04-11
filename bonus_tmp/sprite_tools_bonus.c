@@ -4,10 +4,10 @@ int	init_sprite(t_map *map, int nb_sprite, int i, int j)
 {
 	if (map->sprite)
 	{
-		map->sprite[nb_sprite].y =
-			((i + 1) * (map->res_x / 5)) + (map->res_x / 5) / 2;
-		map->sprite[nb_sprite].x =
-			((j + 1) * (map->res_x / 5)) + (map->res_x / 5) / 2;
+		map->sprite[nb_sprite].y
+			= ((i + 1) * (map->res_x / 5)) + (map->res_x / 5) / 2;
+		map->sprite[nb_sprite].x
+			= ((j + 1) * (map->res_x / 5)) + (map->res_x / 5) / 2;
 		map->sprite[nb_sprite].degree = 0.000000;
 		map->sprite[nb_sprite].x_sprite = 0;
 		map->sprite[nb_sprite].size = 0;

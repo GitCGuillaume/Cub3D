@@ -6,13 +6,13 @@
 /*   By: gchopin <gchopin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/03 17:24:42 by gchopin           #+#    #+#             */
-/*   Updated: 2022/04/08 11:32:32 by gchopin          ###   ########.fr       */
+/*   Updated: 2022/04/11 09:16:06 by gchopin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub.h"
 
-int		ft_open_fd(char *path)
+int	ft_open_fd(char *path)
 {
 	int	fd;
 
@@ -26,7 +26,7 @@ int		ft_open_fd(char *path)
 	return (fd);
 }
 
-int		ft_close_fd(int fd)
+int	ft_close_fd(int fd)
 {
 	int	quit;
 
@@ -54,7 +54,7 @@ void	display_game(t_map *map, char *argv)
 		{
 			get_line_fd(map, map->fd);
 			if (map->full_line == NULL)
-				close_program(map, "The engine can't retrieve map parameters.\n", 2);
+				close_program(map, "Engine can't retrieve map parameters.\n", 2);
 			if (map->full_line && map->fd != -1)
 			{
 				parse_line_fd(map);
@@ -64,7 +64,7 @@ void	display_game(t_map *map, char *argv)
 	}
 }
 
-int		main(int argc, char *argv[])
+int	main(int argc, char *argv[])
 {
 	char	*result;
 	char	*save;
@@ -85,6 +85,7 @@ int		main(int argc, char *argv[])
 		close_program(0, "Something went wrong.", 2);
 	}
 	else
-		close_program(0, "Please enter a file path, or too much arguments.\n", 2);
+		close_program(0,
+			"Please enter a file path, or too much arguments.\n", 2);
 	return (0);
 }

@@ -2,7 +2,7 @@
 
 size_t	max_lines(t_map *map)
 {
-	size_t i;
+	size_t	i;
 
 	i = 0;
 	if (map->lines)

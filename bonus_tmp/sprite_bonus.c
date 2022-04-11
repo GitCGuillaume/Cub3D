@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sprite.c                                           :+:      :+:    :+:   */
+/*   sprite_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gchopin <gchopin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/11 14:10:12 by gchopin           #+#    #+#             */
-/*   Updated: 2021/05/11 14:10:14 by gchopin          ###   ########.fr       */
+/*   Updated: 2022/04/11 12:05:30 by gchopin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,14 @@ void	print_sprite(t_map *map, int pixel, int nb_sprite, int height)
 	if (map->image[5].mlx_get_data)
 	{
 		if (map->image[5].mlx_get_data[((v * line_bytes) + (u * 4)) + 0])
-			map->image[0].mlx_get_data[pixel + 0] =
-				map->image[5].mlx_get_data[((v * line_bytes) + (u * 4)) + 0];
+			map->image[0].mlx_get_data[pixel + 0]
+				= map->image[5].mlx_get_data[((v * line_bytes) + (u * 4)) + 0];
 		if (map->image[5].mlx_get_data[((v * line_bytes) + (u * 4)) + 1])
-			map->image[0].mlx_get_data[pixel + 1] =
-				map->image[5].mlx_get_data[((v * line_bytes) + (u * 4)) + 1];
+			map->image[0].mlx_get_data[pixel + 1]
+				= map->image[5].mlx_get_data[((v * line_bytes) + (u * 4)) + 1];
 		if (map->image[5].mlx_get_data[((v * line_bytes) + (u * 4)) + 2])
-			map->image[0].mlx_get_data[pixel + 2] =
-				map->image[5].mlx_get_data[((v * line_bytes) + (u * 4)) + 2];
+			map->image[0].mlx_get_data[pixel + 2]
+				= map->image[5].mlx_get_data[((v * line_bytes) + (u * 4)) + 2];
 	}
 }
 
@@ -50,11 +50,11 @@ void	while_height(t_map *map, int bottom, int nb_sprite, int width_left)
 		if (height < 0)
 			height = 0;
 		while (bottom > height && map->sprite[nb_sprite].distance
-				* (map->res_x / 5) < *(map->z_buffer + width_left))
+			* (map->res_x / 5) < *(map->z_buffer + width_left))
 		{
 			print_sprite(map,
-					(height * map->image[0].line_bytes)
-					+ (width_left * 4), nb_sprite, height);
+				(height * map->image[0].line_bytes)
+				+ (width_left * 4), nb_sprite, height);
 			height++;
 		}
 	}
@@ -77,8 +77,8 @@ void	while_width(t_map *map, int nb_sprite, int width, int bottom)
 		while (width > width_left)
 		{
 			map->sprite[nb_sprite].u = ((width_left - (map->res_x >> 1)
-				- x_sprite
-				+ (size >> 1)) + size) * map->image[5].width / size;
+						- x_sprite
+						+ (size >> 1)) + size) * map->image[5].width / size;
 			while_height(map, bottom, nb_sprite, width_left);
 			width_left++;
 		}
@@ -123,7 +123,7 @@ void	display_sprite(t_map *map, int square, unsigned int nb_spt)
 		map->sprite[nb_spt].distance = map->sprite[nb_spt].distance / square;
 		map->sprite[nb_spt].degree = atan2(map->sprite[nb_spt].y
 				- (square * (map->player.pos_y + 1.000000)),
-				map->sprite[nb_spt].x - (square * (map->player.pos_x + 1.0000000)));
+				map->sprite[nb_spt].x - (square * (map->player.pos_x + 1.000000)));
 		map->sprite[nb_spt].degree = (-map->sprite[nb_spt].degree)
 			- degree_to_radian(map->player.degree_raycast);
 		map->sprite[nb_spt].degree =

@@ -6,7 +6,7 @@
 /*   By: gchopin <gchopin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/03 17:39:58 by gchopin           #+#    #+#             */
-/*   Updated: 2021/05/12 17:14:53 by gchopin          ###   ########.fr       */
+/*   Updated: 2022/04/11 09:56:23 by gchopin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,8 @@ void	init_player(t_map *map)
 
 int	close_program_key(int keycode, void *param, char *message, int msg_number)
 {
-	int			i;
-	t_map	 * 	map;
+	int		i;
+	t_map	*map;
 
 	i = 0;
 	map = (t_map *)param;
@@ -53,7 +53,7 @@ int	close_program_key(int keycode, void *param, char *message, int msg_number)
 	return (0);
 }
 
-int		search_player(t_map *map, char **lines, int i)
+int	search_player(t_map *map, char **lines, int i)
 {
 	int		j;
 
@@ -82,7 +82,7 @@ int		search_player(t_map *map, char **lines, int i)
 	return (1);
 }
 
-int		control_press(int keycode, void *param)
+int	control_press(int keycode, void *param)
 {
 	t_map	*map;
 
@@ -104,7 +104,7 @@ int		control_press(int keycode, void *param)
 	return (0);
 }
 
-int		control_release(int keycode, void *param)
+int	control_release(int keycode, void *param)
 {
 	t_map		*map;
 	t_control	*control;

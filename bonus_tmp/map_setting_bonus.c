@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   map_setting.c                                      :+:      :+:    :+:   */
+/*   map_setting_bonus.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gchopin <gchopin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/04 16:21:08 by gchopin           #+#    #+#             */
-/*   Updated: 2022/04/08 15:18:23 by gchopin          ###   ########.fr       */
+/*   Updated: 2022/04/11 11:49:39 by gchopin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@ void	init_map_four(t_map *map)
 
 	textures_exist = 0;
 	map->sprite = malloc(sizeof(t_sprite) * map->nb_sprite);
-        if (map->sprite == NULL)
-                close_program(map, "Sprite memory allocation failed.\n", 2);
+	if (map->sprite == NULL)
+		close_program(map, "Sprite memory allocation failed.\n", 2);
 	if (map->nb_sprite > 0)
-                find_sprite(map);
+		find_sprite(map);
 	textures_exist = register_texture(map);
 	if (textures_exist == 0)
 		close_program(map, "Can't create textures image.\n", 2);
@@ -114,8 +114,8 @@ void	get_screen_size(t_map *map)
 		close_program(map, "Couldn't get resolution\n", 2);
 	x = ft_atoi(map->resolution[0]);
 	y = ft_atoi(map->resolution[1]);
-	/*if ((*/mlx_get_screen_size(map->mlx_ptr, &map->x_tmp, &map->y_tmp);//))
-	//	close_program(map, "Can't get computer screen size.\n", 2);
+	if (mlx_get_screen_size(map->mlx_ptr, &map->x_tmp, &map->y_tmp))
+		close_program(map, "Can't get computer screen size.\n", 2);
 	if (x <= 0 || y <= 0)
 		close_program(map, "resolution too low.\n", 2);
 	if ((x > map->x_tmp) || y > map->y_tmp)

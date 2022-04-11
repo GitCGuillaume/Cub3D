@@ -6,17 +6,17 @@
 /*   By: gchopin <gchopin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/03 17:31:43 by gchopin           #+#    #+#             */
-/*   Updated: 2022/04/08 12:51:34 by gchopin          ###   ########.fr       */
+/*   Updated: 2022/04/11 09:21:51 by gchopin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub.h"
 
-void		find_which_indicator(t_map *map, char **line)
+void	find_which_indicator(t_map *map, char **line)
 {
 	unsigned int	i;
 	unsigned int	old_i;
-	int	result;
+	int				result;
 
 	i = 0;
 	result = 0;
@@ -73,8 +73,8 @@ char	*gnl_next_ft(t_map *map, char *tmp_line, char *join_str)
 void	get_line_fd(t_map *map, int fd)
 {
 	char	*tmp_line;
-	int	ret;
-	int	i;
+	int		ret;
+	int		i;
 
 	map->full_line = ft_strdup("");
 	if (map->full_line == NULL)
@@ -97,7 +97,7 @@ void	get_line_fd(t_map *map, int fd)
 	free(tmp_line);
 }
 
-int		parse_line_fd(t_map *map)
+int	parse_line_fd(t_map *map)
 {
 	short int	is_space_ok;
 
@@ -110,7 +110,7 @@ int		parse_line_fd(t_map *map)
 	}
 	else
 		close_program_gnl(map,
-				"Map parameters wrongs, or remove space in map fields.\n", 2);
+			"Map parameters wrongs, or remove space in map fields.\n", 2);
 	if (map->is_resolution != 2)
 		close_program_gnl(map, "Resolution is invalid.\n", 2);
 	if (map->colour_counter != 6)
