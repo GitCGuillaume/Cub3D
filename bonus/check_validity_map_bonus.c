@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_validity_map_bonus.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gchopin <gchopin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cmois <cmois@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/03 17:27:02 by gchopin           #+#    #+#             */
-/*   Updated: 2022/04/12 11:40:11 by gchopin          ###   ########.fr       */
+/*   Updated: 2022/04/12 13:49:18 by cmois            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,8 +99,6 @@ static void	assignate_array(short *is_valid_array, t_map *map)
 		is_valid_array[4] = 1;
 	if (map->is_sprite == 2)
 		is_valid_array[5] = 1;
-	//if (map->is_resolution == 2)
-	//	is_valid_array[6] = 1;
 	while (i != 6)
 	{
 		if (is_valid_array[i] == 0)

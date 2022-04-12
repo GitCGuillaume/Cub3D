@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_map_file_two.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gchopin <gchopin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cmois <cmois@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/03 17:32:41 by gchopin           #+#    #+#             */
-/*   Updated: 2022/04/12 09:57:50 by gchopin          ###   ########.fr       */
+/*   Updated: 2022/04/12 13:38:12 by cmois            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,7 @@ int	find_resolution(char *line, unsigned int *i, t_map *map)
 	return (1);
 }
 */
+
 void	find_texture(char *line, unsigned int i, t_map *map)
 {
 	if (line)

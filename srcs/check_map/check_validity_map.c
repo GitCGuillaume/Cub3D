@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_validity_map.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gchopin <gchopin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cmois <cmois@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/03 17:27:02 by gchopin           #+#    #+#             */
-/*   Updated: 2022/04/12 11:02:43 by gchopin          ###   ########.fr       */
+/*   Updated: 2022/04/12 13:52:46 by cmois            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ static void	flood_fill(t_map *map, int x, int y, char old_value)
 	}
 }
 
-
+/*
 void	is_wall_closed(t_map *map)
 {
 	short int	north;
@@ -95,7 +95,7 @@ void	is_wall_closed(t_map *map)
 	east = 0;
 	south = 0;
 }
-
+*/
 static void	assignate_array(short *is_valid_array, t_map *map)
 {
 	int	i;
@@ -147,7 +147,7 @@ int	check_validity_map(t_map *map)
 			printf("food_fill=%s\n", map->lines_copy[j]);
 			j++;
 		}
-		is_wall_closed(map);
+		//is_wall_closed(map);
 		is_valid_array[6] = 1;
 	}
 	if (is_valid_array[5] != 1)

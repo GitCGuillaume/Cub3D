@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gchopin <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: cmois <cmois@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 13:41:45 by gchopin           #+#    #+#             */
-/*   Updated: 2022/04/12 09:58:38 by gchopin          ###   ########.fr       */
+/*   Updated: 2022/04/12 13:36:01 by cmois            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,6 @@ typedef struct s_map
 	unsigned short	is_east;
 	unsigned short	is_west;
 	unsigned short	is_south;
-	//unsigned short	is_resolution;
 	unsigned short	is_sprite;
 	unsigned int	nb_sprite;
 	int				fd;
@@ -115,7 +114,6 @@ typedef struct s_map
 	char			*sprite_path;
 	char			*sprite_path_2;
 	char			**colour;
-	//char			**resolution;
 	char			**lines;
 	void			*mlx_window;
 	char			**lines_copy;

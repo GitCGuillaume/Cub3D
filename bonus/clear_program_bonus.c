@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   clear_program_bonus.c                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cmois <cmois@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/04/12 13:48:34 by cmois             #+#    #+#             */
+/*   Updated: 2022/04/12 13:48:35 by cmois            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub_bonus.h"
 
 void	clear_array(t_map *map)
@@ -31,16 +43,6 @@ void	clear_array_two(t_map *map)
 	int	i;
 
 	i = 0;
-	/*if (map->resolution)
-	{
-		while (i < 2)
-		{
-			if (map->resolution[i] != NULL)
-				free(map->resolution[i]);
-			i++;
-		}
-		free(map->resolution);
-	}*/
 	i = 0;
 	if (map->colour)
 	{
