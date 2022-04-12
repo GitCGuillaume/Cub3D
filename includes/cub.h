@@ -6,7 +6,7 @@
 /*   By: gchopin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 13:41:45 by gchopin           #+#    #+#             */
-/*   Updated: 2022/04/11 17:58:08 by gchopin          ###   ########.fr       */
+/*   Updated: 2022/04/12 09:58:38 by gchopin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ typedef struct s_map
 	unsigned short	is_east;
 	unsigned short	is_west;
 	unsigned short	is_south;
+	//unsigned short	is_resolution;
 	unsigned short	is_sprite;
 	unsigned int	nb_sprite;
 	int				fd;
@@ -114,7 +115,7 @@ typedef struct s_map
 	char			*sprite_path;
 	char			*sprite_path_2;
 	char			**colour;
-	char			a;
+	//char			**resolution;
 	char			**lines;
 	void			*mlx_window;
 	char			**lines_copy;
@@ -166,6 +167,7 @@ int				find_colour(char *line, unsigned int *i,
 					unsigned int old_i, t_map *map);
 int				is_line_wrong(const char *line);
 void			find_texture_two(char *line, unsigned int i, t_map *map);
+//int	find_resolution(char *line, unsigned int *i, t_map *map);
 
 /* CHECK VALIDITY MAP */
 int				check_indicator_full(t_map *map);

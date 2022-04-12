@@ -6,7 +6,7 @@
 /*   By: gchopin <gchopin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/03 17:31:43 by gchopin           #+#    #+#             */
-/*   Updated: 2022/04/11 17:49:50 by gchopin          ###   ########.fr       */
+/*   Updated: 2022/04/12 09:56:42 by gchopin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,8 @@ int	parse_line_fd(t_map *map)
 	else
 		close_program_gnl(map,
 			"Map parameters wrongs, or remove space in map fields.\n", 2);
+	//if (map->resolution != 2)
+	//	close_program_gnl(map, "Resolution is invalid.\n", 2);
 	if (map->colour_counter != 6)
 		close_program_gnl(map, "Check RGB inputs number.\n", 2);
 	if (map->lines == NULL)

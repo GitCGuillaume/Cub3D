@@ -6,7 +6,7 @@
 /*   By: gchopin <gchopin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/03 17:27:42 by gchopin           #+#    #+#             */
-/*   Updated: 2022/04/11 12:40:48 by gchopin          ###   ########.fr       */
+/*   Updated: 2022/04/12 11:41:06 by gchopin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ int	check_indicator_full(t_map *map)
 		i++;
 	if (map->colour_counter == 6)
 		i++;
-	if (map->is_resolution == 2)
-		i++;
+	//if (map->is_resolution == 2)
+	//	i++;
 	return (i);
 }
 

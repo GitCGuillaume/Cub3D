@@ -1,6 +1,6 @@
 WE ./textures/redbrick.xpm
 C 255, 255, 255
-NO ./textures/amethyst_block.xpm
+NO textures/amethyst_block.xpm
 EA ./textures/greystone.xpm
 F 100, 100, 100
 SO ./textures/mossy.xpm

@@ -1,4 +1,3 @@
-R 3000 3000
 WE ./textures/redbrick.xpm
 C 255, 255, 255
 NO ./textures/amethyst_block.xpm

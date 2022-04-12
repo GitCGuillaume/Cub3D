@@ -6,7 +6,7 @@
 /*   By: gchopin <gchopin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/03 17:27:02 by gchopin           #+#    #+#             */
-/*   Updated: 2022/04/11 14:32:27 by gchopin          ###   ########.fr       */
+/*   Updated: 2022/04/12 11:40:11 by gchopin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,9 +99,9 @@ static void	assignate_array(short *is_valid_array, t_map *map)
 		is_valid_array[4] = 1;
 	if (map->is_sprite == 2)
 		is_valid_array[5] = 1;
-	if (map->is_resolution == 2)
-		is_valid_array[6] = 1;
-	while (i != 7)
+	//if (map->is_resolution == 2)
+	//	is_valid_array[6] = 1;
+	while (i != 6)
 	{
 		if (is_valid_array[i] == 0)
 			close_program_gnl(map,
@@ -112,11 +112,11 @@ static void	assignate_array(short *is_valid_array, t_map *map)
 
 int	check_validity_map(t_map *map)
 {
-	short	is_valid_array[9];
+	short	is_valid_array[8];
 	int		i;
 
 	i = 0;
-	while (i != 9)
+	while (i != 8)
 	{
 		is_valid_array[i] = 0;
 		i++;
@@ -124,16 +124,16 @@ int	check_validity_map(t_map *map)
 	assignate_array(&is_valid_array[0], map);
 	if (check_valid_character(map) == 0 && map->lines && map->lines_copy)
 	{
-		is_valid_array[7] = search_player(map, map->lines_copy, 0);
+		is_valid_array[6] = search_player(map, map->lines_copy, 0);
 		map->player.start_position
 			= map->lines[map->player.fill_y][map->player.fill_x];
 		flood_fill(map, map->player.pos_x, map->player.pos_y,
 			map->lines_copy[map->player.fill_y][map->player.fill_x]);
-		is_valid_array[8] = 1;
+		is_valid_array[7] = 1;
 	}
-	if (is_valid_array[7] != 1)
+	if (is_valid_array[6] != 1)
 		close_program_gnl(map, "No player found or too much player.\n", 2);
-	if (is_valid_array[8] != 1)
+	if (is_valid_array[7] != 1)
 		close_program_gnl(map, "Something went wrong with map cases.\n", 2);
 	return (0);
 }

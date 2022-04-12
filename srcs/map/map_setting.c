@@ -6,7 +6,7 @@
 /*   By: gchopin <gchopin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/04 16:21:08 by gchopin           #+#    #+#             */
-/*   Updated: 2022/04/11 17:36:35 by gchopin          ###   ########.fr       */
+/*   Updated: 2022/04/12 10:23:20 by gchopin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,8 @@ int	initialization_map_struct(t_map *map)
 	int	init;
 
 	init_map_two(map);
-	//map->is_resolution = 0;
-	//map->colour_counter = 0;
+//	map->is_resolution = 0;
+	map->colour_counter = 0;
 	map->north_path = NULL;
 	map->east_path = NULL;
 	map->west_path = NULL;
@@ -88,6 +88,8 @@ int	initialization_map_struct(t_map *map)
 	map->lines = NULL;
 	map->lines_copy = NULL;
 	map->player_exist = 0;
+	map->res_x = 320;
+	map->res_y = 200;
 	init = init_map_three(map);
 	if (init == 0)
 		return (0);
@@ -109,8 +111,10 @@ void	get_screen_size(t_map *map)
 		close_program(map, "resolution too low.\n", 2);
 	//if ((x > map->x_tmp) || y > map->y_tmp)
 	//{
-	map->res_x = map->x_tmp;
-	map->res_y = map->y_tmp;
+//	map->res_x = map->x_tmp;
+//	map->res_y = map->y_tmp;
+	map->res_x = x;
+	map->res_y = y;
 	/*}
 	else
 	{
