@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_validity_map.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmois <cmois@student.42.fr>                +#+  +:+       +#+        */
+/*   By: gchopin <gchopin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/03 17:27:02 by gchopin           #+#    #+#             */
-/*   Updated: 2022/04/12 13:52:46 by cmois            ###   ########.fr       */
+/*   Updated: 2022/04/12 14:33:19 by gchopin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static void	check_case_around(t_map *map, int x, int y)
 	}
 }
 
-static void	flood_fill(t_map *map, int x, int y, char old_value)
+void	flood_fill(t_map *map, int x, int y, char old_value)
 {
 	if (map->lines_copy)
 	{
@@ -69,33 +69,23 @@ static void	flood_fill(t_map *map, int x, int y, char old_value)
 			if (map->lines_copy[y + 1][x] != '1'
 					&& map->lines_copy[y + 1][x] != ' ')
 				flood_fill(map, x, y + 1, old_value);
+			if (map->lines_copy[y + 1][x + 1] != '1'
+					&& map->lines_copy[y + 1][x + 1] != ' ')
+				flood_fill(map, x + 1, y + 1, old_value);
+			if (map->lines_copy[y + 1][x - 1] != '1'
+					&& map->lines_copy[y + 1][x - 1] != ' ')
+				flood_fill(map, x - 1, y + 1, old_value);
 			if (map->lines_copy[y - 1][x] != '1'
 					&& map->lines_copy[y - 1][x] != ' ')
 				flood_fill(map, x, y - 1, old_value);
-			if (map->lines_copy[y][x + 1] != '1'
-					&& map->lines_copy[y][x + 1] != ' ')
-				flood_fill(map, x + 1, y, old_value);
-			if (map->lines_copy[y][x - 1] != '1'
-					&& map->lines_copy[y][x - 1] != ' ')
-				flood_fill(map, x - 1, y, old_value);
+			if (map->lines_copy[y - 1][x + 1] != '1'
+					&& map->lines_copy[y - 1][x + 1] != ' ')
+				flood_fill(map, x + 1, y - 1, old_value);
+			flood_fill_2(map, x, y, old_value);
 		}
 	}
 }
 
-/*
-void	is_wall_closed(t_map *map)
-{
-	short int	north;
-	short int	west;
-	short int	east;
-	short int	south;
-
-	north = 0;
-	west = 0;
-	east = 0;
-	south = 0;
-}
-*/
 static void	assignate_array(short *is_valid_array, t_map *map)
 {
 	int	i;
@@ -111,8 +101,6 @@ static void	assignate_array(short *is_valid_array, t_map *map)
 		is_valid_array[3] = 1;
 	if (map->is_south == 1)
 		is_valid_array[4] = 1;
-	//if (map->is_resolution == 2)
-	//	is_valid_array[5] = 1;
 	while (i != 5)
 	{
 		if (is_valid_array[i] == 0)
@@ -141,13 +129,6 @@ int	check_validity_map(t_map *map)
 			= map->lines[map->player.fill_y][map->player.fill_x];
 		flood_fill(map, map->player.pos_x, map->player.pos_y,
 			map->lines_copy[map->player.fill_y][map->player.fill_x]);
-		int j = 0;
-		while (map->lines_copy[j])
-		{
-			printf("food_fill=%s\n", map->lines_copy[j]);
-			j++;
-		}
-		//is_wall_closed(map);
 		is_valid_array[6] = 1;
 	}
 	if (is_valid_array[5] != 1)

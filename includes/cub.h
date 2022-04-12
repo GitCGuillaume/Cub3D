@@ -6,7 +6,7 @@
 /*   By: cmois <cmois@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 13:41:45 by gchopin           #+#    #+#             */
-/*   Updated: 2022/04/12 13:36:01 by cmois            ###   ########.fr       */
+/*   Updated: 2022/04/12 14:26:04 by gchopin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,13 +165,14 @@ int				find_colour(char *line, unsigned int *i,
 					unsigned int old_i, t_map *map);
 int				is_line_wrong(const char *line);
 void			find_texture_two(char *line, unsigned int i, t_map *map);
-//int	find_resolution(char *line, unsigned int *i, t_map *map);
 
 /* CHECK VALIDITY MAP */
 int				check_indicator_full(t_map *map);
 unsigned int	check_first_character(t_map *map);
 int				check_validity_map(t_map *map);
 int				check_valid_character(t_map *map);
+void	flood_fill(t_map *map, int x, int y, char old_value);
+void	flood_fill_2(t_map *map, int x, int y, char old_value);
 
 /* UTILS */
 int				is_space(char c);

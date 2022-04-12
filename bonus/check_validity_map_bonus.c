@@ -6,7 +6,7 @@
 /*   By: cmois <cmois@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/03 17:27:02 by gchopin           #+#    #+#             */
-/*   Updated: 2022/04/12 13:49:18 by cmois            ###   ########.fr       */
+/*   Updated: 2022/04/12 14:28:25 by gchopin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static void	check_case_around(t_map *map, int x, int y)
 	}
 }
 
-static void	flood_fill(t_map *map, int x, int y, char old_value)
+void	flood_fill(t_map *map, int x, int y, char old_value)
 {
 	if (map->lines_copy)
 	{
@@ -69,15 +69,19 @@ static void	flood_fill(t_map *map, int x, int y, char old_value)
 			if (map->lines_copy[y + 1][x] != '1'
 					&& map->lines_copy[y + 1][x] != ' ')
 				flood_fill(map, x, y + 1, old_value);
+			if (map->lines_copy[y + 1][x + 1] != '1'
+					&& map->lines_copy[y + 1][x + 1] != ' ')
+				flood_fill(map, x + 1, y + 1, old_value);
+			if (map->lines_copy[y + 1][x - 1] != '1'
+					&& map->lines_copy[y + 1][x - 1] != ' ')
+				flood_fill(map, x - 1, y + 1, old_value);
 			if (map->lines_copy[y - 1][x] != '1'
 					&& map->lines_copy[y - 1][x] != ' ')
 				flood_fill(map, x, y - 1, old_value);
-			if (map->lines_copy[y][x + 1] != '1'
-					&& map->lines_copy[y][x + 1] != ' ')
-				flood_fill(map, x + 1, y, old_value);
-			if (map->lines_copy[y][x - 1] != '1'
-					&& map->lines_copy[y][x - 1] != ' ')
-				flood_fill(map, x - 1, y, old_value);
+			if (map->lines_copy[y - 1][x + 1] != '1'
+					&& map->lines_copy[y - 1][x + 1] != ' ')
+				flood_fill(map, x + 1, y - 1, old_value);
+			flood_fill_2(map, x, y, old_value);
 		}
 	}
 }
