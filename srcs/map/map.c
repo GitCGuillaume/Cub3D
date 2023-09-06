@@ -44,9 +44,6 @@ int	render_map(void *param)
 
 int	initialization_map(t_map *map)
 {
-	int	endian;
-
-	endian = 0;
 	if (!map)
 		close_program(map, "No structure detected.\n", 2);
 	map->mlx_ptr = mlx_init();

@@ -14,9 +14,6 @@
 
 void	close_program_gnl(t_map *map, char *message, int msg_number)
 {
-	int	i;
-
-	i = 0;
 	if (map == NULL)
 	{
 		map->fd = ft_close_fd(map->fd);
@@ -40,9 +37,6 @@ void	close_program_gnl(t_map *map, char *message, int msg_number)
 
 void	close_program_ok(t_map *map, char *message, int msg_number)
 {
-	int	i;
-
-	i = 0;
 	if (map == NULL)
 	{
 		map->fd = ft_close_fd(map->fd);
@@ -64,9 +58,6 @@ void	close_program_ok(t_map *map, char *message, int msg_number)
 
 int	close_program_cross(t_map *map)
 {
-	int	i;
-
-	i = 0;
 	if (map->full_line)
 		free(map->full_line);
 	clear_image(map);
@@ -81,9 +72,6 @@ int	close_program_cross(t_map *map)
 
 void	close_program(t_map *map, char *message, int msg_number)
 {
-	int	i;
-
-	i = 0;
 	if (map == NULL)
 	{
 		ft_putstr_fd("Error\n", 2);

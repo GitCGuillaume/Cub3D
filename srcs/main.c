@@ -67,12 +67,10 @@ void	display_game(t_map *map, char *argv)
 int	main(int argc, char *argv[])
 {
 	char	*result;
-	char	*save;
 	t_map	map;
 
 	map.save = 0;
 	map.fd = -1;
-	save = NULL;
 	if (argc == 2)
 	{
 		result = ft_strnstr(argv[1], ".cub", ft_strlen(argv[1]));

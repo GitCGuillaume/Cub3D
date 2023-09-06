@@ -14,11 +14,6 @@
 
 void	move_forward(t_map *map, double sin_degree, double cos_degree)
 {
-	double	check_pos_y;
-	double	check_pos_x;
-
-	check_pos_y = map->player.pos_y;
-	check_pos_x = map->player.pos_x;
 	if (map->control.forward == 1)
 	{
 		if (map->lines)
@@ -31,11 +26,6 @@ void	move_forward(t_map *map, double sin_degree, double cos_degree)
 
 void	move_backward(t_map *map, double sin_degree, double cos_degree)
 {
-	double	check_pos_y;
-	double	check_pos_x;
-
-	check_pos_y = map->player.pos_y;
-	check_pos_x = map->player.pos_x;
 	if (map->control.backward == 1)
 	{
 		if (map->lines)
@@ -48,11 +38,6 @@ void	move_backward(t_map *map, double sin_degree, double cos_degree)
 
 void	move_sidestep_left(t_map *map, double sin_degree, double cos_degree)
 {
-	double	check_pos_y;
-	double	check_pos_x;
-
-	check_pos_y = map->player.pos_y;
-	check_pos_x = map->player.pos_x;
 	if (map->control.ss_left == 1)
 	{
 		if (map->lines)
@@ -65,11 +50,6 @@ void	move_sidestep_left(t_map *map, double sin_degree, double cos_degree)
 
 void	move_sidestep_right(t_map *map, double sin_degree, double cos_degree)
 {
-	double	check_pos_y;
-	double	check_pos_x;
-
-	check_pos_y = map->player.pos_y;
-	check_pos_x = map->player.pos_x;
 	if (map->control.ss_right == 1)
 	{
 		if (map->lines)

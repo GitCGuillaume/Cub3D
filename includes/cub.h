@@ -6,7 +6,7 @@
 /*   By: cmois <cmois@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 13:41:45 by gchopin           #+#    #+#             */
-/*   Updated: 2022/04/12 14:26:04 by gchopin          ###   ########.fr       */
+/*   Updated: 2022/04/13 09:39:04 by gchopin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,25 +75,12 @@ typedef struct s_control
 	int		t_right;
 }		t_control;
 
-typedef struct s_sprite
-{
-	int		x;
-	int		y;
-	int		u;
-	double	x_sprite;
-	double	degree;
-	double	size;
-	double	distance;
-}		t_sprite;
-
 typedef struct s_map
 {
 	unsigned short	is_north;
 	unsigned short	is_east;
 	unsigned short	is_west;
 	unsigned short	is_south;
-	unsigned short	is_sprite;
-	unsigned int	nb_sprite;
 	int				fd;
 	int				save;
 	int				colour_counter;
@@ -104,15 +91,12 @@ typedef struct s_map
 	int				y_tmp;
 	int				res_x;
 	int				res_y;
-	int				tick;
 	void			*mlx_ptr;
 	char			*north_path;
 	char			*east_path;
 	char			*west_path;
 	char			*south_path;
 	char			*full_line;
-	char			*sprite_path;
-	char			*sprite_path_2;
 	char			**colour;
 	char			**lines;
 	void			*mlx_window;
@@ -121,7 +105,6 @@ typedef struct s_map
 	t_control		control;
 	t_image			image[7];
 	t_player		player;
-	t_sprite		*sprite;
 	t_image			*img;
 }		t_map;
 
@@ -171,8 +154,8 @@ int				check_indicator_full(t_map *map);
 unsigned int	check_first_character(t_map *map);
 int				check_validity_map(t_map *map);
 int				check_valid_character(t_map *map);
-void	flood_fill(t_map *map, int x, int y, char old_value);
-void	flood_fill_2(t_map *map, int x, int y, char old_value);
+void			flood_fill(t_map *map, int x, int y, char old_value);
+void			flood_fill_2(t_map *map, int x, int y, char old_value);
 
 /* UTILS */
 int				is_space(char c);

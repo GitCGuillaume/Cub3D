@@ -82,30 +82,6 @@ char	*get_texture(t_map *map, unsigned int i, char *line)
 	}
 	return (value);
 }
-/*
-int	find_resolution(char *line, unsigned int *i, t_map *map)
-{
-	if (line)
-	{
-		if (line[*i] == 'R' && line[*i + 1] == ' ')
-		{
-			map->resolution[0] = get_number(i, line);
-			map->resolution[1] = get_number(i, line);
-			if (!line || line[*i] != '\0' || !map->resolution[0]
-				|| !map->resolution[1])
-				return (0);
-			ft_memset(line, 0, ft_strlen(line));
-			if (map->is_resolution == 0 && map->resolution[0][0] != '\0')
-				map->is_resolution = 1;
-			if (map->is_resolution == 1
-				&& map->resolution[0][0] != '\0'
-				&& map->resolution[1][0] != '\0')
-				map->is_resolution = 2;
-		}
-	}
-	return (1);
-}
-*/
 
 void	find_texture(char *line, unsigned int i, t_map *map)
 {

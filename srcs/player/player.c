@@ -39,10 +39,8 @@ void	init_player(t_map *map)
 
 int	close_program_key(int keycode, void *param, char *message, int msg_number)
 {
-	int		i;
 	t_map	*map;
 
-	i = 0;
 	map = (t_map *)param;
 	if ((keycode == 65307) && message)
 	{

@@ -6,11 +6,11 @@
 /*   By: cmois <cmois@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 13:48:05 by cmois             #+#    #+#             */
-/*   Updated: 2022/04/12 13:48:05 by cmois            ###   ########.fr       */
+/*   Updated: 2022/04/13 11:02:28 by gchopin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub_bonus.h"
+#include "cub.h"
 
 void	move_forward(t_map *map, double sin_degree, double cos_degree)
 {

@@ -5,9 +5,8 @@ EA ./textures/greystone.xpm
 F 100, 100, 100
 SO ./textures/mossy.xpm
 
-000000
 11111111111
- N 001
+ N0001
 100011
  00001
 111111
