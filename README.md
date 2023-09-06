@@ -4,7 +4,7 @@ Projet de raycasting, utilisant une librairie destinée à l'école 42.
 Ce projet est inspiré d'un jeu utilisant cette même technologie, nommé Wolfenstein 3D.
 
 
-Le raycasting permet de tracer des projections 3D à l'aide de rayon.
+Le raycasting permet de tracé des projections 3D à l'aide de rayon.
 
 ![raycast](https://github.com/GitCGuillaume/Cub3D/assets/34135668/675559ab-b67b-4b97-bfd3-2a5b59027d19)
 
