@@ -10,7 +10,7 @@ Le raycasting permet de tracé des projections 3D à l'aide de rayon.
 
 Source : https://permadi.com/1996/05/ray-casting-tutorial-1/
 
-Graphique simulant le tracer des rayons en utilisant π (pi)
+Graphique simulant le tracé des rayons en utilisant π (pi)
 
 ![cub1](https://github.com/GitCGuillaume/Cub3D/assets/34135668/d2798dc8-d561-4959-8a8f-4b39b18ba147)
 ![cub2](https://github.com/GitCGuillaume/Cub3D/assets/34135668/0b79c86e-5542-46e5-840e-32b5fe2d1d41)
