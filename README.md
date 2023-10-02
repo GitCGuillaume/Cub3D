@@ -12,8 +12,9 @@ Source : https://permadi.com/1996/05/ray-casting-tutorial-1/
 
 Graphique simulant le tracé des rayons en utilisant π (pi)
 
-![cub1](https://github.com/GitCGuillaume/Cub3D/assets/34135668/d2798dc8-d561-4959-8a8f-4b39b18ba147)
-![cub2](https://github.com/GitCGuillaume/Cub3D/assets/34135668/0b79c86e-5542-46e5-840e-32b5fe2d1d41)
+![cub1](https://github.com/GitCGuillaume/Cub3D/assets/34135668/573a85ea-ede2-4d6b-89b9-1615ac891dcc)
+![cub2](https://github.com/GitCGuillaume/Cub3D/assets/34135668/25404c32-6ff6-4704-8e15-6a4340de8599)
+
 Image gérant la collision avec les murs.
 
 Ce projet pourrait avoir besoin de certains paquets:
