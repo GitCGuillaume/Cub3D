@@ -6,7 +6,7 @@ Ce projet est inspiré d'un jeu utilisant cette même technologie, nommé Wolfen
 
 Le raycasting permet de tracé des projections 3D à l'aide de rayon.
 
-![raycast](https://github.com/GitCGuillaume/Cub3D/assets/34135668/675559ab-b67b-4b97-bfd3-2a5b59027d19)
+![raycast](https://github.com/GitCGuillaume/Cub3D/assets/34135668/4b41448c-af28-4a39-8d7c-15c5264db77b)
 
 Source : https://permadi.com/1996/05/ray-casting-tutorial-1/
 
